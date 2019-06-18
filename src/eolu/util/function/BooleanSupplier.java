@@ -23,16 +23,6 @@
  */
 package eolu.util.function;
 
-import eolu.util.incomplete.DoubleSupplier;
-import eolu.util.incomplete.Function;
-import eolu.util.incomplete.IntSupplier;
-import eolu.util.incomplete.LongSupplier;
-import eolu.util.incomplete.Predicate;
-import eolu.util.incomplete.Supplier;
-import eolu.util.incomplete.ToDoubleFunction;
-import eolu.util.incomplete.ToIntFunction;
-import eolu.util.incomplete.ToLongFunction;
-
 /**
  * Represents a supplier of {@code boolean}-valued results. This is the
  * {@code boolean}-producing primitive specialization of {@link Supplier}.
@@ -64,61 +54,5 @@ public interface BooleanSupplier extends Supplier<Boolean> {
     @Override
     default Boolean get() {
         return getAsBoolean();
-    }
-    
-    /**
-     * Lift a supplier.
-     * 
-     * @param <R> The return type.
-     * @param functor The function to use in lifting.
-     * @return A supplier that passes the result of fn through a functor to produce
-     *         a lifted supplier.
-     */
-    default <R> Supplier<R> lift(Function<Boolean, R> functor) {
-        return () -> functor.apply(getAsBoolean());
-    }
-    
-    /**
-     * Lift a function.
-     *
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default <T> BooleanSupplier lift(Predicate<Boolean> functor) {
-        return () -> functor.test(getAsBoolean());
-    }
-    
-    /**
-     * Lift a function.
-     *
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default DoubleSupplier lift(ToDoubleFunction<Boolean> functor) {
-        return () -> functor.applyAsDouble(getAsBoolean());
-    }
-    
-    /**
-     * Lift a function.
-     *
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default IntSupplier lift(ToIntFunction<Boolean> functor) {
-        return () -> functor.applyAsInt(getAsBoolean());
-    }
-    
-    /**
-     * Lift a function.
-     *
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default LongSupplier lift(ToLongFunction<Boolean> functor) {
-        return () -> functor.applyAsLong(getAsBoolean());
     }
 }

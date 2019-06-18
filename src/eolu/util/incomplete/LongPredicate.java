@@ -26,6 +26,8 @@ package eolu.util.incomplete;
 
 import java.util.Objects;
 
+import eolu.util.function.Predicate;
+
 /**
  * Represents a predicate (boolean-valued function) of one {@code long}-valued
  * argument. This is the {@code long}-consuming primitive type specialization of

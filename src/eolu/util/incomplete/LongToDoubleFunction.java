@@ -24,6 +24,8 @@
  */
 package eolu.util.incomplete;
 
+import eolu.util.function.Function;
+
 /**
  * Represents a function that accepts a long-valued argument and produces a
  * double-valued result.  This is the {@code long}-to-{@code double} primitive

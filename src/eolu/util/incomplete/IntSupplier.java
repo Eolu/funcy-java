@@ -24,6 +24,8 @@
  */
 package eolu.util.incomplete;
 
+import eolu.util.function.Supplier;
+
 /**
  * Represents a supplier of {@code int}-valued results.  This is the
  * {@code int}-producing primitive specialization of {@link Supplier}.

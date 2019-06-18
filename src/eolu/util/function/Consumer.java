@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it under
@@ -21,57 +21,61 @@
  * visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package eolu.util.incomplete;
+package eolu.util.function;
 
 import java.util.Objects;
 
-import eolu.util.function.Consumer;
-
 /**
- * Represents an operation that accepts two input arguments and returns no
- * result. This is the two-arity specialization of {@link Consumer}. Unlike most
- * other functional interfaces, {@code BiConsumer} is expected to operate via
- * side-effects.
+ * Represents an operation that accepts a single input argument and returns no
+ * result. Unlike most other functional interfaces, {@code Consumer} is expected
+ * to operate via side-effects.
  *
  * <p>
  * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #accept(Object, Object)}.
+ * functional method is {@link #accept(Object)}.
  *
- * @param <T> the type of the first argument to the operation
- * @param <U> the type of the second argument to the operation
+ * @param <T> the type of the input to the operation
  *
- * @see Consumer
  * @since 1.8
  */
 @FunctionalInterface
-public interface BiConsumer<T, U> {
+public interface Consumer<T> {
     
     /**
-     * Performs this operation on the given arguments.
+     * Performs this operation on the given argument.
      *
-     * @param t the first input argument
-     * @param u the second input argument
+     * @param t the input argument
      */
-    void accept(T t, U u);
+    void accept(T t);
     
     /**
-     * Returns a composed {@code BiConsumer} that performs, in sequence, this
+     * Returns a composed {@code Consumer} that performs, in sequence, this
      * operation followed by the {@code after} operation. If performing either
      * operation throws an exception, it is relayed to the caller of the composed
      * operation. If performing this operation throws an exception, the
      * {@code after} operation will not be performed.
      *
      * @param after the operation to perform after this operation
-     * @return a composed {@code BiConsumer} that performs in sequence this
-     *         operation followed by the {@code after} operation
+     * @return a composed {@code Consumer} that performs in sequence this operation
+     *         followed by the {@code after} operation
      * @throws NullPointerException if {@code after} is null
      */
-    default BiConsumer<T, U> andThen(BiConsumer<? super T, ? super U> after) {
+    default Consumer<T> andThen(Consumer<? super T> after) {
         Objects.requireNonNull(after);
-        
-        return (l, r) -> {
-            accept(l, r);
-            after.accept(l, r);
+        return (T t) -> {
+            accept(t);
+            after.accept(t);
         };
+    }
+    
+    /**
+     * Partially apply a parameter such that a single param consumer becomes a
+     * no-param runnable.
+     * 
+     * @param t The parameter to apply.
+     * @return A partially-applied function.
+     */
+    default Runnable applyPartial(T t) {
+        return () -> accept(t);
     }
 }

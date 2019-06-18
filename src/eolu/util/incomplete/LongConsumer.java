@@ -26,6 +26,8 @@ package eolu.util.incomplete;
 
 import java.util.Objects;
 
+import eolu.util.function.Consumer;
+
 /**
  * Represents an operation that accepts a single {@code long}-valued argument and
  * returns no result.  This is the primitive type specialization of

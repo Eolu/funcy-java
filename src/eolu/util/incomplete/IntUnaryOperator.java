@@ -26,6 +26,8 @@ package eolu.util.incomplete;
 
 import java.util.Objects;
 
+import eolu.util.function.UnaryOperator;
+
 /**
  * Represents an operation on a single {@code int}-valued operand that produces
  * an {@code int}-valued result.  This is the primitive type specialization of

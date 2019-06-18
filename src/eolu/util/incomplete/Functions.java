@@ -22,6 +22,15 @@
 package eolu.util.incomplete;
 
 import eolu.util.function.BooleanSupplier;
+import eolu.util.function.Consumer;
+import eolu.util.function.DoubleConsumer;
+import eolu.util.function.DoubleFunction;
+import eolu.util.function.DoubleSupplier;
+import eolu.util.function.Function;
+import eolu.util.function.Predicate;
+import eolu.util.function.Supplier;
+import eolu.util.function.ToDoubleFunction;
+import eolu.util.function.UnaryOperator;
 
 /**
  * This class contains functions to support functions.
@@ -85,19 +94,6 @@ public class Functions {
     }
     
     /**
-     * Partially apply a parameter such that a single param consumer becomes a
-     * no-param runnable.
-     * 
-     * @param <T> The parameter type.
-     * @param fn The consumer to use in the partial application.
-     * @param t The parameter to apply.
-     * @return A partially-applied function.
-     */
-    public static <T> Runnable applyPartial(Consumer<T> fn, T t) {
-        return () -> fn.accept(t);
-    }
-    
-    /**
      * Partially apply a parameter such that a two param function becomes a
      * single-param function.
      * 
@@ -107,18 +103,6 @@ public class Functions {
      */
     public static DoubleUnaryOperator applyPartial(DoubleBinaryOperator fn, double t) {
         return u -> fn.applyAsDouble(t, u);
-    }
-    
-    /**
-     * Partially apply a parameter such that a single param consumer becomes a
-     * no-param runnable.
-     * 
-     * @param fn The consumer to use in the partial application.
-     * @param t The parameter to apply.
-     * @return A partially-applied function.
-     */
-    public static Runnable applyPartial(DoubleConsumer fn, double t) {
-        return () -> fn.accept(t);
     }
     
     /**
@@ -180,20 +164,6 @@ public class Functions {
      */
     public static <T> DoubleSupplier applyPartial(DoubleUnaryOperator fn, double t) {
         return () -> fn.applyAsDouble(t);
-    }
-    
-    /**
-     * Partially apply a parameter such that a single param function becomes a
-     * no-param supplier.
-     * 
-     * @param <T> The parameter type.
-     * @param <R> The return type.
-     * @param fn The function to use in the partial application.
-     * @param t The parameter to apply.
-     * @return A partially-applied function.
-     */
-    public static <T, R> Supplier<R> applyPartial(Function<T, R> fn, T t) {
-        return () -> fn.apply(t);
     }
     
     /**
@@ -1024,91 +994,6 @@ public class Functions {
     /**
      * Lift a function.
      * 
-     * @param <T> The initial parameter type.
-     * @param <R> The return type.
-     * @param fn The function to lift.
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    public static <T, R> Function<T, R> lift(Function<T, R> fn, UnaryOperator<R> functor) {
-        return t -> functor.apply(fn.apply(t));
-    }
-    
-    /**
-     * Lift a function.
-     * 
-     * @param <T> The initial parameter type.
-     * @param <U> The intermediate parameter type.
-     * @param <R> The return type.
-     * @param fn The function to lift.
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    public static <T, U, R> Function<T, R> lift(Function<T, U> fn, Function<U, R> functor) {
-        return t -> functor.apply(fn.apply(t));
-    }
-    
-    /**
-     * Lift a function.
-     *
-     * @param <T> The initial parameter type.
-     * @param <U> The intermediate parameter type.
-     * @param fn The function to lift.
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    public static <T, U> Predicate<T> lift(Function<T, U> fn, Predicate<U> functor) {
-        return t -> functor.test(fn.apply(t));
-    }
-    
-    /**
-     * Lift a function.
-     * 
-     * @param <T> The initial parameter type.
-     * @param <U> The intermediate parameter type.
-     * @param fn The function to lift.
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    public static <T, U> ToDoubleFunction<T> lift(Function<T, U> fn, ToDoubleFunction<U> functor) {
-        return t -> functor.applyAsDouble(fn.apply(t));
-    }
-    
-    /**
-     * Lift a function.
-     * 
-     * @param <T> The initial parameter type.
-     * @param <U> The intermediate parameter type.
-     * @param fn The function to lift.
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    public static <T, U> ToIntFunction<T> lift(Function<T, U> fn, ToIntFunction<U> functor) {
-        return t -> functor.applyAsInt(fn.apply(t));
-    }
-    
-    /**
-     * Lift a function.
-     * 
-     * @param <T> The initial parameter type.
-     * @param <U> The intermediate parameter type.
-     * @param fn The function to lift.
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    public static <T, U> ToLongFunction<T> lift(Function<T, U> fn, ToLongFunction<U> functor) {
-        return t -> functor.applyAsLong(fn.apply(t));
-    }
-    
-    /**
-     * Lift a function.
-     * 
      * @param <T> The intermediate parameter type.
      * @param <R> The final return type.
      * @param fn The function to lift.
@@ -1832,21 +1717,6 @@ public class Functions {
      */
     public static <T> ToLongFunction<T> lift(Predicate<T> fn, ToLongFunction<Boolean> functor) {
         return t -> functor.applyAsLong(fn.test(t));
-    }
-    
-    /**
-     * Lift a supplier.
-     * 
-     * @param <T> The initial parameter type.
-     * @param <U> The intermediate parameter type.
-     * @param <R> The return type.
-     * @param fn The supplier to lift.
-     * @param functor The function to use in lifting.
-     * @return A supplier that passes the result of fn through a functor to produce
-     *         a lifted supplier.
-     */
-    public static <T, U> Supplier<U> lift(Supplier<T> fn, Function<T, U> functor) {
-        return () -> functor.apply(fn.get());
     }
     
     /**

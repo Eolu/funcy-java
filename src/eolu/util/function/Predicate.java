@@ -21,35 +21,23 @@
  * visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package eolu.util.incomplete;
+package eolu.util.function;
 
 import java.util.Objects;
 
-import eolu.util.function.Predicate;
-
 /**
- * Represents a predicate (boolean-valued function) of one {@code double}-valued
- * argument. This is the {@code double}-consuming primitive type specialization
- * of {@link Predicate}.
+ * Represents a predicate (boolean-valued function) of one argument.
  *
  * <p>
  * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #test(double)}.
+ * functional method is {@link #test(Object)}.
  *
- * @see Predicate
+ * @param <T> the type of the input to the predicate
+ *
  * @since 1.8
  */
 @FunctionalInterface
-public interface DoublePredicate extends Predicate<Double> {
-    
-    /**
-     * Evaluates this predicate on the given argument.
-     *
-     * @param value the input argument
-     * @return {@code true} if the input argument matches the predicate, otherwise
-     *         {@code false}
-     */
-    boolean test(double value);
+public interface Predicate<T> extends Function<T, Boolean> {
     
     /**
      * Evaluates this predicate on the given argument.
@@ -58,9 +46,29 @@ public interface DoublePredicate extends Predicate<Double> {
      * @return {@code true} if the input argument matches the predicate, otherwise
      *         {@code false}
      */
+    boolean test(T t);
+    
+    /**
+     * Applies this function to the given argument.
+     *
+     * @param t the function argument
+     * @return the function result
+     */
     @Override
-    default boolean test(Double t) {
+    default Boolean apply(T t) {
         return test(t);
+    }
+    
+    /**
+     * Partially apply a parameter such that a single param function becomes a
+     * no-param supplier.
+     * 
+     * @param t The parameter to apply.
+     * @return A partially-applied function.
+     */
+    @Override
+    default BooleanSupplier applyPartial(T t) {
+        return () -> test(t);
     }
     
     /**
@@ -79,9 +87,9 @@ public interface DoublePredicate extends Predicate<Double> {
      *         of this predicate and the {@code other} predicate
      * @throws NullPointerException if other is null
      */
-    default DoublePredicate and(DoublePredicate other) {
+    default Predicate<T> and(Predicate<? super T> other) {
         Objects.requireNonNull(other);
-        return (value) -> test(value) && other.test(value);
+        return t -> test(t) && other.test(t);
     }
     
     /**
@@ -89,9 +97,8 @@ public interface DoublePredicate extends Predicate<Double> {
      *
      * @return a predicate that represents the logical negation of this predicate
      */
-    @Override
-    default DoublePredicate negate() {
-        return (value) -> !test(value);
+    default Predicate<T> negate() {
+        return t -> !test(t);
     }
     
     /**
@@ -109,8 +116,54 @@ public interface DoublePredicate extends Predicate<Double> {
      *         of this predicate and the {@code other} predicate
      * @throws NullPointerException if other is null
      */
-    default DoublePredicate or(DoublePredicate other) {
+    default Predicate<T> or(Predicate<? super T> other) {
         Objects.requireNonNull(other);
-        return (value) -> test(value) || other.test(value);
+        return t -> test(t) || other.test(t);
+    }
+    
+    /**
+     * Lift a function.
+     * 
+     * @param functor The function to use in lifting.
+     * @return A function that passes the result of fn through a functor to produce
+     *         a lifted function.
+     */
+    @Override
+    default Predicate<T> map(UnaryOperator<Boolean> functor) {
+        Objects.requireNonNull(functor);
+        return t -> functor.apply(test(t));
+    }
+    
+    /**
+     * Returns a predicate that tests if two arguments are equal according to
+     * {@link Objects#equals(Object, Object)}.
+     *
+     * @param <T> the type of arguments to the predicate
+     * @param targetRef the object reference with which to compare for equality,
+     *            which may be {@code null}
+     * @return a predicate that tests if two arguments are equal according to
+     *         {@link Objects#equals(Object, Object)}
+     */
+    static <T> Predicate<T> isEqual(Object targetRef) {
+        return (null == targetRef) ? Objects::isNull : object -> targetRef.equals(object);
+    }
+    
+    /**
+     * Returns a predicate that is the negation of the supplied predicate. This is
+     * accomplished by returning result of the calling {@code target.negate()}.
+     *
+     * @param <T> the type of arguments to the specified predicate
+     * @param target predicate to negate
+     *
+     * @return a predicate that negates the results of the supplied predicate
+     *
+     * @throws NullPointerException if target is null
+     *
+     * @since 11
+     */
+    @SuppressWarnings("unchecked")
+    static <T> Predicate<T> not(Predicate<? super T> target) {
+        Objects.requireNonNull(target);
+        return (Predicate<T>) target.negate();
     }
 }

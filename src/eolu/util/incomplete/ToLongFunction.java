@@ -24,6 +24,8 @@
  */
 package eolu.util.incomplete;
 
+import eolu.util.function.Function;
+
 /**
  * Represents a function that produces a long-valued result.  This is the
  * {@code long}-producing primitive specialization for {@link Function}.

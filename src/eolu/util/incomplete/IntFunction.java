@@ -24,6 +24,8 @@
  */
 package eolu.util.incomplete;
 
+import eolu.util.function.Function;
+
 /**
  * Represents a function that accepts an int-valued argument and produces a
  * result.  This is the {@code int}-consuming primitive specialization for

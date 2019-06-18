@@ -26,6 +26,8 @@ package eolu.util.incomplete;
 
 import java.util.Objects;
 
+import eolu.util.function.Predicate;
+
 /**
  * Represents a predicate (boolean-valued function) of two arguments.  This is
  * the two-arity specialization of {@link Predicate}.
