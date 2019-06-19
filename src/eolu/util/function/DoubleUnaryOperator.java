@@ -82,7 +82,7 @@ public interface DoubleUnaryOperator extends DoubleFunction<Double>, UnaryOperat
      */
     @Override
     default Double apply(Double value) {
-        return applyAsDouble(value);
+        return applyAsDouble(value.doubleValue());
     }
     
     /**
