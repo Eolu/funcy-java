@@ -56,6 +56,18 @@ public interface Supplier<T> {
     T get();
     
     /**
+     * Consume a supplier.
+     * 
+     * @param consumer The consumer to use in consuming.
+     * @return A Runnable which passes the result of this supplier into the given
+     *         consumer when run.
+     */
+    default Runnable consume(Consumer<T> consumer) {
+        Objects.requireNonNull(consumer);
+        return () -> consumer.accept(get());
+    }
+    
+    /**
      * Lift a supplier.
      * 
      * @param <R> The new return type.
@@ -69,7 +81,7 @@ public interface Supplier<T> {
     }
     
     /**
-     * Lift a function.
+     * Lift a supplier.
      *
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
@@ -81,7 +93,7 @@ public interface Supplier<T> {
     }
     
     /**
-     * Lift a function.
+     * Lift a supplier.
      *
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
@@ -93,7 +105,7 @@ public interface Supplier<T> {
     }
     
     /**
-     * Lift a function.
+     * Lift a supplier.
      *
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
@@ -105,7 +117,7 @@ public interface Supplier<T> {
     }
     
     /**
-     * Lift a function.
+     * Lift a supplier.
      *
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce

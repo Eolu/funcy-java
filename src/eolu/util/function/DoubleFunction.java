@@ -78,6 +78,19 @@ public interface DoubleFunction<R> extends Function<Double, R> {
     }
     
     /**
+     * Consume a function.
+     * 
+     * @param consumer The consumer to use in consuming.
+     * @return A Consumer which passes it's argument to this function and then
+     *         passes the result into the given consumer.
+     */
+    @Override
+    default DoubleConsumer consume(Consumer<R> consumer) {
+        Objects.requireNonNull(consumer);
+        return t -> consumer.accept(apply(t));
+    }
+    
+    /**
      * Lift a function.
      * 
      * @param functor The function to use in lifting.

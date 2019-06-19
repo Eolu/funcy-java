@@ -78,6 +78,18 @@ public interface ToDoubleFunction<T> extends Function<T, Double> {
     }
     
     /**
+     * Consume a function.
+     * 
+     * @param consumer The consumer to use in consuming.
+     * @return A Consumer which passes it's argument to this function and then
+     *         passes the result into the given consumer.
+     */
+    default Consumer<T> consume(DoubleConsumer consumer) {
+        Objects.requireNonNull(consumer);
+        return t -> consumer.accept(apply(t));
+    }
+    
+    /**
      * Lift a function.
      * 
      * @param functor The function to use in lifting.
