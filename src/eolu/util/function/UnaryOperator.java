@@ -60,12 +60,13 @@ public interface UnaryOperator<T> extends Function<T, T> {
      * actually imitates recursion using iteration. Don't tell anyone.
      * 
      * @param value The initial value to apply to the function.
-     * @param terminalCondition The condition upon which the "recursion" will
-     *            terminate.
+     * @param depth The number of times to recurse. A depth of zero or less will
+     *            simply return the passed-in value (the function will never be
+     *            called).
      * @return The result of the recursive call.
      */
-    default T recurse(T value, Predicate<T> terminalCondition) {
-        while (terminalCondition.test(value))
+    default T recurse(T value, int depth) {
+        for (int i = 0; i < depth; i++)
             value = apply(value);
         return value;
     }
@@ -74,15 +75,13 @@ public interface UnaryOperator<T> extends Function<T, T> {
      * A method that tells a function to call itself with its own result. This
      * actually imitates recursion using iteration. Don't tell anyone.
      * 
-     * @param function The function to recurse.
      * @param value The initial value to apply to the function.
-     * @param depth The number of times to recurse. A depth of zero or less will
-     *            simply return the passed-in value (the function will never be
-     *            called).
+     * @param terminalCondition The condition upon which the "recursion" will
+     *            terminate.
      * @return The result of the recursive call.
      */
-    default T recurse(T value, int depth) {
-        for (int i = 0; i < depth; i++)
+    default T recurse(T value, Predicate<T> terminalCondition) {
+        while (terminalCondition.test(value))
             value = apply(value);
         return value;
     }
@@ -107,21 +106,6 @@ public interface UnaryOperator<T> extends Function<T, T> {
     
     /**
      * A method that creates a function which calls a function with its own result
-     * until some condition is met.
-     * 
-     * @param function The function to create a recursive version of.
-     * @param terminalCondition The condition upon which the recursion will
-     *            terminate.
-     * @return A function that will call the given function on its own result a
-     *         number of times as specified by the depth parameter.
-     */
-    default UnaryOperator<T> recursive(Predicate<T> terminalCondition) {
-        Objects.requireNonNull(terminalCondition);
-        return t -> recurse(t, terminalCondition);
-    }
-    
-    /**
-     * A method that creates a function which calls a function with its own result
      * some amount of times.
      * 
      * @param depth The number of times to recurse. A depth of zero or less will
@@ -132,6 +116,20 @@ public interface UnaryOperator<T> extends Function<T, T> {
      */
     default UnaryOperator<T> recursive(int depth) {
         return t -> recurse(t, depth);
+    }
+    
+    /**
+     * A method that creates a function which calls a function with its own result
+     * until some condition is met.
+     * 
+     * @param terminalCondition The condition upon which the recursion will
+     *            terminate.
+     * @return A function that will call the given function on its own result a
+     *         number of times as specified by the depth parameter.
+     */
+    default UnaryOperator<T> recursive(Predicate<T> terminalCondition) {
+        Objects.requireNonNull(terminalCondition);
+        return t -> recurse(t, terminalCondition);
     }
     
     /**

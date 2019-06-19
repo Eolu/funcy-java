@@ -65,18 +65,6 @@ public interface Function<T, R> {
     /**
      * Lift a function.
      * 
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default Function<T, R> map(UnaryOperator<R> functor) {
-        Objects.requireNonNull(functor);
-        return t -> functor.apply(apply(t));
-    }
-    
-    /**
-     * Lift a function.
-     * 
      * @param <S> The return type.
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
@@ -102,7 +90,6 @@ public interface Function<T, R> {
     /**
      * Lift a function.
      * 
-     * @param fn The function to lift.
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
@@ -134,6 +121,18 @@ public interface Function<T, R> {
     default ToLongFunction<T> map(ToLongFunction<? super R> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsLong(apply(t));
+    }
+    
+    /**
+     * Lift a function.
+     * 
+     * @param functor The function to use in lifting.
+     * @return A function that passes the result of fn through a functor to produce
+     *         a lifted function.
+     */
+    default Function<T, R> map(UnaryOperator<R> functor) {
+        Objects.requireNonNull(functor);
+        return t -> functor.apply(apply(t));
     }
     
     /**

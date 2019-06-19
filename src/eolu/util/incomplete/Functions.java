@@ -26,6 +26,7 @@ import eolu.util.function.Consumer;
 import eolu.util.function.DoubleConsumer;
 import eolu.util.function.DoubleFunction;
 import eolu.util.function.DoubleSupplier;
+import eolu.util.function.DoubleUnaryOperator;
 import eolu.util.function.Function;
 import eolu.util.function.Predicate;
 import eolu.util.function.Supplier;
@@ -84,7 +85,7 @@ public class Functions {
      * single-param function.
      * 
      * @param <T> The first parameter type.
-     * @param <T> The second parameter type.
+     * @param <U> The second parameter type.
      * @param fn The function to use in the partial application.
      * @param t The parameter to apply.
      * @return A partially-applied function.

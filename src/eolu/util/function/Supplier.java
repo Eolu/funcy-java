@@ -59,7 +59,6 @@ public interface Supplier<T> {
      * Lift a supplier.
      * 
      * @param <R> The new return type.
-     * @param fn The supplier to lift.
      * @param functor The function to use in lifting.
      * @return A supplier that passes the result of fn through a functor to produce
      *         a lifted supplier.

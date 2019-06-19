@@ -28,7 +28,6 @@ import java.util.Objects;
 import eolu.util.incomplete.DoublePredicate;
 import eolu.util.incomplete.DoubleToIntFunction;
 import eolu.util.incomplete.DoubleToLongFunction;
-import eolu.util.incomplete.DoubleUnaryOperator;
 import eolu.util.incomplete.ToIntFunction;
 import eolu.util.incomplete.ToLongFunction;
 

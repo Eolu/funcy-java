@@ -28,7 +28,6 @@ import java.util.Objects;
 import eolu.util.incomplete.DoublePredicate;
 import eolu.util.incomplete.DoubleToIntFunction;
 import eolu.util.incomplete.DoubleToLongFunction;
-import eolu.util.incomplete.DoubleUnaryOperator;
 import eolu.util.incomplete.ToIntFunction;
 import eolu.util.incomplete.ToLongFunction;
 
@@ -122,7 +121,6 @@ public interface DoubleFunction<R> extends Function<Double, R> {
     /**
      * Lift a function.
      * 
-     * @param fn The function to lift.
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
@@ -157,5 +155,14 @@ public interface DoubleFunction<R> extends Function<Double, R> {
     default DoubleToLongFunction map(ToLongFunction<? super R> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsLong(apply(t));
+    }
+    
+    /**
+     * Returns a unary operator that always returns its input argument.
+     *
+     * @return a unary operator that always returns its input argument
+     */
+    static DoubleUnaryOperator identity() {
+        return t -> t;
     }
 }
