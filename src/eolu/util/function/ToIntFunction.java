@@ -25,7 +25,6 @@ package eolu.util.function;
 
 import java.util.Objects;
 
-import eolu.util.incomplete.IntFunction;
 import eolu.util.incomplete.IntPredicate;
 import eolu.util.incomplete.IntSupplier;
 import eolu.util.incomplete.IntToDoubleFunction;

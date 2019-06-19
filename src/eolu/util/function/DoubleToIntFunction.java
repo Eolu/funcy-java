@@ -21,24 +21,22 @@
  * visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package eolu.util.incomplete;
-
-import eolu.util.function.Function;
+package eolu.util.function;
 
 /**
- * Represents a function that accepts a double-valued argument and produces a
- * long-valued result. This is the {@code double}-to-{@code long} primitive
+ * Represents a function that accepts a double-valued argument and produces an
+ * int-valued result. This is the {@code double}-to-{@code int} primitive
  * specialization for {@link Function}.
  *
  * <p>
  * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #applyAsLong(double)}.
+ * functional method is {@link #applyAsInt(double)}.
  *
  * @see Function
  * @since 1.8
  */
 @FunctionalInterface
-public interface DoubleToLongFunction extends ToLongFunction<Double> {
+public interface DoubleToIntFunction extends DoubleFunction<Integer>, ToIntFunction<Double> {
     
     /**
      * Applies this function to the given argument.
@@ -46,7 +44,7 @@ public interface DoubleToLongFunction extends ToLongFunction<Double> {
      * @param value the function argument
      * @return the function result
      */
-    long applyAsLong(double value);
+    int applyAsInt(double value);
     
     /**
      * Applies this function to the given argument.
@@ -55,7 +53,29 @@ public interface DoubleToLongFunction extends ToLongFunction<Double> {
      * @return the function result
      */
     @Override
-    default long applyAsLong(Double value) {
-        return applyAsLong(value.doubleValue());
+    default int applyAsInt(Double value) {
+        return applyAsInt(value.doubleValue());
+    }
+    
+    /**
+     * Applies this function to the given argument.
+     *
+     * @param value the function argument
+     * @return the function result
+     */
+    @Override
+    default Integer apply(double value) {
+        return applyAsInt(value);
+    }
+    
+    /**
+     * Applies this function to the given argument.
+     *
+     * @param t the function argument
+     * @return the function result
+     */
+    @Override
+    default Integer apply(Double t) {
+        return applyAsInt(t.doubleValue());
     }
 }

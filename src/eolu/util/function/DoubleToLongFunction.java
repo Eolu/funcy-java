@@ -21,25 +21,24 @@
  * visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package eolu.util.incomplete;
+package eolu.util.function;
 
-import eolu.util.function.Function;
-import eolu.util.function.ToIntFunction;
+import eolu.util.incomplete.ToLongFunction;
 
 /**
- * Represents a function that accepts a double-valued argument and produces an
- * int-valued result. This is the {@code double}-to-{@code int} primitive
+ * Represents a function that accepts a double-valued argument and produces a
+ * long-valued result. This is the {@code double}-to-{@code long} primitive
  * specialization for {@link Function}.
  *
  * <p>
  * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #applyAsInt(double)}.
+ * functional method is {@link #applyAsLong(double)}.
  *
  * @see Function
  * @since 1.8
  */
 @FunctionalInterface
-public interface DoubleToIntFunction extends ToIntFunction<Double> {
+public interface DoubleToLongFunction extends DoubleFunction<Long>, ToLongFunction<Double> {
     
     /**
      * Applies this function to the given argument.
@@ -47,7 +46,7 @@ public interface DoubleToIntFunction extends ToIntFunction<Double> {
      * @param value the function argument
      * @return the function result
      */
-    int applyAsInt(double value);
+    long applyAsLong(double value);
     
     /**
      * Applies this function to the given argument.
@@ -56,7 +55,29 @@ public interface DoubleToIntFunction extends ToIntFunction<Double> {
      * @return the function result
      */
     @Override
-    default int applyAsInt(Double value) {
-        return applyAsInt(value.doubleValue());
+    default long applyAsLong(Double value) {
+        return applyAsLong(value.doubleValue());
+    }
+    
+    /**
+     * Applies this function to the given argument.
+     *
+     * @param value the function argument
+     * @return the function result
+     */
+    @Override
+    default Long apply(double value) {
+        return applyAsLong(value);
+    }
+    
+    /**
+     * Applies this function to the given argument.
+     *
+     * @param t the function argument
+     * @return the function result
+     */
+    @Override
+    default Long apply(Double t) {
+        return applyAsLong(t.doubleValue());
     }
 }

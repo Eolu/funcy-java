@@ -25,9 +25,6 @@ package eolu.util.function;
 
 import java.util.Objects;
 
-import eolu.util.incomplete.DoubleToIntFunction;
-import eolu.util.incomplete.DoubleToLongFunction;
-
 /**
  * Represents an operation on a single {@code double}-valued operand that
  * produces a {@code double}-valued result. This is the primitive type
@@ -106,7 +103,7 @@ public interface DoubleUnaryOperator extends DoubleFunction<Double>, UnaryOperat
     @Override
     default DoubleConsumer consume(DoubleConsumer consumer) {
         Objects.requireNonNull(consumer);
-        return t -> consumer.accept(apply(t));
+        return t -> consumer.accept(applyAsDouble(t));
     }
     
     /**
@@ -120,7 +117,7 @@ public interface DoubleUnaryOperator extends DoubleFunction<Double>, UnaryOperat
     @Override
     default <S> DoubleFunction<S> map(DoubleFunction<? extends S> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.apply(apply(t));
+        return t -> functor.apply(applyAsDouble(t));
     }
     
     /**
@@ -133,7 +130,7 @@ public interface DoubleUnaryOperator extends DoubleFunction<Double>, UnaryOperat
     @Override
     default DoublePredicate map(DoublePredicate functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.test(apply(t));
+        return t -> functor.test(applyAsDouble(t));
     }
     
     /**
@@ -146,7 +143,7 @@ public interface DoubleUnaryOperator extends DoubleFunction<Double>, UnaryOperat
     @Override
     default DoubleToIntFunction map(DoubleToIntFunction functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.applyAsInt(apply(t));
+        return t -> functor.applyAsInt(applyAsDouble(t));
     }
     
     /**
@@ -159,7 +156,7 @@ public interface DoubleUnaryOperator extends DoubleFunction<Double>, UnaryOperat
     @Override
     default DoubleToLongFunction map(DoubleToLongFunction functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.applyAsLong(apply(t));
+        return t -> functor.applyAsLong(applyAsDouble(t));
     }
     
     /**
@@ -172,7 +169,7 @@ public interface DoubleUnaryOperator extends DoubleFunction<Double>, UnaryOperat
     @Override
     default DoubleUnaryOperator map(UnaryOperator<Double> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.apply(apply(t));
+        return t -> functor.apply(applyAsDouble(t));
     }
     
     /**
@@ -186,7 +183,7 @@ public interface DoubleUnaryOperator extends DoubleFunction<Double>, UnaryOperat
      */
     default double recurse(double value, DoublePredicate terminalCondition) {
         while (terminalCondition.test(value))
-            value = apply(value);
+            value = applyAsDouble(value);
         return value;
     }
     
@@ -204,7 +201,7 @@ public interface DoubleUnaryOperator extends DoubleFunction<Double>, UnaryOperat
      */
     default double recurse(double value, DoublePredicate terminalCondition, int maxDepth) {
         for (int i = 0; i < maxDepth && terminalCondition.test(value); i++)
-            value = apply(value);
+            value = applyAsDouble(value);
         return value;
     }
     
@@ -220,7 +217,7 @@ public interface DoubleUnaryOperator extends DoubleFunction<Double>, UnaryOperat
      */
     default double recurse(double value, int depth) {
         for (int i = 0; i < depth; i++)
-            value = apply(value);
+            value = applyAsDouble(value);
         return value;
     }
     

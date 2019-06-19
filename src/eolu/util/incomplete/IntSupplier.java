@@ -28,6 +28,7 @@ import java.util.Objects;
 import eolu.util.function.BooleanSupplier;
 import eolu.util.function.DoubleSupplier;
 import eolu.util.function.IntConsumer;
+import eolu.util.function.IntFunction;
 import eolu.util.function.Supplier;
 
 /**
