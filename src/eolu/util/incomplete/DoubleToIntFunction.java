@@ -24,6 +24,7 @@
 package eolu.util.incomplete;
 
 import eolu.util.function.Function;
+import eolu.util.function.ToIntFunction;
 
 /**
  * Represents a function that accepts a double-valued argument and produces an

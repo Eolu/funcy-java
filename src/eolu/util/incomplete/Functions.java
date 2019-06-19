@@ -29,9 +29,11 @@ import eolu.util.function.DoublePredicate;
 import eolu.util.function.DoubleSupplier;
 import eolu.util.function.DoubleUnaryOperator;
 import eolu.util.function.Function;
+import eolu.util.function.IntConsumer;
 import eolu.util.function.Predicate;
 import eolu.util.function.Supplier;
 import eolu.util.function.ToDoubleFunction;
+import eolu.util.function.ToIntFunction;
 import eolu.util.function.UnaryOperator;
 
 /**

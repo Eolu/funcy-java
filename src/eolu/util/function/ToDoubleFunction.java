@@ -27,7 +27,6 @@ import java.util.Objects;
 
 import eolu.util.incomplete.DoubleToIntFunction;
 import eolu.util.incomplete.DoubleToLongFunction;
-import eolu.util.incomplete.ToIntFunction;
 import eolu.util.incomplete.ToLongFunction;
 
 /**
@@ -86,7 +85,7 @@ public interface ToDoubleFunction<T> extends Function<T, Double> {
      */
     default Consumer<T> consume(DoubleConsumer consumer) {
         Objects.requireNonNull(consumer);
-        return t -> consumer.accept(apply(t));
+        return t -> consumer.accept(applyAsDouble(t));
     }
     
     /**
@@ -98,7 +97,7 @@ public interface ToDoubleFunction<T> extends Function<T, Double> {
      */
     default ToDoubleFunction<T> map(DoubleUnaryOperator functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.applyAsDouble(apply(t));
+        return t -> functor.applyAsDouble(applyAsDouble(t));
     }
     
     /**
@@ -111,7 +110,7 @@ public interface ToDoubleFunction<T> extends Function<T, Double> {
      */
     default <S> Function<T, S> map(DoubleFunction<? extends S> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.apply(apply(t));
+        return t -> functor.apply(applyAsDouble(t));
     }
     
     /**
@@ -123,7 +122,7 @@ public interface ToDoubleFunction<T> extends Function<T, Double> {
      */
     default Predicate<T> map(DoublePredicate functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.test(apply(t));
+        return t -> functor.test(applyAsDouble(t));
     }
     
     /**
@@ -135,7 +134,7 @@ public interface ToDoubleFunction<T> extends Function<T, Double> {
      */
     default ToIntFunction<T> map(DoubleToIntFunction functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.applyAsInt(apply(t));
+        return t -> functor.applyAsInt(applyAsDouble(t));
     }
     
     /**
@@ -147,6 +146,6 @@ public interface ToDoubleFunction<T> extends Function<T, Double> {
      */
     default ToLongFunction<T> map(DoubleToLongFunction functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.applyAsLong(apply(t));
+        return t -> functor.applyAsLong(applyAsDouble(t));
     }
 }

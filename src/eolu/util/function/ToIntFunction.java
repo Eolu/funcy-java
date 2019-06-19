@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it under
@@ -25,22 +25,37 @@ package eolu.util.function;
 
 import java.util.Objects;
 
+import eolu.util.incomplete.IntFunction;
+import eolu.util.incomplete.IntPredicate;
+import eolu.util.incomplete.IntSupplier;
+import eolu.util.incomplete.IntToDoubleFunction;
+import eolu.util.incomplete.IntToLongFunction;
+import eolu.util.incomplete.IntUnaryOperator;
 import eolu.util.incomplete.ToLongFunction;
 
 /**
- * Represents a function that accepts one argument and produces a result.
+ * Represents a function that produces an int-valued result. This is the
+ * {@code int}-producing primitive specialization for {@link Function}.
  *
  * <p>
  * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #apply(Object)}.
+ * functional method is {@link #applyAsInt(Object)}.
  *
  * @param <T> the type of the input to the function
- * @param <R> the type of the result of the function
  *
+ * @see Function
  * @since 1.8
  */
 @FunctionalInterface
-public interface Function<T, R> {
+public interface ToIntFunction<T> extends Function<T, Integer> {
+    
+    /**
+     * Applies this function to the given argument.
+     *
+     * @param value the function argument
+     * @return the function result
+     */
+    int applyAsInt(T value);
     
     /**
      * Applies this function to the given argument.
@@ -48,7 +63,10 @@ public interface Function<T, R> {
      * @param t the function argument
      * @return the function result
      */
-    R apply(T t);
+    @Override
+    default Integer apply(T t) {
+        return applyAsInt(t);
+    }
     
     /**
      * Partially apply a parameter such that a single param function becomes a
@@ -57,7 +75,8 @@ public interface Function<T, R> {
      * @param t The parameter to apply.
      * @return A partially-applied function.
      */
-    default Supplier<? extends R> applyPartial(T t) {
+    @Override
+    default IntSupplier applyPartial(T t) {
         return () -> apply(t);
     }
     
@@ -68,9 +87,21 @@ public interface Function<T, R> {
      * @return A Consumer which passes it's argument to this function and then
      *         passes the result into the given consumer.
      */
-    default Consumer<T> consume(Consumer<R> consumer) {
+    default Consumer<T> consume(IntConsumer consumer) {
         Objects.requireNonNull(consumer);
-        return t -> consumer.accept(apply(t));
+        return t -> consumer.accept(applyAsInt(t));
+    }
+    
+    /**
+     * Lift a function.
+     * 
+     * @param functor The function to use in lifting.
+     * @return A function that passes the result of fn through a functor to produce
+     *         a lifted function.
+     */
+    default ToIntFunction<T> map(IntUnaryOperator functor) {
+        Objects.requireNonNull(functor);
+        return t -> functor.applyAsInt(applyAsInt(t));
     }
     
     /**
@@ -81,9 +112,9 @@ public interface Function<T, R> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default <S> Function<T, S> map(Function<? super R, ? extends S> functor) {
+    default <S> Function<T, S> map(IntFunction<? extends S> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.apply(apply(t));
+        return t -> functor.apply(applyAsInt(t));
     }
     
     /**
@@ -93,9 +124,9 @@ public interface Function<T, R> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default Predicate<T> map(Predicate<? super R> functor) {
+    default Predicate<T> map(IntPredicate functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.test(apply(t));
+        return t -> functor.test(applyAsInt(t));
     }
     
     /**
@@ -105,9 +136,9 @@ public interface Function<T, R> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default ToDoubleFunction<T> map(ToDoubleFunction<? super R> functor) {
+    default ToDoubleFunction<T> map(IntToDoubleFunction functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.applyAsDouble(apply(t));
+        return t -> functor.applyAsDouble(applyAsInt(t));
     }
     
     /**
@@ -117,42 +148,8 @@ public interface Function<T, R> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default ToIntFunction<T> map(ToIntFunction<? super R> functor) {
+    default ToLongFunction<T> map(IntToLongFunction functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.applyAsInt(apply(t));
-    }
-    
-    /**
-     * Lift a function.
-     * 
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default ToLongFunction<T> map(ToLongFunction<? super R> functor) {
-        Objects.requireNonNull(functor);
-        return t -> functor.applyAsLong(apply(t));
-    }
-    
-    /**
-     * Lift a function.
-     * 
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default Function<T, R> map(UnaryOperator<R> functor) {
-        Objects.requireNonNull(functor);
-        return t -> functor.apply(apply(t));
-    }
-    
-    /**
-     * Returns a function that always returns its input argument.
-     *
-     * @param <T> the type of the input and output objects to the function
-     * @return a function that always returns its input argument
-     */
-    static <T> Function<T, T> identity() {
-        return t -> t;
+        return t -> functor.applyAsLong(applyAsInt(t));
     }
 }

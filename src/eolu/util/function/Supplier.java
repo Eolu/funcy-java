@@ -27,7 +27,6 @@ import java.util.Objects;
 
 import eolu.util.incomplete.IntSupplier;
 import eolu.util.incomplete.LongSupplier;
-import eolu.util.incomplete.ToIntFunction;
 import eolu.util.incomplete.ToLongFunction;
 
 /**
