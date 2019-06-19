@@ -25,6 +25,7 @@ import eolu.util.function.BooleanSupplier;
 import eolu.util.function.Consumer;
 import eolu.util.function.DoubleConsumer;
 import eolu.util.function.DoubleFunction;
+import eolu.util.function.DoublePredicate;
 import eolu.util.function.DoubleSupplier;
 import eolu.util.function.DoubleUnaryOperator;
 import eolu.util.function.Function;
@@ -928,68 +929,6 @@ public class Functions {
      */
     public static DoubleToLongFunction lift(DoubleToLongFunction fn, LongUnaryOperator functor) {
         return t -> functor.applyAsLong(fn.applyAsLong(t));
-    }
-    
-    /**
-     * Lift a function.
-     *
-     * @param <T> The return type.
-     * @param fn The function to lift.
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    public static <T> DoubleFunction<T> lift(DoubleUnaryOperator fn, DoubleFunction<T> functor) {
-        return t -> functor.apply(fn.applyAsDouble(t));
-    }
-    
-    /**
-     * Lift a function.
-     *
-     * @param fn The function to lift.
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    public static DoublePredicate lift(DoubleUnaryOperator fn, DoublePredicate functor) {
-        return t -> functor.test(fn.applyAsDouble(t));
-    }
-    
-    /**
-     * Lift a function.
-     * 
-     * @param fn The function to lift.
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    public static DoubleToIntFunction lift(DoubleUnaryOperator fn, DoubleToIntFunction functor) {
-        return t -> functor.applyAsInt(fn.applyAsDouble(t));
-    }
-    
-    /**
-     * Lift a function.
-     *
-     * 
-     * @param fn The function to lift.
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    public static DoubleToLongFunction lift(DoubleUnaryOperator fn, DoubleToLongFunction functor) {
-        return t -> functor.applyAsLong(fn.applyAsDouble(t));
-    }
-    
-    /**
-     * Lift a function.
-     *
-     * @param fn The function to lift.
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    public static DoubleUnaryOperator lift(DoubleUnaryOperator fn, DoubleUnaryOperator functor) {
-        return t -> functor.applyAsDouble(fn.applyAsDouble(t));
     }
     
     /**
@@ -1996,37 +1935,5 @@ public class Functions {
      */
     public static <T> UnaryOperator<T> lift(UnaryOperator<T> fn, UnaryOperator<T> functor) {
         return t -> functor.apply(fn.apply(t));
-    }
-    
-    /**
-     * A method that tells a function to call itself with its own result.
-     * 
-     * @param function The function to recurse.
-     * @param value The initial value to apply to the function.
-     * @param depth The number of times to recurse. A depth of zero or less will
-     *            simply return the passed-in value (the function will never be
-     *            called).
-     * @return The result of the recursive call.
-     */
-    public static <T> T recurse(UnaryOperator<T> function, T value, int depth) {
-        for (int i = 0; i < depth; i++) {
-            value = function.apply(value);
-        }
-        return value;
-    }
-    
-    /**
-     * A method that creates a function which calls a function with its own result
-     * some amount of times.
-     * 
-     * @param function The function to create a recursive version of.
-     * @param depth The number of times to recurse. A depth of zero or less will
-     *            simply return the value passed to {@link Function#apply apply(t)}
-     *            (the inner function will never be called).
-     * @return A function that will call the given function on its own result a
-     *         number of times as specified by the depth parameter.
-     */
-    public static <T> Function<T, T> recursive(UnaryOperator<T> function, int depth) {
-        return t -> recurse(function, t, depth);
     }
 }

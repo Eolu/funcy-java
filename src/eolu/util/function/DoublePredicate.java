@@ -21,11 +21,9 @@
  * visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package eolu.util.incomplete;
+package eolu.util.function;
 
 import java.util.Objects;
-
-import eolu.util.function.Predicate;
 
 /**
  * Represents a predicate (boolean-valued function) of one {@code double}-valued
@@ -40,7 +38,7 @@ import eolu.util.function.Predicate;
  * @since 1.8
  */
 @FunctionalInterface
-public interface DoublePredicate extends Predicate<Double> {
+public interface DoublePredicate extends Predicate<Double>, DoubleFunction<Boolean> {
     
     /**
      * Evaluates this predicate on the given argument.
@@ -64,6 +62,40 @@ public interface DoublePredicate extends Predicate<Double> {
     }
     
     /**
+     * Applies this function to the given argument.
+     *
+     * @param value the function argument
+     * @return the function result
+     */
+    @Override
+    default Boolean apply(double value) {
+        return test(value);
+    }
+    
+    /**
+     * Applies this function to the given argument.
+     *
+     * @param value the function argument
+     * @return the function result
+     */
+    @Override
+    default Boolean apply(Double value) {
+        return test(value.doubleValue());
+    }
+    
+    /**
+     * Partially apply a parameter such that a single param function becomes a
+     * no-param supplier.
+     * 
+     * @param t The parameter to apply.
+     * @return A partially-applied function.
+     */
+    @Override
+    default BooleanSupplier applyPartial(double t) {
+        return () -> test(t);
+    }
+    
+    /**
      * Returns a composed predicate that represents a short-circuiting logical AND
      * of this predicate and another. When evaluating the composed predicate, if
      * this predicate is {@code false}, then the {@code other} predicate is not
@@ -79,9 +111,23 @@ public interface DoublePredicate extends Predicate<Double> {
      *         of this predicate and the {@code other} predicate
      * @throws NullPointerException if other is null
      */
-    default DoublePredicate and(DoublePredicate other) {
+    @Override
+    default DoublePredicate and(Predicate<? super Double> other) {
         Objects.requireNonNull(other);
         return (value) -> test(value) && other.test(value);
+    }
+    
+    /**
+     * Lift a function.
+     * 
+     * @param functor The function to use in lifting.
+     * @return A function that passes the result of fn through a functor to produce
+     *         a lifted function.
+     */
+    @Override
+    default DoublePredicate map(UnaryOperator<Boolean> functor) {
+        Objects.requireNonNull(functor);
+        return t -> functor.apply(apply(t));
     }
     
     /**
