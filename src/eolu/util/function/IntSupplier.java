@@ -21,17 +21,13 @@
  * visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package eolu.util.incomplete;
+package eolu.util.function;
 
 import java.util.Objects;
 
-import eolu.util.function.BooleanSupplier;
-import eolu.util.function.DoubleSupplier;
-import eolu.util.function.Supplier;
-
 /**
- * Represents a supplier of {@code long}-valued results. This is the
- * {@code long}-producing primitive specialization of {@link Supplier}.
+ * Represents a supplier of {@code int}-valued results. This is the
+ * {@code int}-producing primitive specialization of {@link Supplier}.
  *
  * <p>
  * There is no requirement that a distinct result be returned each time the
@@ -39,20 +35,20 @@ import eolu.util.function.Supplier;
  *
  * <p>
  * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #getAsLong()}.
+ * functional method is {@link #getAsInt()}.
  *
  * @see Supplier
  * @since 1.8
  */
 @FunctionalInterface
-public interface LongSupplier extends Supplier<Long> {
+public interface IntSupplier extends Supplier<Integer> {
     
     /**
      * Gets a result.
      *
      * @return a result
      */
-    long getAsLong();
+    int getAsInt();
     
     /**
      * Gets a result.
@@ -60,8 +56,8 @@ public interface LongSupplier extends Supplier<Long> {
      * @return a result
      */
     @Override
-    default Long get() {
-        return getAsLong();
+    default Integer get() {
+        return getAsInt();
     }
     
     /**
@@ -71,9 +67,9 @@ public interface LongSupplier extends Supplier<Long> {
      * @return A Runnable which passes the result of this supplier into the given
      *         consumer when run.
      */
-    default Runnable consume(LongConsumer consumer) {
+    default Runnable consume(IntConsumer consumer) {
         Objects.requireNonNull(consumer);
-        return () -> consumer.accept(getAsLong());
+        return () -> consumer.accept(getAsInt());
     }
     
     /**
@@ -84,9 +80,9 @@ public interface LongSupplier extends Supplier<Long> {
      * @return A supplier that passes the result of fn through a functor to produce
      *         a lifted supplier.
      */
-    default <R> Supplier<R> map(LongFunction<R> functor) {
+    default <R> Supplier<R> map(IntFunction<R> functor) {
         Objects.requireNonNull(functor);
-        return () -> functor.apply(getAsLong());
+        return () -> functor.apply(getAsInt());
     }
     
     /**
@@ -96,9 +92,9 @@ public interface LongSupplier extends Supplier<Long> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default BooleanSupplier map(LongPredicate functor) {
+    default BooleanSupplier map(IntPredicate functor) {
         Objects.requireNonNull(functor);
-        return () -> functor.test(getAsLong());
+        return () -> functor.test(getAsInt());
     }
     
     /**
@@ -108,9 +104,9 @@ public interface LongSupplier extends Supplier<Long> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default LongSupplier map(LongUnaryOperator functor) {
+    default IntSupplier map(IntUnaryOperator functor) {
         Objects.requireNonNull(functor);
-        return () -> functor.applyAsLong(getAsLong());
+        return () -> functor.applyAsInt(getAsInt());
     }
     
     /**
@@ -120,9 +116,9 @@ public interface LongSupplier extends Supplier<Long> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default IntSupplier map(LongToIntFunction functor) {
+    default DoubleSupplier map(IntToDoubleFunction functor) {
         Objects.requireNonNull(functor);
-        return () -> functor.applyAsInt(getAsLong());
+        return () -> functor.applyAsDouble(getAsInt());
     }
     
     /**
@@ -132,8 +128,8 @@ public interface LongSupplier extends Supplier<Long> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default DoubleSupplier map(LongToDoubleFunction functor) {
+    default LongSupplier map(IntToLongFunction functor) {
         Objects.requireNonNull(functor);
-        return () -> functor.applyAsDouble(getAsLong());
+        return () -> functor.applyAsLong(getAsInt());
     }
 }

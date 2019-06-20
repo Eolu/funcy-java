@@ -25,8 +25,6 @@ package eolu.util.function;
 
 import java.util.Objects;
 
-import eolu.util.incomplete.ToLongFunction;
-
 /**
  * Represents a function that accepts one argument and produces a result.
  *

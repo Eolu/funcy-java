@@ -21,26 +21,22 @@
  * visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package eolu.util.incomplete;
-
-import eolu.util.function.Function;
-import eolu.util.function.IntFunction;
-import eolu.util.function.ToDoubleFunction;
+package eolu.util.function;
 
 /**
  * Represents a function that accepts an int-valued argument and produces a
- * double-valued result. This is the {@code int}-to-{@code double} primitive
+ * long-valued result. This is the {@code int}-to-{@code long} primitive
  * specialization for {@link Function}.
  *
  * <p>
  * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #applyAsDouble(int)}.
+ * functional method is {@link #applyAsLong(int)}.
  *
  * @see Function
  * @since 1.8
  */
 @FunctionalInterface
-public interface IntToDoubleFunction extends IntFunction<Double>, ToDoubleFunction<Integer> {
+public interface IntToLongFunction extends IntFunction<Long>, ToLongFunction<Integer> {
     
     /**
      * Applies this function to the given argument.
@@ -48,7 +44,7 @@ public interface IntToDoubleFunction extends IntFunction<Double>, ToDoubleFuncti
      * @param value the function argument
      * @return the function result
      */
-    double applyAsDouble(int value);
+    long applyAsLong(int value);
     
     /**
      * Applies this function to the given argument.
@@ -57,8 +53,8 @@ public interface IntToDoubleFunction extends IntFunction<Double>, ToDoubleFuncti
      * @return the function result
      */
     @Override
-    default double applyAsDouble(Integer value) {
-        return applyAsDouble(value.intValue());
+    default long applyAsLong(Integer value) {
+        return applyAsLong(value.intValue());
     }
     
     /**
@@ -68,8 +64,8 @@ public interface IntToDoubleFunction extends IntFunction<Double>, ToDoubleFuncti
      * @return the function result
      */
     @Override
-    default Double apply(int value) {
-        return applyAsDouble(value);
+    default Long apply(int value) {
+        return applyAsLong(value);
     }
     
     /**
@@ -79,7 +75,7 @@ public interface IntToDoubleFunction extends IntFunction<Double>, ToDoubleFuncti
      * @return the function result
      */
     @Override
-    default Double apply(Integer t) {
-        return applyAsDouble(t.intValue());
+    default Long apply(Integer t) {
+        return applyAsLong(t.intValue());
     }
 }

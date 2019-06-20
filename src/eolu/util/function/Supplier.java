@@ -25,10 +25,6 @@ package eolu.util.function;
 
 import java.util.Objects;
 
-import eolu.util.incomplete.IntSupplier;
-import eolu.util.incomplete.LongSupplier;
-import eolu.util.incomplete.ToLongFunction;
-
 /**
  * Represents a supplier of results.
  *

@@ -25,8 +25,6 @@ package eolu.util.function;
 
 import java.util.Objects;
 
-import eolu.util.incomplete.ToLongFunction;
-
 /**
  * Represents a function that produces a double-valued result. This is the
  * {@code double}-producing primitive specialization for {@link Function}.

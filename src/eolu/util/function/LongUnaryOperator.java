@@ -21,29 +21,24 @@
  * visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package eolu.util.incomplete;
+package eolu.util.function;
 
 import java.util.Objects;
 
-import eolu.util.function.Function;
-import eolu.util.function.IntFunction;
-import eolu.util.function.ToIntFunction;
-import eolu.util.function.UnaryOperator;
-
 /**
- * Represents an operation on a single {@code int}-valued operand that produces
- * an {@code int}-valued result. This is the primitive type specialization of
- * {@link UnaryOperator} for {@code int}.
+ * Represents an operation on a single {@code long}-valued operand that produces
+ * a {@code long}-valued result. This is the primitive type specialization of
+ * {@link UnaryOperator} for {@code long}.
  *
  * <p>
  * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #applyAsInt(int)}.
+ * functional method is {@link #applyAsLong(long)}.
  *
  * @see UnaryOperator
  * @since 1.8
  */
 @FunctionalInterface
-public interface IntUnaryOperator extends IntFunction<Integer>, UnaryOperator<Integer>, ToIntFunction<Integer> {
+public interface LongUnaryOperator extends LongFunction<Long>, UnaryOperator<Long>, ToLongFunction<Long> {
     
     /**
      * Applies this operator to the given operand.
@@ -51,7 +46,7 @@ public interface IntUnaryOperator extends IntFunction<Integer>, UnaryOperator<In
      * @param operand the operand
      * @return the operator result
      */
-    int applyAsInt(int operand);
+    long applyAsLong(long operand);
     
     /**
      * Applies this function to the given argument.
@@ -60,8 +55,8 @@ public interface IntUnaryOperator extends IntFunction<Integer>, UnaryOperator<In
      * @return the function result
      */
     @Override
-    default int applyAsInt(Integer value) {
-        return applyAsInt(value.intValue());
+    default long applyAsLong(Long value) {
+        return applyAsLong(value.longValue());
     }
     
     /**
@@ -71,8 +66,8 @@ public interface IntUnaryOperator extends IntFunction<Integer>, UnaryOperator<In
      * @return the function result
      */
     @Override
-    default Integer apply(int value) {
-        return applyAsInt(value);
+    default Long apply(long value) {
+        return applyAsLong(value);
     }
     
     /**
@@ -82,8 +77,8 @@ public interface IntUnaryOperator extends IntFunction<Integer>, UnaryOperator<In
      * @return the function result
      */
     @Override
-    default Integer apply(Integer value) {
-        return applyAsInt(value.intValue());
+    default Long apply(Long value) {
+        return applyAsLong(value.longValue());
     }
     
     /**
@@ -94,26 +89,21 @@ public interface IntUnaryOperator extends IntFunction<Integer>, UnaryOperator<In
      * @return A partially-applied function.
      */
     @Override
-    default IntSupplier applyPartial(int t) {
-        return () -> applyAsInt(t);
+    default LongSupplier applyPartial(long t) {
+        return () -> applyAsLong(t);
     }
     
     /**
-     * Returns a composed operator that first applies the {@code before} operator to
-     * its input, and then applies this operator to the result. If evaluation of
-     * either operator throws an exception, it is relayed to the caller of the
-     * composed operator.
-     *
-     * @param before the operator to apply before this operator is applied
-     * @return a composed operator that first applies the {@code before} operator
-     *         and then applies this operator
-     * @throws NullPointerException if before is null
-     *
-     * @see #andThen(IntUnaryOperator)
+     * Consume a function.
+     * 
+     * @param consumer The consumer to use in consuming.
+     * @return A Consumer which passes it's argument to this function and then
+     *         passes the result into the given consumer.
      */
-    default IntUnaryOperator compose(IntUnaryOperator before) {
-        Objects.requireNonNull(before);
-        return (int v) -> applyAsInt(before.applyAsInt(v));
+    @Override
+    default LongConsumer consume(LongConsumer consumer) {
+        Objects.requireNonNull(consumer);
+        return t -> consumer.accept(applyAsLong(t));
     }
     
     /**
@@ -125,9 +115,9 @@ public interface IntUnaryOperator extends IntFunction<Integer>, UnaryOperator<In
      *         a lifted function.
      */
     @Override
-    default <S> IntFunction<S> map(IntFunction<? extends S> functor) {
+    default <S> LongFunction<S> map(LongFunction<? extends S> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.apply(applyAsInt(t));
+        return t -> functor.apply(applyAsLong(t));
     }
     
     /**
@@ -138,9 +128,9 @@ public interface IntUnaryOperator extends IntFunction<Integer>, UnaryOperator<In
      *         a lifted function.
      */
     @Override
-    default IntPredicate map(IntPredicate functor) {
+    default LongPredicate map(LongPredicate functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.test(applyAsInt(t));
+        return t -> functor.test(applyAsLong(t));
     }
     
     /**
@@ -151,9 +141,9 @@ public interface IntUnaryOperator extends IntFunction<Integer>, UnaryOperator<In
      *         a lifted function.
      */
     @Override
-    default IntToDoubleFunction map(IntToDoubleFunction functor) {
+    default LongToDoubleFunction map(LongToDoubleFunction functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.applyAsDouble(applyAsInt(t));
+        return t -> functor.applyAsDouble(applyAsLong(t));
     }
     
     /**
@@ -164,9 +154,9 @@ public interface IntUnaryOperator extends IntFunction<Integer>, UnaryOperator<In
      *         a lifted function.
      */
     @Override
-    default IntToLongFunction map(IntToLongFunction functor) {
+    default LongToIntFunction map(LongToIntFunction functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.applyAsLong(applyAsInt(t));
+        return t -> functor.applyAsInt(applyAsLong(t));
     }
     
     /**
@@ -177,9 +167,9 @@ public interface IntUnaryOperator extends IntFunction<Integer>, UnaryOperator<In
      *         a lifted function.
      */
     @Override
-    default IntUnaryOperator map(UnaryOperator<Integer> functor) {
+    default LongUnaryOperator map(UnaryOperator<Long> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.apply(applyAsInt(t));
+        return t -> functor.apply(applyAsLong(t));
     }
     
     /**
@@ -191,9 +181,9 @@ public interface IntUnaryOperator extends IntFunction<Integer>, UnaryOperator<In
      *            terminate.
      * @return The result of the recursive call.
      */
-    default int recurse(int value, IntPredicate terminalCondition) {
+    default long recurse(long value, LongPredicate terminalCondition) {
         while (terminalCondition.test(value))
-            value = applyAsInt(value);
+            value = applyAsLong(value);
         return value;
     }
     
@@ -209,9 +199,9 @@ public interface IntUnaryOperator extends IntFunction<Integer>, UnaryOperator<In
      *            never be called).
      * @return The result of the recursive call.
      */
-    default int recurse(int value, IntPredicate terminalCondition, int maxDepth) {
+    default long recurse(long value, LongPredicate terminalCondition, int maxDepth) {
         for (int i = 0; i < maxDepth && terminalCondition.test(value); i++)
-            value = applyAsInt(value);
+            value = applyAsLong(value);
         return value;
     }
     
@@ -225,9 +215,9 @@ public interface IntUnaryOperator extends IntFunction<Integer>, UnaryOperator<In
      *            called).
      * @return The result of the recursive call.
      */
-    default int recurse(int value, int depth) {
+    default long recurse(long value, int depth) {
         for (int i = 0; i < depth; i++)
-            value = applyAsInt(value);
+            value = applyAsLong(value);
         return value;
     }
     
@@ -240,7 +230,7 @@ public interface IntUnaryOperator extends IntFunction<Integer>, UnaryOperator<In
      * @return A function that will call the given function on its own result a
      *         number of times as specified by the depth parameter.
      */
-    default IntUnaryOperator recursive(IntPredicate terminalCondition) {
+    default LongUnaryOperator recursive(LongPredicate terminalCondition) {
         Objects.requireNonNull(terminalCondition);
         return t -> recurse(t, terminalCondition);
     }
@@ -257,7 +247,7 @@ public interface IntUnaryOperator extends IntFunction<Integer>, UnaryOperator<In
      * @return A function that will call the given function on its own result a
      *         number of times as specified by the depth parameter.
      */
-    default IntUnaryOperator recursive(IntPredicate terminalCondition, int maxDepth) {
+    default LongUnaryOperator recursive(LongPredicate terminalCondition, int maxDepth) {
         Objects.requireNonNull(terminalCondition);
         return t -> recurse(t, terminalCondition, maxDepth);
     }
@@ -273,7 +263,7 @@ public interface IntUnaryOperator extends IntFunction<Integer>, UnaryOperator<In
      *         number of times as specified by the depth parameter.
      */
     @Override
-    default IntUnaryOperator recursive(int depth) {
+    default LongUnaryOperator recursive(int depth) {
         return t -> recurse(t, depth);
     }
     
@@ -282,7 +272,7 @@ public interface IntUnaryOperator extends IntFunction<Integer>, UnaryOperator<In
      *
      * @return a unary operator that always returns its input argument
      */
-    static IntUnaryOperator identity() {
+    static LongUnaryOperator identity() {
         return t -> t;
     }
 }

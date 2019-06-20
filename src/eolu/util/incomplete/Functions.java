@@ -33,10 +33,23 @@ import eolu.util.function.DoubleUnaryOperator;
 import eolu.util.function.Function;
 import eolu.util.function.IntConsumer;
 import eolu.util.function.IntFunction;
+import eolu.util.function.IntPredicate;
+import eolu.util.function.IntSupplier;
+import eolu.util.function.IntToDoubleFunction;
+import eolu.util.function.IntToLongFunction;
+import eolu.util.function.IntUnaryOperator;
+import eolu.util.function.LongConsumer;
+import eolu.util.function.LongFunction;
+import eolu.util.function.LongPredicate;
+import eolu.util.function.LongSupplier;
+import eolu.util.function.LongToDoubleFunction;
+import eolu.util.function.LongToIntFunction;
+import eolu.util.function.LongUnaryOperator;
 import eolu.util.function.Predicate;
 import eolu.util.function.Supplier;
 import eolu.util.function.ToDoubleFunction;
 import eolu.util.function.ToIntFunction;
+import eolu.util.function.ToLongFunction;
 import eolu.util.function.UnaryOperator;
 
 /**

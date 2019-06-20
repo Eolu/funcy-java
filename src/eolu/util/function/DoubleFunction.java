@@ -25,8 +25,6 @@ package eolu.util.function;
 
 import java.util.Objects;
 
-import eolu.util.incomplete.ToLongFunction;
-
 /**
  * Represents a function that accepts a double-valued argument and produces a
  * result. This is the {@code double}-consuming primitive specialization for

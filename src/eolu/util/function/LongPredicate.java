@@ -21,29 +21,24 @@
  * visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package eolu.util.incomplete;
+package eolu.util.function;
 
 import java.util.Objects;
 
-import eolu.util.function.BooleanSupplier;
-import eolu.util.function.IntFunction;
-import eolu.util.function.Predicate;
-import eolu.util.function.UnaryOperator;
-
 /**
- * Represents a predicate (boolean-valued function) of one {@code int}-valued
- * argument. This is the {@code int}-consuming primitive type specialization of
+ * Represents a predicate (boolean-valued function) of one {@code long}-valued
+ * argument. This is the {@code long}-consuming primitive type specialization of
  * {@link Predicate}.
  *
  * <p>
  * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #test(int)}.
+ * functional method is {@link #test(long)}.
  *
  * @see Predicate
  * @since 1.8
  */
 @FunctionalInterface
-public interface IntPredicate extends Predicate<Integer>, IntFunction<Boolean> {
+public interface LongPredicate extends Predicate<Long>, LongFunction<Boolean> {
     
     /**
      * Evaluates this predicate on the given argument.
@@ -52,7 +47,7 @@ public interface IntPredicate extends Predicate<Integer>, IntFunction<Boolean> {
      * @return {@code true} if the input argument matches the predicate, otherwise
      *         {@code false}
      */
-    boolean test(int value);
+    boolean test(long value);
     
     /**
      * Evaluates this predicate on the given argument.
@@ -62,7 +57,7 @@ public interface IntPredicate extends Predicate<Integer>, IntFunction<Boolean> {
      *         {@code false}
      */
     @Override
-    default boolean test(Integer t) {
+    default boolean test(Long t) {
         return test(t);
     }
     
@@ -73,7 +68,7 @@ public interface IntPredicate extends Predicate<Integer>, IntFunction<Boolean> {
      * @return the function result
      */
     @Override
-    default Boolean apply(int value) {
+    default Boolean apply(long value) {
         return test(value);
     }
     
@@ -84,8 +79,8 @@ public interface IntPredicate extends Predicate<Integer>, IntFunction<Boolean> {
      * @return the function result
      */
     @Override
-    default Boolean apply(Integer value) {
-        return test(value.intValue());
+    default Boolean apply(Long value) {
+        return test(value.longValue());
     }
     
     /**
@@ -96,7 +91,7 @@ public interface IntPredicate extends Predicate<Integer>, IntFunction<Boolean> {
      * @return A partially-applied function.
      */
     @Override
-    default BooleanSupplier applyPartial(int t) {
+    default BooleanSupplier applyPartial(long t) {
         return () -> test(t);
     }
     
@@ -116,8 +111,7 @@ public interface IntPredicate extends Predicate<Integer>, IntFunction<Boolean> {
      *         of this predicate and the {@code other} predicate
      * @throws NullPointerException if other is null
      */
-    @Override
-    default IntPredicate and(Predicate<? super Integer> other) {
+    default LongPredicate and(LongPredicate other) {
         Objects.requireNonNull(other);
         return (value) -> test(value) && other.test(value);
     }
@@ -130,7 +124,7 @@ public interface IntPredicate extends Predicate<Integer>, IntFunction<Boolean> {
      *         a lifted function.
      */
     @Override
-    default IntPredicate map(UnaryOperator<Boolean> functor) {
+    default LongPredicate map(UnaryOperator<Boolean> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.apply(apply(t));
     }
@@ -141,7 +135,7 @@ public interface IntPredicate extends Predicate<Integer>, IntFunction<Boolean> {
      * @return a predicate that represents the logical negation of this predicate
      */
     @Override
-    default IntPredicate negate() {
+    default LongPredicate negate() {
         return (value) -> !test(value);
     }
     
@@ -160,7 +154,7 @@ public interface IntPredicate extends Predicate<Integer>, IntFunction<Boolean> {
      *         of this predicate and the {@code other} predicate
      * @throws NullPointerException if other is null
      */
-    default IntPredicate or(IntPredicate other) {
+    default LongPredicate or(LongPredicate other) {
         Objects.requireNonNull(other);
         return (value) -> test(value) || other.test(value);
     }

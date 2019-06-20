@@ -21,31 +21,26 @@
  * visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package eolu.util.incomplete;
+package eolu.util.function;
 
 import java.util.Objects;
 
-import eolu.util.function.Consumer;
-import eolu.util.function.Function;
-import eolu.util.function.Predicate;
-import eolu.util.function.ToDoubleFunction;
-import eolu.util.function.ToIntFunction;
-
 /**
- * Represents a function that produces a long-valued result. This is the
- * {@code long}-producing primitive specialization for {@link Function}.
+ * Represents a function that accepts a long-valued argument and produces a
+ * result. This is the {@code long}-consuming primitive specialization for
+ * {@link Function}.
  *
  * <p>
  * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #applyAsLong(Object)}.
+ * functional method is {@link #apply(long)}.
  *
- * @param <T> the type of the input to the function
+ * @param <R> the type of the result of the function
  *
  * @see Function
  * @since 1.8
  */
 @FunctionalInterface
-public interface ToLongFunction<T> extends Function<T, Long> {
+public interface LongFunction<R> extends Function<Long, R> {
     
     /**
      * Applies this function to the given argument.
@@ -53,7 +48,7 @@ public interface ToLongFunction<T> extends Function<T, Long> {
      * @param value the function argument
      * @return the function result
      */
-    long applyAsLong(T value);
+    R apply(long value);
     
     /**
      * Applies this function to the given argument.
@@ -62,8 +57,8 @@ public interface ToLongFunction<T> extends Function<T, Long> {
      * @return the function result
      */
     @Override
-    default Long apply(T t) {
-        return applyAsLong(t);
+    default R apply(Long t) {
+        return apply(t.longValue());
     }
     
     /**
@@ -73,8 +68,7 @@ public interface ToLongFunction<T> extends Function<T, Long> {
      * @param t The parameter to apply.
      * @return A partially-applied function.
      */
-    @Override
-    default LongSupplier applyPartial(T t) {
+    default Supplier<R> applyPartial(long t) {
         return () -> apply(t);
     }
     
@@ -85,9 +79,10 @@ public interface ToLongFunction<T> extends Function<T, Long> {
      * @return A Consumer which passes it's argument to this function and then
      *         passes the result into the given consumer.
      */
-    default Consumer<T> consume(LongConsumer consumer) {
+    @Override
+    default LongConsumer consume(Consumer<R> consumer) {
         Objects.requireNonNull(consumer);
-        return t -> consumer.accept(applyAsLong(t));
+        return t -> consumer.accept(apply(t));
     }
     
     /**
@@ -97,9 +92,10 @@ public interface ToLongFunction<T> extends Function<T, Long> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default ToLongFunction<T> map(LongUnaryOperator functor) {
+    @Override
+    default LongFunction<R> map(UnaryOperator<R> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.applyAsLong(applyAsLong(t));
+        return t -> functor.apply(apply(t));
     }
     
     /**
@@ -110,9 +106,10 @@ public interface ToLongFunction<T> extends Function<T, Long> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default <S> Function<T, S> map(LongFunction<? extends S> functor) {
+    @Override
+    default <S> LongFunction<S> map(Function<? super R, ? extends S> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.apply(applyAsLong(t));
+        return t -> functor.apply(apply(t));
     }
     
     /**
@@ -122,9 +119,10 @@ public interface ToLongFunction<T> extends Function<T, Long> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default Predicate<T> map(LongPredicate functor) {
+    @Override
+    default LongPredicate map(Predicate<? super R> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.test(applyAsLong(t));
+        return t -> functor.test(apply(t));
     }
     
     /**
@@ -134,9 +132,10 @@ public interface ToLongFunction<T> extends Function<T, Long> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default ToIntFunction<T> map(LongToIntFunction functor) {
+    @Override
+    default LongUnaryOperator map(ToLongFunction<? super R> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.applyAsInt(applyAsLong(t));
+        return t -> functor.applyAsLong(apply(t));
     }
     
     /**
@@ -146,8 +145,31 @@ public interface ToLongFunction<T> extends Function<T, Long> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default ToDoubleFunction<T> map(LongToDoubleFunction functor) {
+    @Override
+    default LongToIntFunction map(ToIntFunction<? super R> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.applyAsDouble(applyAsLong(t));
+        return t -> functor.applyAsInt(apply(t));
+    }
+    
+    /**
+     * Lift a function.
+     * 
+     * @param functor The function to use in lifting.
+     * @return A function that passes the result of fn through a functor to produce
+     *         a lifted function.
+     */
+    @Override
+    default LongToDoubleFunction map(ToDoubleFunction<? super R> functor) {
+        Objects.requireNonNull(functor);
+        return t -> functor.applyAsDouble(apply(t));
+    }
+    
+    /**
+     * Returns a unary operator that always returns its input argument.
+     *
+     * @return a unary operator that always returns its input argument
+     */
+    static LongUnaryOperator identity() {
+        return t -> t;
     }
 }

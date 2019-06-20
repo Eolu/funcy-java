@@ -21,25 +21,22 @@
  * visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package eolu.util.incomplete;
-
-import eolu.util.function.Function;
-import eolu.util.function.IntFunction;
+package eolu.util.function;
 
 /**
- * Represents a function that accepts an int-valued argument and produces a
- * long-valued result. This is the {@code int}-to-{@code long} primitive
+ * Represents a function that accepts a long-valued argument and produces a
+ * double-valued result. This is the {@code long}-to-{@code double} primitive
  * specialization for {@link Function}.
  *
  * <p>
  * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #applyAsLong(int)}.
+ * functional method is {@link #applyAsDouble(long)}.
  *
  * @see Function
  * @since 1.8
  */
 @FunctionalInterface
-public interface IntToLongFunction extends IntFunction<Long>, ToLongFunction<Integer> {
+public interface LongToDoubleFunction extends LongFunction<Double>, ToDoubleFunction<Long> {
     
     /**
      * Applies this function to the given argument.
@@ -47,7 +44,7 @@ public interface IntToLongFunction extends IntFunction<Long>, ToLongFunction<Int
      * @param value the function argument
      * @return the function result
      */
-    long applyAsLong(int value);
+    double applyAsDouble(long value);
     
     /**
      * Applies this function to the given argument.
@@ -56,8 +53,8 @@ public interface IntToLongFunction extends IntFunction<Long>, ToLongFunction<Int
      * @return the function result
      */
     @Override
-    default long applyAsLong(Integer value) {
-        return applyAsLong(value.intValue());
+    default double applyAsDouble(Long value) {
+        return applyAsDouble(value.longValue());
     }
     
     /**
@@ -67,8 +64,8 @@ public interface IntToLongFunction extends IntFunction<Long>, ToLongFunction<Int
      * @return the function result
      */
     @Override
-    default Long apply(int value) {
-        return applyAsLong(value);
+    default Double apply(long value) {
+        return applyAsDouble(value);
     }
     
     /**
@@ -78,7 +75,7 @@ public interface IntToLongFunction extends IntFunction<Long>, ToLongFunction<Int
      * @return the function result
      */
     @Override
-    default Long apply(Integer t) {
-        return applyAsLong(t.intValue());
+    default Double apply(Long t) {
+        return applyAsDouble(t.longValue());
     }
 }

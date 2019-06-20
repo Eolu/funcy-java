@@ -24,6 +24,8 @@
  */
 package eolu.util.incomplete;
 
+import eolu.util.function.IntUnaryOperator;
+
 /**
  * Represents an operation upon two {@code int}-valued operands and producing an
  * {@code int}-valued result.   This is the primitive type specialization of

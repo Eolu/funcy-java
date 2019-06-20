@@ -21,121 +21,127 @@
  * visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package eolu.util.incomplete;
+package eolu.util.function;
 
 import java.util.Objects;
 
-import eolu.util.function.BooleanSupplier;
-import eolu.util.function.DoubleSupplier;
-import eolu.util.function.IntConsumer;
-import eolu.util.function.IntFunction;
-import eolu.util.function.Supplier;
-
 /**
- * Represents a supplier of {@code int}-valued results. This is the
- * {@code int}-producing primitive specialization of {@link Supplier}.
- *
- * <p>
- * There is no requirement that a distinct result be returned each time the
- * supplier is invoked.
+ * Represents a function that produces a long-valued result. This is the
+ * {@code long}-producing primitive specialization for {@link Function}.
  *
  * <p>
  * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #getAsInt()}.
+ * functional method is {@link #applyAsLong(Object)}.
  *
- * @see Supplier
+ * @param <T> the type of the input to the function
+ *
+ * @see Function
  * @since 1.8
  */
 @FunctionalInterface
-public interface IntSupplier extends Supplier<Integer> {
+public interface ToLongFunction<T> extends Function<T, Long> {
     
     /**
-     * Gets a result.
+     * Applies this function to the given argument.
      *
-     * @return a result
+     * @param value the function argument
+     * @return the function result
      */
-    int getAsInt();
+    long applyAsLong(T value);
     
     /**
-     * Gets a result.
+     * Applies this function to the given argument.
      *
-     * @return a result
+     * @param t the function argument
+     * @return the function result
      */
     @Override
-    default Integer get() {
-        return getAsInt();
+    default Long apply(T t) {
+        return applyAsLong(t);
     }
     
     /**
-     * Consume a supplier.
+     * Partially apply a parameter such that a single param function becomes a
+     * no-param supplier.
+     * 
+     * @param t The parameter to apply.
+     * @return A partially-applied function.
+     */
+    @Override
+    default LongSupplier applyPartial(T t) {
+        return () -> apply(t);
+    }
+    
+    /**
+     * Consume a function.
      * 
      * @param consumer The consumer to use in consuming.
-     * @return A Runnable which passes the result of this supplier into the given
-     *         consumer when run.
+     * @return A Consumer which passes it's argument to this function and then
+     *         passes the result into the given consumer.
      */
-    default Runnable consume(IntConsumer consumer) {
+    default Consumer<T> consume(LongConsumer consumer) {
         Objects.requireNonNull(consumer);
-        return () -> consumer.accept(getAsInt());
+        return t -> consumer.accept(applyAsLong(t));
     }
     
     /**
-     * Lift a supplier.
+     * Lift a function.
      * 
-     * @param <R> The new return type.
      * @param functor The function to use in lifting.
-     * @return A supplier that passes the result of fn through a functor to produce
-     *         a lifted supplier.
+     * @return A function that passes the result of fn through a functor to produce
+     *         a lifted function.
      */
-    default <R> Supplier<R> map(IntFunction<R> functor) {
+    default ToLongFunction<T> map(LongUnaryOperator functor) {
         Objects.requireNonNull(functor);
-        return () -> functor.apply(getAsInt());
+        return t -> functor.applyAsLong(applyAsLong(t));
     }
     
     /**
-     * Lift a supplier.
+     * Lift a function.
+     * 
+     * @param <S> The return type.
+     * @param functor The function to use in lifting.
+     * @return A function that passes the result of fn through a functor to produce
+     *         a lifted function.
+     */
+    default <S> Function<T, S> map(LongFunction<? extends S> functor) {
+        Objects.requireNonNull(functor);
+        return t -> functor.apply(applyAsLong(t));
+    }
+    
+    /**
+     * Lift a function.
      *
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default BooleanSupplier map(IntPredicate functor) {
+    default Predicate<T> map(LongPredicate functor) {
         Objects.requireNonNull(functor);
-        return () -> functor.test(getAsInt());
+        return t -> functor.test(applyAsLong(t));
     }
     
     /**
-     * Lift a supplier.
-     *
+     * Lift a function.
+     * 
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default IntSupplier map(IntUnaryOperator functor) {
+    default ToIntFunction<T> map(LongToIntFunction functor) {
         Objects.requireNonNull(functor);
-        return () -> functor.applyAsInt(getAsInt());
+        return t -> functor.applyAsInt(applyAsLong(t));
     }
     
     /**
-     * Lift a supplier.
-     *
+     * Lift a function.
+     * 
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default DoubleSupplier map(IntToDoubleFunction functor) {
+    default ToDoubleFunction<T> map(LongToDoubleFunction functor) {
         Objects.requireNonNull(functor);
-        return () -> functor.applyAsDouble(getAsInt());
-    }
-    
-    /**
-     * Lift a supplier.
-     *
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default LongSupplier map(IntToLongFunction functor) {
-        Objects.requireNonNull(functor);
-        return () -> functor.applyAsLong(getAsInt());
+        return t -> functor.applyAsDouble(applyAsLong(t));
     }
 }

@@ -25,9 +25,6 @@ package eolu.util.function;
 
 import java.util.Objects;
 
-import eolu.util.incomplete.IntSupplier;
-import eolu.util.incomplete.LongSupplier;
-
 /**
  * Represents a supplier of {@code double}-valued results. This is the
  * {@code double}-producing primitive specialization of {@link Supplier}.

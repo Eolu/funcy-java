@@ -24,19 +24,19 @@
 package eolu.util.function;
 
 /**
- * Represents a function that accepts a double-valued argument and produces a
- * long-valued result. This is the {@code double}-to-{@code long} primitive
+ * Represents a function that accepts an int-valued argument and produces a
+ * double-valued result. This is the {@code int}-to-{@code double} primitive
  * specialization for {@link Function}.
  *
  * <p>
  * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #applyAsLong(double)}.
+ * functional method is {@link #applyAsDouble(int)}.
  *
  * @see Function
  * @since 1.8
  */
 @FunctionalInterface
-public interface DoubleToLongFunction extends DoubleFunction<Long>, ToLongFunction<Double> {
+public interface IntToDoubleFunction extends IntFunction<Double>, ToDoubleFunction<Integer> {
     
     /**
      * Applies this function to the given argument.
@@ -44,7 +44,7 @@ public interface DoubleToLongFunction extends DoubleFunction<Long>, ToLongFuncti
      * @param value the function argument
      * @return the function result
      */
-    long applyAsLong(double value);
+    double applyAsDouble(int value);
     
     /**
      * Applies this function to the given argument.
@@ -53,8 +53,8 @@ public interface DoubleToLongFunction extends DoubleFunction<Long>, ToLongFuncti
      * @return the function result
      */
     @Override
-    default long applyAsLong(Double value) {
-        return applyAsLong(value.doubleValue());
+    default double applyAsDouble(Integer value) {
+        return applyAsDouble(value.intValue());
     }
     
     /**
@@ -64,8 +64,8 @@ public interface DoubleToLongFunction extends DoubleFunction<Long>, ToLongFuncti
      * @return the function result
      */
     @Override
-    default Long apply(double value) {
-        return applyAsLong(value);
+    default Double apply(int value) {
+        return applyAsDouble(value);
     }
     
     /**
@@ -75,7 +75,7 @@ public interface DoubleToLongFunction extends DoubleFunction<Long>, ToLongFuncti
      * @return the function result
      */
     @Override
-    default Long apply(Double t) {
-        return applyAsLong(t.doubleValue());
+    default Double apply(Integer t) {
+        return applyAsDouble(t.intValue());
     }
 }

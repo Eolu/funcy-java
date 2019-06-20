@@ -25,12 +25,6 @@ package eolu.util.function;
 
 import java.util.Objects;
 
-import eolu.util.incomplete.IntPredicate;
-import eolu.util.incomplete.IntToDoubleFunction;
-import eolu.util.incomplete.IntToLongFunction;
-import eolu.util.incomplete.IntUnaryOperator;
-import eolu.util.incomplete.ToLongFunction;
-
 /**
  * Represents a function that accepts an int-valued argument and produces a
  * result. This is the {@code int}-consuming primitive specialization for

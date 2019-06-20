@@ -26,19 +26,19 @@ package eolu.util.function;
 import java.util.Objects;
 
 /**
- * Represents a predicate (boolean-valued function) of one {@code double}-valued
- * argument. This is the {@code double}-consuming primitive type specialization
- * of {@link Predicate}.
+ * Represents a predicate (boolean-valued function) of one {@code int}-valued
+ * argument. This is the {@code int}-consuming primitive type specialization of
+ * {@link Predicate}.
  *
  * <p>
  * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #test(double)}.
+ * functional method is {@link #test(int)}.
  *
  * @see Predicate
  * @since 1.8
  */
 @FunctionalInterface
-public interface DoublePredicate extends Predicate<Double>, DoubleFunction<Boolean> {
+public interface IntPredicate extends Predicate<Integer>, IntFunction<Boolean> {
     
     /**
      * Evaluates this predicate on the given argument.
@@ -47,7 +47,7 @@ public interface DoublePredicate extends Predicate<Double>, DoubleFunction<Boole
      * @return {@code true} if the input argument matches the predicate, otherwise
      *         {@code false}
      */
-    boolean test(double value);
+    boolean test(int value);
     
     /**
      * Evaluates this predicate on the given argument.
@@ -57,7 +57,7 @@ public interface DoublePredicate extends Predicate<Double>, DoubleFunction<Boole
      *         {@code false}
      */
     @Override
-    default boolean test(Double t) {
+    default boolean test(Integer t) {
         return test(t);
     }
     
@@ -68,7 +68,7 @@ public interface DoublePredicate extends Predicate<Double>, DoubleFunction<Boole
      * @return the function result
      */
     @Override
-    default Boolean apply(double value) {
+    default Boolean apply(int value) {
         return test(value);
     }
     
@@ -79,8 +79,8 @@ public interface DoublePredicate extends Predicate<Double>, DoubleFunction<Boole
      * @return the function result
      */
     @Override
-    default Boolean apply(Double value) {
-        return test(value.doubleValue());
+    default Boolean apply(Integer value) {
+        return test(value.intValue());
     }
     
     /**
@@ -91,7 +91,7 @@ public interface DoublePredicate extends Predicate<Double>, DoubleFunction<Boole
      * @return A partially-applied function.
      */
     @Override
-    default BooleanSupplier applyPartial(double t) {
+    default BooleanSupplier applyPartial(int t) {
         return () -> test(t);
     }
     
@@ -111,7 +111,7 @@ public interface DoublePredicate extends Predicate<Double>, DoubleFunction<Boole
      *         of this predicate and the {@code other} predicate
      * @throws NullPointerException if other is null
      */
-    default DoublePredicate and(DoublePredicate other) {
+    default IntPredicate and(IntPredicate other) {
         Objects.requireNonNull(other);
         return (value) -> test(value) && other.test(value);
     }
@@ -124,7 +124,7 @@ public interface DoublePredicate extends Predicate<Double>, DoubleFunction<Boole
      *         a lifted function.
      */
     @Override
-    default DoublePredicate map(UnaryOperator<Boolean> functor) {
+    default IntPredicate map(UnaryOperator<Boolean> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.apply(apply(t));
     }
@@ -135,7 +135,7 @@ public interface DoublePredicate extends Predicate<Double>, DoubleFunction<Boole
      * @return a predicate that represents the logical negation of this predicate
      */
     @Override
-    default DoublePredicate negate() {
+    default IntPredicate negate() {
         return (value) -> !test(value);
     }
     
@@ -154,7 +154,7 @@ public interface DoublePredicate extends Predicate<Double>, DoubleFunction<Boole
      *         of this predicate and the {@code other} predicate
      * @throws NullPointerException if other is null
      */
-    default DoublePredicate or(DoublePredicate other) {
+    default IntPredicate or(IntPredicate other) {
         Objects.requireNonNull(other);
         return (value) -> test(value) || other.test(value);
     }
