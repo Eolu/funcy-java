@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved. DO NOT
+ * ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License version 2 only, as published by
@@ -21,30 +21,36 @@
  * visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package eolu.util.incomplete;
+package eolu.util.function;
 
 import java.util.Objects;
 
-import eolu.util.function.Consumer;
-
 /**
- * Represents an operation that accepts two input arguments and returns no
- * result. This is the two-arity specialization of {@link Consumer}. Unlike most
- * other functional interfaces, {@code BiConsumer} is expected to operate via
- * side-effects.
+ * Represents an operation that accepts an object-valued and a
+ * {@code double}-valued argument, and returns no result. This is the
+ * {@code (reference, double)} specialization of {@link BiConsumer}. Unlike most
+ * other functional interfaces, {@code ObjDoubleConsumer} is expected to operate
+ * via side-effects.
  *
  * <p>
  * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #accept(Object, Object)}.
+ * functional method is {@link #accept(Object, double)}.
  *
- * @param <T> the type of the first argument to the operation
- * @param <U> the type of the second argument to the operation
+ * @param <T> the type of the object argument to the operation
  *
- * @see Consumer
+ * @see BiConsumer
  * @since 1.8
  */
 @FunctionalInterface
-public interface BiConsumer<T, U> {
+public interface ObjDoubleConsumer<T> extends BiConsumer<T, Double> {
+    
+    /**
+     * Performs this operation on the given arguments.
+     *
+     * @param t the first input argument
+     * @param value the second input argument
+     */
+    void accept(T t, double value);
     
     /**
      * Performs this operation on the given arguments.
@@ -52,7 +58,10 @@ public interface BiConsumer<T, U> {
      * @param t the first input argument
      * @param u the second input argument
      */
-    void accept(T t, U u);
+    @Override
+    default void accept(T t, Double u) {
+        accept(t, u.doubleValue());
+    }
     
     /**
      * Returns a composed {@code BiConsumer} that performs, in sequence, this
@@ -66,12 +75,48 @@ public interface BiConsumer<T, U> {
      *         operation followed by the {@code after} operation
      * @throws NullPointerException if {@code after} is null
      */
-    default BiConsumer<T, U> andThen(BiConsumer<? super T, ? super U> after) {
+    @Override
+    default ObjDoubleConsumer<T> andThen(BiConsumer<? super T, ? super Double> after) {
         Objects.requireNonNull(after);
         
         return (l, r) -> {
             accept(l, r);
             after.accept(l, r);
         };
+    }
+    
+    /**
+     * Partially apply a parameter such that a single param consumer becomes a
+     * no-param runnable.
+     * 
+     * @param t The first parameter to apply.
+     * @param u The second parameter to apply.
+     * @return A partially-applied function.
+     */
+    default Runnable applyPartial(T t, double u) {
+        return () -> accept(t, u);
+    }
+    
+    /**
+     * Performs a partial application, resulting in a consumer that calls this with
+     * its argument and the argument given here.
+     *
+     * @param t the function argument
+     * @return the function result
+     */
+    @Override
+    default DoubleConsumer applyPartialL(T t) {
+        return u -> accept(t, u);
+    }
+    
+    /**
+     * Performs a partial application, resulting in a consumer that calls this with
+     * its argument and the argument given here.
+     *
+     * @param u the function argument
+     * @return the function result
+     */
+    default Consumer<T> applyPartialR(double u) {
+        return t -> accept(t, u);
     }
 }

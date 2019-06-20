@@ -19,26 +19,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package eolu.util.very_incomplete;
+package eolu.util.wip;
 
 import eolu.util.function.Supplier;
 
 /**
- * This is a functional interface which supplies a short.
+ * This is a functional interface which supplies a byte.
  */
 @FunctionalInterface
-public interface ShortSupplier extends Supplier<Short> {
+public interface ByteSupplier extends Supplier<Byte> {
     
     /**
-     * @return The short value of this supplier.
+     * @return The byte value of this supplier.
      */
-    short getAsShort();
+    byte getAsByte();
     
     /**
      * @see java.util.function.Supplier#get()
      */
     @Override
-    default Short get() {
-        return getAsShort();
+    default Byte get() {
+        return getAsByte();
     }
 }

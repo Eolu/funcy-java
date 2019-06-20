@@ -26,49 +26,79 @@ package eolu.util.function;
 import java.util.Objects;
 
 /**
- * Represents a predicate (boolean-valued function) of one argument.
+ * Represents a predicate (boolean-valued function) of two arguments. This is
+ * the two-arity specialization of {@link Predicate}.
  *
  * <p>
  * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #test(Object)}.
+ * functional method is {@link #test(Object, Object)}.
  *
- * @param <T> the type of the input to the predicate
+ * @param <T> the type of the first argument to the predicate
+ * @param <U> the type of the second argument the predicate
  *
+ * @see Predicate
  * @since 1.8
  */
 @FunctionalInterface
-public interface Predicate<T> extends Function<T, Boolean> {
+public interface BiPredicate<T, U> extends BiFunction<T, U, Boolean> {
     
     /**
-     * Evaluates this predicate on the given argument.
+     * Evaluates this predicate on the given arguments.
      *
-     * @param t the input argument
-     * @return {@code true} if the input argument matches the predicate, otherwise
+     * @param t the first input argument
+     * @param u the second input argument
+     * @return {@code true} if the input arguments match the predicate, otherwise
      *         {@code false}
      */
-    boolean test(T t);
+    boolean test(T t, U u);
     
     /**
-     * Applies this function to the given argument.
+     * Applies this function to the given arguments.
+     *
+     * @param t the first function argument
+     * @param u the second function argument
+     * @return the function result
+     */
+    @Override
+    default Boolean apply(T t, U u) {
+        return test(t, u);
+    }
+    
+    /**
+     * Performs a partial application, resulting in a function that calls this with
+     * its argument and the argument given here.
+     *
+     * @param t the first function argument
+     * @param u the second function argument
+     * @return the function result
+     */
+    @Override
+    default BooleanSupplier applyPartial(T t, U u) {
+        return () -> test(t, u);
+    }
+    
+    /**
+     * Performs a partial application, resulting in a function that calls this with
+     * its argument and the argument given here.
      *
      * @param t the function argument
      * @return the function result
      */
     @Override
-    default Boolean apply(T t) {
-        return test(t);
+    default Predicate<U> applyPartialL(T t) {
+        return u -> test(t, u);
     }
     
     /**
-     * Partially apply a parameter such that a single param function becomes a
-     * no-param supplier.
-     * 
-     * @param t The parameter to apply.
-     * @return A partially-applied function.
+     * Performs a partial application, resulting in a function that calls this with
+     * its argument and the argument given here.
+     *
+     * @param u the function argument
+     * @return the function result
      */
     @Override
-    default BooleanSupplier applyPartial(T t) {
-        return () -> test(t);
+    default Predicate<T> applyPartialR(U u) {
+        return t -> test(t, u);
     }
     
     /**
@@ -87,9 +117,22 @@ public interface Predicate<T> extends Function<T, Boolean> {
      *         of this predicate and the {@code other} predicate
      * @throws NullPointerException if other is null
      */
-    default Predicate<T> and(Predicate<? super T> other) {
+    default BiPredicate<T, U> and(BiPredicate<? super T, ? super U> other) {
         Objects.requireNonNull(other);
-        return t -> test(t) && other.test(t);
+        return (T t, U u) -> test(t, u) && other.test(t, u);
+    }
+    
+    /**
+     * Lift a function.
+     * 
+     * @param functor The function to use in lifting.
+     * @return A function that passes the result of fn through a functor to produce
+     *         a lifted function.
+     */
+    @Override
+    default BiPredicate<T, U> map(UnaryOperator<Boolean> functor) {
+        Objects.requireNonNull(functor);
+        return (t, u) -> functor.apply(test(t, u));
     }
     
     /**
@@ -97,8 +140,8 @@ public interface Predicate<T> extends Function<T, Boolean> {
      *
      * @return a predicate that represents the logical negation of this predicate
      */
-    default Predicate<T> negate() {
-        return t -> !test(t);
+    default BiPredicate<T, U> negate() {
+        return (T t, U u) -> !test(t, u);
     }
     
     /**
@@ -116,36 +159,23 @@ public interface Predicate<T> extends Function<T, Boolean> {
      *         of this predicate and the {@code other} predicate
      * @throws NullPointerException if other is null
      */
-    default Predicate<T> or(Predicate<? super T> other) {
+    default BiPredicate<T, U> or(BiPredicate<? super T, ? super U> other) {
         Objects.requireNonNull(other);
-        return t -> test(t) || other.test(t);
-    }
-    
-    /**
-     * Lift a function.
-     * 
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    @Override
-    default Predicate<T> map(UnaryOperator<Boolean> functor) {
-        Objects.requireNonNull(functor);
-        return t -> functor.apply(test(t));
+        return (T t, U u) -> test(t, u) || other.test(t, u);
     }
     
     /**
      * Returns a predicate that tests if two arguments are equal according to
      * {@link Objects#equals(Object, Object)}.
      *
-     * @param <T> the type of arguments to the predicate
-     * @param targetRef the object reference with which to compare for equality,
-     *            which may be {@code null}
+     * @param <T> the first type of arguments to the predicate.
+     * @param <U> the second type of arguments to the predicate.
      * @return a predicate that tests if two arguments are equal according to
      *         {@link Objects#equals(Object, Object)}
      */
-    static <T> Predicate<T> isEqual(Object targetRef) {
-        return (null == targetRef) ? Objects::isNull : object -> targetRef.equals(object);
+    @SuppressWarnings("unlikely-arg-type")
+    static <T, U> BiPredicate<T, U> isEqual() {
+        return Objects::equals;
     }
     
     /**
@@ -162,28 +192,30 @@ public interface Predicate<T> extends Function<T, Boolean> {
      * @since 11
      */
     @SuppressWarnings("unchecked")
-    static <T> Predicate<T> not(Predicate<? super T> target) {
+    static <T, U> BiPredicate<T, U> not(BiPredicate<? super T, ? super U> target) {
         Objects.requireNonNull(target);
-        return (Predicate<T>) target.negate();
+        return (BiPredicate<T, U>) target.negate();
     }
     
     /**
      * Returns a predicate that is always true.
      *
-     * @param <T> the type of arguments to the predicate.
+     * @param <T> the first type of arguments to the predicate.
+     * @param <U> the second type of arguments to the predicate.
      * @return a predicate that is always true.
      */
-    static <T> Predicate<T> alwaysTrue() {
-        return t -> true;
+    static <T, U> BiPredicate<T, U> alwaysTrue() {
+        return (t, u) -> true;
     }
     
     /**
      * Returns a predicate that is always false.
      *
-     * @param <T> the type of arguments to the predicate.
+     * @param <T> the first type of arguments to the predicate.
+     * @param <U> the second type of arguments to the predicate.
      * @return a predicate that is always true.
      */
-    static <T> Predicate<T> alwaysFalse() {
-        return t -> false;
+    static <T, U> BiPredicate<T, U> alwaysFalse() {
+        return (t, u) -> false;
     }
 }

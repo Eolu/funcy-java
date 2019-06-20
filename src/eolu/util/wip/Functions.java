@@ -19,10 +19,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package eolu.util.incomplete;
+package eolu.util.wip;
 
+import eolu.util.function.BiConsumer;
+import eolu.util.function.BiFunction;
+import eolu.util.function.BiPredicate;
+import eolu.util.function.BinaryOperator;
 import eolu.util.function.BooleanSupplier;
 import eolu.util.function.Consumer;
+import eolu.util.function.DoubleBinaryOperator;
 import eolu.util.function.DoubleConsumer;
 import eolu.util.function.DoubleFunction;
 import eolu.util.function.DoublePredicate;
@@ -31,6 +36,7 @@ import eolu.util.function.DoubleToIntFunction;
 import eolu.util.function.DoubleToLongFunction;
 import eolu.util.function.DoubleUnaryOperator;
 import eolu.util.function.Function;
+import eolu.util.function.IntBinaryOperator;
 import eolu.util.function.IntConsumer;
 import eolu.util.function.IntFunction;
 import eolu.util.function.IntPredicate;
@@ -38,6 +44,7 @@ import eolu.util.function.IntSupplier;
 import eolu.util.function.IntToDoubleFunction;
 import eolu.util.function.IntToLongFunction;
 import eolu.util.function.IntUnaryOperator;
+import eolu.util.function.LongBinaryOperator;
 import eolu.util.function.LongConsumer;
 import eolu.util.function.LongFunction;
 import eolu.util.function.LongPredicate;
@@ -45,10 +52,16 @@ import eolu.util.function.LongSupplier;
 import eolu.util.function.LongToDoubleFunction;
 import eolu.util.function.LongToIntFunction;
 import eolu.util.function.LongUnaryOperator;
+import eolu.util.function.ObjDoubleConsumer;
+import eolu.util.function.ObjIntConsumer;
+import eolu.util.function.ObjLongConsumer;
 import eolu.util.function.Predicate;
 import eolu.util.function.Supplier;
+import eolu.util.function.ToDoubleBiFunction;
 import eolu.util.function.ToDoubleFunction;
+import eolu.util.function.ToIntBiFunction;
 import eolu.util.function.ToIntFunction;
+import eolu.util.function.ToLongBiFunction;
 import eolu.util.function.ToLongFunction;
 import eolu.util.function.UnaryOperator;
 

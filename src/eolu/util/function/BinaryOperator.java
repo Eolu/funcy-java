@@ -21,12 +21,10 @@
  * visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package eolu.util.incomplete;
+package eolu.util.function;
 
 import java.util.Comparator;
 import java.util.Objects;
-
-import eolu.util.function.UnaryOperator;
 
 /**
  * Represents an operation upon two operands of the same type, producing a
@@ -46,6 +44,31 @@ import eolu.util.function.UnaryOperator;
  */
 @FunctionalInterface
 public interface BinaryOperator<T> extends BiFunction<T, T, T> {
+    
+    /**
+     * Performs a partial application, resulting in a function that calls this with
+     * its argument and the argument given here.
+     *
+     * @param t the function argument
+     * @return the function result
+     */
+    @Override
+    default UnaryOperator<T> applyPartialL(T t) {
+        return u -> apply(t, u);
+    }
+    
+    /**
+     * Performs a partial application, resulting in a function that calls this with
+     * its argument and the argument given here.
+     *
+     * @param u the function argument
+     * @return the function result
+     */
+    @Override
+    default UnaryOperator<T> applyPartialR(T u) {
+        return t -> apply(t, u);
+    }
+    
     /**
      * Returns a {@link BinaryOperator} which returns the lesser of two elements
      * according to the specified {@code Comparator}.
@@ -74,5 +97,18 @@ public interface BinaryOperator<T> extends BiFunction<T, T, T> {
     public static <T> BinaryOperator<T> maxBy(Comparator<? super T> comparator) {
         Objects.requireNonNull(comparator);
         return (a, b) -> comparator.compare(a, b) >= 0 ? a : b;
+    }
+    
+    /**
+     * Lift a function.
+     * 
+     * @param functor The function to use in lifting.
+     * @return A function that passes the result of fn through a functor to produce
+     *         a lifted function.
+     */
+    @Override
+    default BinaryOperator<T> map(UnaryOperator<T> functor) {
+        Objects.requireNonNull(functor);
+        return (t, u) -> functor.apply(apply(t, u));
     }
 }

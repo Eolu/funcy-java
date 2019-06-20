@@ -19,26 +19,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package eolu.util.very_incomplete;
+package eolu.util.wip;
 
 import eolu.util.function.Supplier;
 
 /**
- * This is a functional interface which supplies a byte.
+ * This is a functional interface which supplies a float.
  */
 @FunctionalInterface
-public interface ByteSupplier extends Supplier<Byte> {
+public interface FloatSupplier extends Supplier<Float> {
     
     /**
-     * @return The byte value of this supplier.
+     * @return The float value of this supplier.
      */
-    byte getAsByte();
+    float getAsFloat();
     
     /**
      * @see java.util.function.Supplier#get()
      */
     @Override
-    default Byte get() {
-        return getAsByte();
+    default Float get() {
+        return getAsFloat();
     }
 }

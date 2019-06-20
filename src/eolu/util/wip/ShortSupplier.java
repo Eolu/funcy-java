@@ -19,26 +19,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package eolu.util.very_incomplete;
+package eolu.util.wip;
 
 import eolu.util.function.Supplier;
 
 /**
- * This is a functional interface which supplies a float.
+ * This is a functional interface which supplies a short.
  */
 @FunctionalInterface
-public interface FloatSupplier extends Supplier<Float> {
+public interface ShortSupplier extends Supplier<Short> {
     
     /**
-     * @return The float value of this supplier.
+     * @return The short value of this supplier.
      */
-    float getAsFloat();
+    short getAsShort();
     
     /**
      * @see java.util.function.Supplier#get()
      */
     @Override
-    default Float get() {
-        return getAsFloat();
+    default Short get() {
+        return getAsShort();
     }
 }
