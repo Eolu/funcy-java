@@ -74,6 +74,48 @@ public interface BiConsumer<T, U> {
     }
     
     /**
+     * Returns a composed {@code BiConsumer} that performs, in sequence, this
+     * operation followed by the {@code after} operation. If performing either
+     * operation throws an exception, it is relayed to the caller of the composed
+     * operation. If performing this operation throws an exception, the
+     * {@code after} operation will not be performed.
+     *
+     * @param after the operation to perform after this operation
+     * @return a composed {@code BiConsumer} that performs in sequence this
+     *         operation followed by the {@code after} operation
+     * @throws NullPointerException if {@code after} is null
+     */
+    default BiConsumer<T, U> andThenL(Consumer<? super T> after) {
+        Objects.requireNonNull(after);
+        
+        return (l, r) -> {
+            accept(l, r);
+            after.accept(l);
+        };
+    }
+    
+    /**
+     * Returns a composed {@code BiConsumer} that performs, in sequence, this
+     * operation followed by the {@code after} operation. If performing either
+     * operation throws an exception, it is relayed to the caller of the composed
+     * operation. If performing this operation throws an exception, the
+     * {@code after} operation will not be performed.
+     *
+     * @param after the operation to perform after this operation
+     * @return a composed {@code BiConsumer} that performs in sequence this
+     *         operation followed by the {@code after} operation
+     * @throws NullPointerException if {@code after} is null
+     */
+    default BiConsumer<T, U> andThenR(Consumer<? super U> after) {
+        Objects.requireNonNull(after);
+        
+        return (l, r) -> {
+            accept(l, r);
+            after.accept(r);
+        };
+    }
+    
+    /**
      * Partially apply a parameter such that a single param consumer becomes a
      * no-param runnable.
      * 

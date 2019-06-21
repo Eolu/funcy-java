@@ -71,6 +71,10 @@ import eolu.util.function.UnaryOperator;
  */
 public class TestingStuff {
     
+    public static void main(String... args) {
+        // Do some testing
+    }
+    
     /**
      * Partially apply a parameter such that a two param consumer becomes a
      * single-param consumer.

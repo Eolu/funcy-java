@@ -23,6 +23,9 @@ package eolu.util.wip;
 
 import java.util.Objects;
 
+import eolu.util.function.BiConsumer;
+import eolu.util.function.Consumer;
+
 /**
  * This class is a consumer that takes three arugments.
  * 
@@ -61,5 +64,213 @@ public interface TriConsumer<T, U, V> {
             accept(l, r, p);
             after.accept(l, r, p);
         };
+    }
+    
+    /**
+     * Returns a composed {@code TriConsumer} that performs, in sequence, this
+     * operation followed by the {@code after} operation. If performing either
+     * operation throws an exception, it is relayed to the caller of the composed
+     * operation. If performing this operation throws an exception, the
+     * {@code after} operation will not be performed.
+     *
+     * @param after the operation to perform after this operation
+     * @return a composed {@code TriConsumer} that performs in sequence this
+     *         operation followed by the {@code after} operation
+     * @throws NullPointerException if {@code after} is null
+     */
+    default TriConsumer<T, U, V> andThenLM(BiConsumer<? super T, ? super U> after) {
+        Objects.requireNonNull(after);
+        
+        return (l, r, p) -> {
+            accept(l, r, p);
+            after.accept(l, r);
+        };
+    }
+    
+    /**
+     * Returns a composed {@code TriConsumer} that performs, in sequence, this
+     * operation followed by the {@code after} operation. If performing either
+     * operation throws an exception, it is relayed to the caller of the composed
+     * operation. If performing this operation throws an exception, the
+     * {@code after} operation will not be performed.
+     *
+     * @param after the operation to perform after this operation
+     * @return a composed {@code TriConsumer} that performs in sequence this
+     *         operation followed by the {@code after} operation
+     * @throws NullPointerException if {@code after} is null
+     */
+    default TriConsumer<T, U, V> andThenLR(BiConsumer<? super T, ? super V> after) {
+        Objects.requireNonNull(after);
+        
+        return (l, r, p) -> {
+            accept(l, r, p);
+            after.accept(l, p);
+        };
+    }
+    
+    /**
+     * Returns a composed {@code TriConsumer} that performs, in sequence, this
+     * operation followed by the {@code after} operation. If performing either
+     * operation throws an exception, it is relayed to the caller of the composed
+     * operation. If performing this operation throws an exception, the
+     * {@code after} operation will not be performed.
+     *
+     * @param after the operation to perform after this operation
+     * @return a composed {@code TriConsumer} that performs in sequence this
+     *         operation followed by the {@code after} operation
+     * @throws NullPointerException if {@code after} is null
+     */
+    default TriConsumer<T, U, V> andThenMR(BiConsumer<? super U, ? super V> after) {
+        Objects.requireNonNull(after);
+        
+        return (l, r, p) -> {
+            accept(l, r, p);
+            after.accept(r, p);
+        };
+    }
+    
+    /**
+     * Returns a composed {@code TriConsumer} that performs, in sequence, this
+     * operation followed by the {@code after} operation. If performing either
+     * operation throws an exception, it is relayed to the caller of the composed
+     * operation. If performing this operation throws an exception, the
+     * {@code after} operation will not be performed.
+     *
+     * @param after the operation to perform after this operation
+     * @return a composed {@code TriConsumer} that performs in sequence this
+     *         operation followed by the {@code after} operation
+     * @throws NullPointerException if {@code after} is null
+     */
+    default TriConsumer<T, U, V> andThenL(Consumer<? super T> after) {
+        Objects.requireNonNull(after);
+        
+        return (l, r, p) -> {
+            accept(l, r, p);
+            after.accept(l);
+        };
+    }
+    
+    /**
+     * Returns a composed {@code TriConsumer} that performs, in sequence, this
+     * operation followed by the {@code after} operation. If performing either
+     * operation throws an exception, it is relayed to the caller of the composed
+     * operation. If performing this operation throws an exception, the
+     * {@code after} operation will not be performed.
+     *
+     * @param after the operation to perform after this operation
+     * @return a composed {@code TriConsumer} that performs in sequence this
+     *         operation followed by the {@code after} operation
+     * @throws NullPointerException if {@code after} is null
+     */
+    default TriConsumer<T, U, V> andThenM(Consumer<? super U> after) {
+        Objects.requireNonNull(after);
+        
+        return (l, r, p) -> {
+            accept(l, r, p);
+            after.accept(r);
+        };
+    }
+    
+    /**
+     * Returns a composed {@code TriConsumer} that performs, in sequence, this
+     * operation followed by the {@code after} operation. If performing either
+     * operation throws an exception, it is relayed to the caller of the composed
+     * operation. If performing this operation throws an exception, the
+     * {@code after} operation will not be performed.
+     *
+     * @param after the operation to perform after this operation
+     * @return a composed {@code TriConsumer} that performs in sequence this
+     *         operation followed by the {@code after} operation
+     * @throws NullPointerException if {@code after} is null
+     */
+    default TriConsumer<T, U, V> andThenR(Consumer<? super V> after) {
+        Objects.requireNonNull(after);
+        
+        return (l, r, p) -> {
+            accept(l, r, p);
+            after.accept(p);
+        };
+    }
+    
+    /**
+     * Performs a partial application, resulting in a function that calls this with
+     * its argument and the argument given here.
+     *
+     * @param t the first function argument
+     * @param u the second function argument
+     * @param v the third function argument
+     * @return the function result
+     */
+    default Runnable applyPartial(T t, U u, V v) {
+        return () -> accept(t, u, v);
+    }
+    
+    /**
+     * Performs a partial application, resulting in a function that calls this with
+     * its argument and the argument given here.
+     *
+     * @param t the first function argument
+     * @param u the second function argument
+     * @return the function result
+     */
+    default Consumer<V> applyPartialLM(T t, U u) {
+        return v -> accept(t, u, v);
+    }
+    
+    /**
+     * Performs a partial application, resulting in a function that calls this with
+     * its argument and the argument given here.
+     *
+     * @param t the first function argument
+     * @param v the third function argument
+     * @return the function result
+     */
+    default Consumer<U> applyPartialLR(T t, V v) {
+        return u -> accept(t, u, v);
+    }
+    
+    /**
+     * Performs a partial application, resulting in a function that calls this with
+     * its argument and the argument given here.
+     *
+     * @param u the second function argument
+     * @param v the third function argument
+     * @return the function result
+     */
+    default Consumer<T> applyPartialMR(U u, V v) {
+        return t -> accept(t, u, v);
+    }
+    
+    /**
+     * Performs a partial application, resulting in a function that calls this with
+     * its argument and the argument given here.
+     *
+     * @param t the first function argument
+     * @return the function result
+     */
+    default BiConsumer<V, U> applyPartialL(T t) {
+        return (v, u) -> accept(t, u, v);
+    }
+    
+    /**
+     * Performs a partial application, resulting in a function that calls this with
+     * its argument and the argument given here.
+     *
+     * @param u the second function argument
+     * @return the function result
+     */
+    default BiConsumer<T, V> applyPartialM(U u) {
+        return (t, v) -> accept(t, u, v);
+    }
+    
+    /**
+     * Performs a partial application, resulting in a function that calls this with
+     * its argument and the argument given here.
+     *
+     * @param v the third function argument
+     * @return the function result
+     */
+    default BiConsumer<T, U> applyPartialR(V v) {
+        return (t, u) -> accept(t, u, v);
     }
 }
