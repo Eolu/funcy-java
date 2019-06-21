@@ -74,25 +74,12 @@ public interface IntSupplier extends Supplier<Integer> {
     
     /**
      * Lift a supplier.
-     * 
-     * @param <R> The new return type.
-     * @param functor The function to use in lifting.
-     * @return A supplier that passes the result of fn through a functor to produce
-     *         a lifted supplier.
-     */
-    default <R> Supplier<R> map(IntFunction<R> functor) {
-        Objects.requireNonNull(functor);
-        return () -> functor.apply(getAsInt());
-    }
-    
-    /**
-     * Lift a supplier.
      *
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default BooleanSupplier map(IntPredicate functor) {
+    default BooleanSupplier predicate(IntPredicate functor) {
         Objects.requireNonNull(functor);
         return () -> functor.test(getAsInt());
     }
@@ -111,12 +98,25 @@ public interface IntSupplier extends Supplier<Integer> {
     
     /**
      * Lift a supplier.
+     * 
+     * @param <R> The new return type.
+     * @param functor The function to use in lifting.
+     * @return A supplier that passes the result of fn through a functor to produce
+     *         a lifted supplier.
+     */
+    default <R> Supplier<R> mapToObj(IntFunction<R> functor) {
+        Objects.requireNonNull(functor);
+        return () -> functor.apply(getAsInt());
+    }
+    
+    /**
+     * Lift a supplier.
      *
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default DoubleSupplier map(IntToDoubleFunction functor) {
+    default DoubleSupplier mapToDouble(IntToDoubleFunction functor) {
         Objects.requireNonNull(functor);
         return () -> functor.applyAsDouble(getAsInt());
     }
@@ -128,7 +128,7 @@ public interface IntSupplier extends Supplier<Integer> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default LongSupplier map(IntToLongFunction functor) {
+    default LongSupplier mapToLong(IntToLongFunction functor) {
         Objects.requireNonNull(functor);
         return () -> functor.applyAsLong(getAsInt());
     }

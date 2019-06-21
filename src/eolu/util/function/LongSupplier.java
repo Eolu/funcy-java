@@ -74,31 +74,6 @@ public interface LongSupplier extends Supplier<Long> {
     
     /**
      * Lift a supplier.
-     * 
-     * @param <R> The new return type.
-     * @param functor The function to use in lifting.
-     * @return A supplier that passes the result of fn through a functor to produce
-     *         a lifted supplier.
-     */
-    default <R> Supplier<R> map(LongFunction<R> functor) {
-        Objects.requireNonNull(functor);
-        return () -> functor.apply(getAsLong());
-    }
-    
-    /**
-     * Lift a supplier.
-     *
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default BooleanSupplier map(LongPredicate functor) {
-        Objects.requireNonNull(functor);
-        return () -> functor.test(getAsLong());
-    }
-    
-    /**
-     * Lift a supplier.
      *
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
@@ -111,12 +86,37 @@ public interface LongSupplier extends Supplier<Long> {
     
     /**
      * Lift a supplier.
+     * 
+     * @param <R> The new return type.
+     * @param functor The function to use in lifting.
+     * @return A supplier that passes the result of fn through a functor to produce
+     *         a lifted supplier.
+     */
+    default <R> Supplier<R> mapToObj(LongFunction<R> functor) {
+        Objects.requireNonNull(functor);
+        return () -> functor.apply(getAsLong());
+    }
+    
+    /**
+     * Lift a supplier.
      *
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default IntSupplier map(LongToIntFunction functor) {
+    default BooleanSupplier mapToPredicate(LongPredicate functor) {
+        Objects.requireNonNull(functor);
+        return () -> functor.test(getAsLong());
+    }
+    
+    /**
+     * Lift a supplier.
+     *
+     * @param functor The function to use in lifting.
+     * @return A function that passes the result of fn through a functor to produce
+     *         a lifted function.
+     */
+    default IntSupplier mapToInt(LongToIntFunction functor) {
         Objects.requireNonNull(functor);
         return () -> functor.applyAsInt(getAsLong());
     }
@@ -128,7 +128,7 @@ public interface LongSupplier extends Supplier<Long> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default DoubleSupplier map(LongToDoubleFunction functor) {
+    default DoubleSupplier mapToDouble(LongToDoubleFunction functor) {
         Objects.requireNonNull(functor);
         return () -> functor.applyAsDouble(getAsLong());
     }

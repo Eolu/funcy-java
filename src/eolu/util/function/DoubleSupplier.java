@@ -74,31 +74,6 @@ public interface DoubleSupplier extends Supplier<Double> {
     
     /**
      * Lift a supplier.
-     * 
-     * @param <R> The new return type.
-     * @param functor The function to use in lifting.
-     * @return A supplier that passes the result of fn through a functor to produce
-     *         a lifted supplier.
-     */
-    default <R> Supplier<R> map(DoubleFunction<R> functor) {
-        Objects.requireNonNull(functor);
-        return () -> functor.apply(getAsDouble());
-    }
-    
-    /**
-     * Lift a supplier.
-     *
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default BooleanSupplier map(DoublePredicate functor) {
-        Objects.requireNonNull(functor);
-        return () -> functor.test(getAsDouble());
-    }
-    
-    /**
-     * Lift a supplier.
      *
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
@@ -111,12 +86,37 @@ public interface DoubleSupplier extends Supplier<Double> {
     
     /**
      * Lift a supplier.
+     * 
+     * @param <R> The new return type.
+     * @param functor The function to use in lifting.
+     * @return A supplier that passes the result of fn through a functor to produce
+     *         a lifted supplier.
+     */
+    default <R> Supplier<R> mapToObj(DoubleFunction<R> functor) {
+        Objects.requireNonNull(functor);
+        return () -> functor.apply(getAsDouble());
+    }
+    
+    /**
+     * Lift a supplier.
      *
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default IntSupplier map(DoubleToIntFunction functor) {
+    default BooleanSupplier mapToBoolean(DoublePredicate functor) {
+        Objects.requireNonNull(functor);
+        return () -> functor.test(getAsDouble());
+    }
+    
+    /**
+     * Lift a supplier.
+     *
+     * @param functor The function to use in lifting.
+     * @return A function that passes the result of fn through a functor to produce
+     *         a lifted function.
+     */
+    default IntSupplier mapToInt(DoubleToIntFunction functor) {
         Objects.requireNonNull(functor);
         return () -> functor.applyAsInt(getAsDouble());
     }
@@ -128,7 +128,7 @@ public interface DoubleSupplier extends Supplier<Double> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default LongSupplier map(DoubleToLongFunction functor) {
+    default LongSupplier mapToLong(DoubleToLongFunction functor) {
         Objects.requireNonNull(functor);
         return () -> functor.applyAsLong(getAsDouble());
     }

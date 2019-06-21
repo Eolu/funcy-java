@@ -87,15 +87,15 @@ public interface LongFunction<R> extends Function<Long, R> {
     
     /**
      * Lift a function.
-     * 
+     *
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
     @Override
-    default LongFunction<R> map(UnaryOperator<R> functor) {
+    default LongPredicate mapToPredicate(Predicate<? super R> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.apply(apply(t));
+        return t -> functor.test(apply(t));
     }
     
     /**
@@ -114,26 +114,13 @@ public interface LongFunction<R> extends Function<Long, R> {
     
     /**
      * Lift a function.
-     *
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    @Override
-    default LongPredicate map(Predicate<? super R> functor) {
-        Objects.requireNonNull(functor);
-        return t -> functor.test(apply(t));
-    }
-    
-    /**
-     * Lift a function.
      * 
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
     @Override
-    default LongUnaryOperator map(ToLongFunction<? super R> functor) {
+    default LongUnaryOperator mapToLong(ToLongFunction<? super R> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsLong(apply(t));
     }
@@ -146,7 +133,7 @@ public interface LongFunction<R> extends Function<Long, R> {
      *         a lifted function.
      */
     @Override
-    default LongToIntFunction map(ToIntFunction<? super R> functor) {
+    default LongToIntFunction mapToInt(ToIntFunction<? super R> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsInt(apply(t));
     }
@@ -159,7 +146,7 @@ public interface LongFunction<R> extends Function<Long, R> {
      *         a lifted function.
      */
     @Override
-    default LongToDoubleFunction map(ToDoubleFunction<? super R> functor) {
+    default LongToDoubleFunction mapToDouble(ToDoubleFunction<? super R> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsDouble(apply(t));
     }

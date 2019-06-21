@@ -124,7 +124,7 @@ public interface DoublePredicate extends Predicate<Double>, DoubleFunction<Boole
      *         a lifted function.
      */
     @Override
-    default DoublePredicate map(UnaryOperator<Boolean> functor) {
+    default DoublePredicate mapToPredicate(Predicate<? super Boolean> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.apply(apply(t));
     }

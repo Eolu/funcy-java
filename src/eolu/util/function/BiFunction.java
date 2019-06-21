@@ -100,6 +100,18 @@ public interface BiFunction<T, U, R> {
     
     /**
      * Lift a function.
+     *
+     * @param functor The function to use in lifting.
+     * @return A function that passes the result of fn through a functor to produce
+     *         a lifted function.
+     */
+    default BiPredicate<T, U> predicate(Predicate<? super R> functor) {
+        Objects.requireNonNull(functor);
+        return (t, u) -> functor.test(apply(t, u));
+    }
+    
+    /**
+     * Lift a function.
      * 
      * @param <S> The return type.
      * @param functor The function to use in lifting.
@@ -113,24 +125,12 @@ public interface BiFunction<T, U, R> {
     
     /**
      * Lift a function.
-     *
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default BiPredicate<T, U> map(Predicate<? super R> functor) {
-        Objects.requireNonNull(functor);
-        return (t, u) -> functor.test(apply(t, u));
-    }
-    
-    /**
-     * Lift a function.
      * 
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default ToDoubleBiFunction<T, U> map(ToDoubleFunction<? super R> functor) {
+    default ToDoubleBiFunction<T, U> mapToDouble(ToDoubleFunction<? super R> functor) {
         Objects.requireNonNull(functor);
         return (t, u) -> functor.applyAsDouble(apply(t, u));
     }
@@ -142,7 +142,7 @@ public interface BiFunction<T, U, R> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default ToIntBiFunction<T, U> map(ToIntFunction<? super R> functor) {
+    default ToIntBiFunction<T, U> mapToInt(ToIntFunction<? super R> functor) {
         Objects.requireNonNull(functor);
         return (t, u) -> functor.applyAsInt(apply(t, u));
     }
@@ -154,20 +154,8 @@ public interface BiFunction<T, U, R> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default ToLongBiFunction<T, U> map(ToLongFunction<? super R> functor) {
+    default ToLongBiFunction<T, U> mapToLong(ToLongFunction<? super R> functor) {
         Objects.requireNonNull(functor);
         return (t, u) -> functor.applyAsLong(apply(t, u));
-    }
-    
-    /**
-     * Lift a function.
-     * 
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default BiFunction<T, U, R> map(UnaryOperator<R> functor) {
-        Objects.requireNonNull(functor);
-        return (t, u) -> functor.apply(apply(t, u));
     }
 }

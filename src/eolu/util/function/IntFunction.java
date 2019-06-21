@@ -87,15 +87,15 @@ public interface IntFunction<R> extends Function<Integer, R> {
     
     /**
      * Lift a function.
-     * 
+     *
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
     @Override
-    default IntFunction<R> map(UnaryOperator<R> functor) {
+    default IntPredicate mapToPredicate(Predicate<? super R> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.apply(apply(t));
+        return t -> functor.test(apply(t));
     }
     
     /**
@@ -114,26 +114,13 @@ public interface IntFunction<R> extends Function<Integer, R> {
     
     /**
      * Lift a function.
-     *
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    @Override
-    default IntPredicate map(Predicate<? super R> functor) {
-        Objects.requireNonNull(functor);
-        return t -> functor.test(apply(t));
-    }
-    
-    /**
-     * Lift a function.
      * 
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
     @Override
-    default IntToDoubleFunction map(ToDoubleFunction<? super R> functor) {
+    default IntToDoubleFunction mapToDouble(ToDoubleFunction<? super R> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsDouble(apply(t));
     }
@@ -146,7 +133,7 @@ public interface IntFunction<R> extends Function<Integer, R> {
      *         a lifted function.
      */
     @Override
-    default IntUnaryOperator map(ToIntFunction<? super R> functor) {
+    default IntUnaryOperator mapToInt(ToIntFunction<? super R> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsInt(apply(t));
     }
@@ -159,7 +146,7 @@ public interface IntFunction<R> extends Function<Integer, R> {
      *         a lifted function.
      */
     @Override
-    default IntToLongFunction map(ToLongFunction<? super R> functor) {
+    default IntToLongFunction mapToLong(ToLongFunction<? super R> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsLong(apply(t));
     }

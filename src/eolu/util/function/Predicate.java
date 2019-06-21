@@ -129,7 +129,7 @@ public interface Predicate<T> extends Function<T, Boolean> {
      *         a lifted function.
      */
     @Override
-    default Predicate<T> map(UnaryOperator<Boolean> functor) {
+    default Predicate<T> mapToPredicate(Predicate<? super Boolean> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.apply(test(t));
     }

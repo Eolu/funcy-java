@@ -116,31 +116,6 @@ public interface ToLongBiFunction<T, U> extends BiFunction<T, U, Long> {
     /**
      * Lift a function.
      * 
-     * @param <S> The return type.
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default <S> BiFunction<T, U, S> map(LongFunction<? extends S> functor) {
-        Objects.requireNonNull(functor);
-        return (t, u) -> functor.apply(applyAsLong(t, u));
-    }
-    
-    /**
-     * Lift a function.
-     *
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default BiPredicate<T, U> map(LongPredicate functor) {
-        Objects.requireNonNull(functor);
-        return (t, u) -> functor.test(applyAsLong(t, u));
-    }
-    
-    /**
-     * Lift a function.
-     * 
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
@@ -153,11 +128,36 @@ public interface ToLongBiFunction<T, U> extends BiFunction<T, U, Long> {
     /**
      * Lift a function.
      * 
+     * @param <S> The return type.
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default ToIntBiFunction<T, U> map(LongToIntFunction functor) {
+    default <S> BiFunction<T, U, S> mapToObj(LongFunction<? extends S> functor) {
+        Objects.requireNonNull(functor);
+        return (t, u) -> functor.apply(applyAsLong(t, u));
+    }
+    
+    /**
+     * Lift a function.
+     *
+     * @param functor The function to use in lifting.
+     * @return A function that passes the result of fn through a functor to produce
+     *         a lifted function.
+     */
+    default BiPredicate<T, U> mapToPredicate(LongPredicate functor) {
+        Objects.requireNonNull(functor);
+        return (t, u) -> functor.test(applyAsLong(t, u));
+    }
+    
+    /**
+     * Lift a function.
+     * 
+     * @param functor The function to use in lifting.
+     * @return A function that passes the result of fn through a functor to produce
+     *         a lifted function.
+     */
+    default ToIntBiFunction<T, U> mapToInt(LongToIntFunction functor) {
         Objects.requireNonNull(functor);
         return (t, u) -> functor.applyAsInt(applyAsLong(t, u));
     }
@@ -169,7 +169,7 @@ public interface ToLongBiFunction<T, U> extends BiFunction<T, U, Long> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default ToDoubleBiFunction<T, U> map(LongToDoubleFunction functor) {
+    default ToDoubleBiFunction<T, U> mapToDouble(LongToDoubleFunction functor) {
         Objects.requireNonNull(functor);
         return (t, u) -> functor.applyAsDouble(applyAsLong(t, u));
     }

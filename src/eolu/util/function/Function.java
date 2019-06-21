@@ -91,7 +91,7 @@ public interface Function<T, R> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default Predicate<T> map(Predicate<? super R> functor) {
+    default Predicate<T> mapToPredicate(Predicate<? super R> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.test(apply(t));
     }
@@ -103,7 +103,7 @@ public interface Function<T, R> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default ToDoubleFunction<T> map(ToDoubleFunction<? super R> functor) {
+    default ToDoubleFunction<T> mapToDouble(ToDoubleFunction<? super R> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsDouble(apply(t));
     }
@@ -115,7 +115,7 @@ public interface Function<T, R> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default ToIntFunction<T> map(ToIntFunction<? super R> functor) {
+    default ToIntFunction<T> mapToInt(ToIntFunction<? super R> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsInt(apply(t));
     }
@@ -127,21 +127,9 @@ public interface Function<T, R> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default ToLongFunction<T> map(ToLongFunction<? super R> functor) {
+    default ToLongFunction<T> mapToLong(ToLongFunction<? super R> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsLong(apply(t));
-    }
-    
-    /**
-     * Lift a function.
-     * 
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default Function<T, R> map(UnaryOperator<R> functor) {
-        Objects.requireNonNull(functor);
-        return t -> functor.apply(apply(t));
     }
     
     /**

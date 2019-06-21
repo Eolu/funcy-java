@@ -114,8 +114,7 @@ public interface DoubleUnaryOperator extends DoubleFunction<Double>, UnaryOperat
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    @Override
-    default <S> DoubleFunction<S> map(DoubleFunction<? extends S> functor) {
+    default <S> DoubleFunction<S> mapToObj(DoubleFunction<? extends S> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.apply(applyAsDouble(t));
     }
@@ -127,8 +126,7 @@ public interface DoubleUnaryOperator extends DoubleFunction<Double>, UnaryOperat
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    @Override
-    default DoublePredicate map(DoublePredicate functor) {
+    default DoublePredicate mapToPredicate(DoublePredicate functor) {
         Objects.requireNonNull(functor);
         return t -> functor.test(applyAsDouble(t));
     }
@@ -140,8 +138,7 @@ public interface DoubleUnaryOperator extends DoubleFunction<Double>, UnaryOperat
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    @Override
-    default DoubleToIntFunction map(DoubleToIntFunction functor) {
+    default DoubleToIntFunction mapToInt(DoubleToIntFunction functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsInt(applyAsDouble(t));
     }
@@ -153,8 +150,7 @@ public interface DoubleUnaryOperator extends DoubleFunction<Double>, UnaryOperat
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    @Override
-    default DoubleToLongFunction map(DoubleToLongFunction functor) {
+    default DoubleToLongFunction mapToLong(DoubleToLongFunction functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsLong(applyAsDouble(t));
     }

@@ -116,31 +116,6 @@ public interface ToIntBiFunction<T, U> extends BiFunction<T, U, Integer> {
     /**
      * Lift a function.
      * 
-     * @param <S> The return type.
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default <S> BiFunction<T, U, S> map(IntFunction<? extends S> functor) {
-        Objects.requireNonNull(functor);
-        return (t, u) -> functor.apply(applyAsInt(t, u));
-    }
-    
-    /**
-     * Lift a function.
-     *
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default BiPredicate<T, U> map(IntPredicate functor) {
-        Objects.requireNonNull(functor);
-        return (t, u) -> functor.test(applyAsInt(t, u));
-    }
-    
-    /**
-     * Lift a function.
-     * 
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
@@ -153,11 +128,36 @@ public interface ToIntBiFunction<T, U> extends BiFunction<T, U, Integer> {
     /**
      * Lift a function.
      * 
+     * @param <S> The return type.
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default ToDoubleBiFunction<T, U> map(IntToDoubleFunction functor) {
+    default <S> BiFunction<T, U, S> mapToObj(IntFunction<? extends S> functor) {
+        Objects.requireNonNull(functor);
+        return (t, u) -> functor.apply(applyAsInt(t, u));
+    }
+    
+    /**
+     * Lift a function.
+     *
+     * @param functor The function to use in lifting.
+     * @return A function that passes the result of fn through a functor to produce
+     *         a lifted function.
+     */
+    default BiPredicate<T, U> mapToPredicate(IntPredicate functor) {
+        Objects.requireNonNull(functor);
+        return (t, u) -> functor.test(applyAsInt(t, u));
+    }
+    
+    /**
+     * Lift a function.
+     * 
+     * @param functor The function to use in lifting.
+     * @return A function that passes the result of fn through a functor to produce
+     *         a lifted function.
+     */
+    default ToDoubleBiFunction<T, U> mapToDouble(IntToDoubleFunction functor) {
         Objects.requireNonNull(functor);
         return (t, u) -> functor.applyAsDouble(applyAsInt(t, u));
     }
@@ -169,7 +169,7 @@ public interface ToIntBiFunction<T, U> extends BiFunction<T, U, Integer> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default ToLongBiFunction<T, U> map(IntToLongFunction functor) {
+    default ToLongBiFunction<T, U> mapToLong(IntToLongFunction functor) {
         Objects.requireNonNull(functor);
         return (t, u) -> functor.applyAsLong(applyAsInt(t, u));
     }

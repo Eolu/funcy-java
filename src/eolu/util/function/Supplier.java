@@ -64,6 +64,18 @@ public interface Supplier<T> {
     
     /**
      * Lift a supplier.
+     *
+     * @param functor The function to use in lifting.
+     * @return A function that passes the result of fn through a functor to produce
+     *         a lifted function.
+     */
+    default BooleanSupplier predicate(Predicate<T> functor) {
+        Objects.requireNonNull(functor);
+        return () -> functor.test(get());
+    }
+    
+    /**
+     * Lift a supplier.
      * 
      * @param <R> The new return type.
      * @param functor The function to use in lifting.
@@ -82,19 +94,7 @@ public interface Supplier<T> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default BooleanSupplier map(Predicate<T> functor) {
-        Objects.requireNonNull(functor);
-        return () -> functor.test(get());
-    }
-    
-    /**
-     * Lift a supplier.
-     *
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default DoubleSupplier map(ToDoubleFunction<T> functor) {
+    default DoubleSupplier mapToDouble(ToDoubleFunction<T> functor) {
         Objects.requireNonNull(functor);
         return () -> functor.applyAsDouble(get());
     }
@@ -106,7 +106,7 @@ public interface Supplier<T> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default IntSupplier map(ToIntFunction<T> functor) {
+    default IntSupplier mapToInt(ToIntFunction<T> functor) {
         Objects.requireNonNull(functor);
         return () -> functor.applyAsInt(get());
     }
@@ -118,7 +118,7 @@ public interface Supplier<T> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default LongSupplier map(ToLongFunction<T> functor) {
+    default LongSupplier mapToLong(ToLongFunction<T> functor) {
         Objects.requireNonNull(functor);
         return () -> functor.applyAsLong(get());
     }

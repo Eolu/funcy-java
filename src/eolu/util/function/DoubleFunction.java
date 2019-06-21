@@ -88,19 +88,6 @@ public interface DoubleFunction<R> extends Function<Double, R> {
     /**
      * Lift a function.
      * 
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    @Override
-    default DoubleFunction<R> map(UnaryOperator<R> functor) {
-        Objects.requireNonNull(functor);
-        return t -> functor.apply(apply(t));
-    }
-    
-    /**
-     * Lift a function.
-     * 
      * @param <S> The return type.
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
@@ -120,7 +107,7 @@ public interface DoubleFunction<R> extends Function<Double, R> {
      *         a lifted function.
      */
     @Override
-    default DoublePredicate map(Predicate<? super R> functor) {
+    default DoublePredicate mapToPredicate(Predicate<? super R> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.test(apply(t));
     }
@@ -133,7 +120,7 @@ public interface DoubleFunction<R> extends Function<Double, R> {
      *         a lifted function.
      */
     @Override
-    default DoubleUnaryOperator map(ToDoubleFunction<? super R> functor) {
+    default DoubleUnaryOperator mapToDouble(ToDoubleFunction<? super R> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsDouble(apply(t));
     }
@@ -146,7 +133,7 @@ public interface DoubleFunction<R> extends Function<Double, R> {
      *         a lifted function.
      */
     @Override
-    default DoubleToIntFunction map(ToIntFunction<? super R> functor) {
+    default DoubleToIntFunction mapToInt(ToIntFunction<? super R> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsInt(apply(t));
     }
@@ -159,7 +146,7 @@ public interface DoubleFunction<R> extends Function<Double, R> {
      *         a lifted function.
      */
     @Override
-    default DoubleToLongFunction map(ToLongFunction<? super R> functor) {
+    default DoubleToLongFunction mapToLong(ToLongFunction<? super R> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsLong(apply(t));
     }

@@ -114,8 +114,7 @@ public interface LongUnaryOperator extends LongFunction<Long>, UnaryOperator<Lon
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    @Override
-    default <S> LongFunction<S> map(LongFunction<? extends S> functor) {
+    default <S> LongFunction<S> mapToObj(LongFunction<? extends S> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.apply(applyAsLong(t));
     }
@@ -127,8 +126,7 @@ public interface LongUnaryOperator extends LongFunction<Long>, UnaryOperator<Lon
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    @Override
-    default LongPredicate map(LongPredicate functor) {
+    default LongPredicate mapToPredicate(LongPredicate functor) {
         Objects.requireNonNull(functor);
         return t -> functor.test(applyAsLong(t));
     }
@@ -140,8 +138,7 @@ public interface LongUnaryOperator extends LongFunction<Long>, UnaryOperator<Lon
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    @Override
-    default LongToDoubleFunction map(LongToDoubleFunction functor) {
+    default LongToDoubleFunction mapToDouble(LongToDoubleFunction functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsDouble(applyAsLong(t));
     }
@@ -153,8 +150,7 @@ public interface LongUnaryOperator extends LongFunction<Long>, UnaryOperator<Lon
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    @Override
-    default LongToIntFunction map(LongToIntFunction functor) {
+    default LongToIntFunction mapToInt(LongToIntFunction functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsInt(applyAsLong(t));
     }

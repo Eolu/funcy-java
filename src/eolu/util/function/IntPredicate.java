@@ -124,7 +124,7 @@ public interface IntPredicate extends Predicate<Integer>, IntFunction<Boolean> {
      *         a lifted function.
      */
     @Override
-    default IntPredicate map(UnaryOperator<Boolean> functor) {
+    default IntPredicate mapToPredicate(Predicate<? super Boolean> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.apply(apply(t));
     }

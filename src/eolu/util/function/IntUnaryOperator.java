@@ -114,8 +114,7 @@ public interface IntUnaryOperator extends IntFunction<Integer>, UnaryOperator<In
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    @Override
-    default <S> IntFunction<S> map(IntFunction<? extends S> functor) {
+    default <S> IntFunction<S> mapToObj(IntFunction<? extends S> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.apply(applyAsInt(t));
     }
@@ -127,8 +126,7 @@ public interface IntUnaryOperator extends IntFunction<Integer>, UnaryOperator<In
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    @Override
-    default IntPredicate map(IntPredicate functor) {
+    default IntPredicate mapToPredicate(IntPredicate functor) {
         Objects.requireNonNull(functor);
         return t -> functor.test(applyAsInt(t));
     }
@@ -140,8 +138,7 @@ public interface IntUnaryOperator extends IntFunction<Integer>, UnaryOperator<In
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    @Override
-    default IntToDoubleFunction map(IntToDoubleFunction functor) {
+    default IntToDoubleFunction mapToDouble(IntToDoubleFunction functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsDouble(applyAsInt(t));
     }
@@ -153,8 +150,7 @@ public interface IntUnaryOperator extends IntFunction<Integer>, UnaryOperator<In
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    @Override
-    default IntToLongFunction map(IntToLongFunction functor) {
+    default IntToLongFunction mapToLong(IntToLongFunction functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsLong(applyAsInt(t));
     }

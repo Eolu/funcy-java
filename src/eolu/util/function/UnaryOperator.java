@@ -49,7 +49,6 @@ public interface UnaryOperator<T> extends Function<T, T> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    @Override
     default UnaryOperator<T> map(UnaryOperator<T> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.apply(apply(t));

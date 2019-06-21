@@ -104,7 +104,7 @@ public interface ToLongFunction<T> extends Function<T, Long> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default <S> Function<T, S> map(LongFunction<? extends S> functor) {
+    default <S> Function<T, S> mapToObj(LongFunction<? extends S> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.apply(applyAsLong(t));
     }
@@ -116,7 +116,7 @@ public interface ToLongFunction<T> extends Function<T, Long> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default Predicate<T> map(LongPredicate functor) {
+    default Predicate<T> mapToPredicate(LongPredicate functor) {
         Objects.requireNonNull(functor);
         return t -> functor.test(applyAsLong(t));
     }
@@ -128,7 +128,7 @@ public interface ToLongFunction<T> extends Function<T, Long> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default ToIntFunction<T> map(LongToIntFunction functor) {
+    default ToIntFunction<T> mapToInt(LongToIntFunction functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsInt(applyAsLong(t));
     }
@@ -140,7 +140,7 @@ public interface ToLongFunction<T> extends Function<T, Long> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default ToDoubleFunction<T> map(LongToDoubleFunction functor) {
+    default ToDoubleFunction<T> mapToDouble(LongToDoubleFunction functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsDouble(applyAsLong(t));
     }

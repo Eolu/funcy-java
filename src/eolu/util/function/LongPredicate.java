@@ -124,7 +124,7 @@ public interface LongPredicate extends Predicate<Long>, LongFunction<Boolean> {
      *         a lifted function.
      */
     @Override
-    default LongPredicate map(UnaryOperator<Boolean> functor) {
+    default LongPredicate mapToPredicate(Predicate<? super Boolean> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.apply(apply(t));
     }

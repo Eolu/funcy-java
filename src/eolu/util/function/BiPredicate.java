@@ -129,7 +129,6 @@ public interface BiPredicate<T, U> extends BiFunction<T, U, Boolean> {
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    @Override
     default BiPredicate<T, U> map(UnaryOperator<Boolean> functor) {
         Objects.requireNonNull(functor);
         return (t, u) -> functor.apply(test(t, u));
