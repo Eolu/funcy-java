@@ -162,16 +162,4 @@ public interface TriFunction<T, U, V, R> {
         Objects.requireNonNull(functor);
         return (t, u, v) -> functor.apply(apply(t, u, v));
     }
-    
-    /**
-     * Lift a function.
-     * 
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default TriFunction<T, U, V, R> map(UnaryOperator<R> functor) {
-        Objects.requireNonNull(functor);
-        return (t, u, v) -> functor.apply(apply(t, u, v));
-    }
 }

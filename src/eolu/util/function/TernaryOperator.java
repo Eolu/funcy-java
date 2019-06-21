@@ -23,8 +23,6 @@
  */
 package eolu.util.function;
 
-import java.util.Objects;
-
 /**
  * Represents an operation upon three operands of the same type, producing a
  * result of the same type as the operands. This is a specialization of
@@ -131,18 +129,5 @@ public interface TernaryOperator<T> extends TriFunction<T, T, T, T> {
     @Override
     default BinaryOperator<T> applyPartialR(T v) {
         return (t, u) -> apply(t, u, v);
-    }
-    
-    /**
-     * Lift a function.
-     * 
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    @Override
-    default TernaryOperator<T> map(UnaryOperator<T> functor) {
-        Objects.requireNonNull(functor);
-        return (t, u, v) -> functor.apply(apply(t, u, v));
     }
 }

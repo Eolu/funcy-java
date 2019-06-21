@@ -21,8 +21,6 @@
  */
 package eolu.util.wip;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 import eolu.util.function.BiConsumer;
 import eolu.util.function.BiFunction;
 import eolu.util.function.BiPredicate;
@@ -66,7 +64,6 @@ import eolu.util.function.ToIntBiFunction;
 import eolu.util.function.ToIntFunction;
 import eolu.util.function.ToLongBiFunction;
 import eolu.util.function.ToLongFunction;
-import eolu.util.function.TriFunction;
 import eolu.util.function.UnaryOperator;
 
 /**
@@ -75,14 +72,33 @@ import eolu.util.function.UnaryOperator;
  */
 public class TestingStuff {
     
+    static final TernaryOperator<Double> MAGNITUDE = TestingStuff::magnitude;
+    static final DoubleSupplier          RANDOM    = Math::random;
+    
     public static void main(String... args) {
         // Do some testing
-        AtomicInteger supp = new AtomicInteger(1);
-        IntSupplier intSupplier = supp::getAndIncrement;
-        DoubleSupplier dSuppler = intSupplier.mapToDouble(i -> (double) i);
-        TernaryOperator<Double> term = (x, y, z) -> Math.pow((x * x) + (y * y) + (z * z), 2);
-        TriFunction<Double, Double, Double, String> sFn = term.map((Function<Double, String>) d -> d.toString());
-        System.out.println(sFn.apply(dSuppler.getAsDouble(), dSuppler.getAsDouble(), dSuppler.getAsDouble()));
+        
+        var customRandom = RANDOM.map(val -> val * 9)
+                                 .map(Math::exp)
+                                 .map(val -> val - 457)
+                                 .map(Math::round)
+                                 .map(val -> val / 2)
+                                 .map(val -> val + 10000);
+        
+        MAGNITUDE.applyPartialL(customRandom.getAsDouble())
+                 .applyPartialR(customRandom.getAsDouble())
+                 .applyPartial(customRandom.getAsDouble())
+                 .map(l -> 7 * l)
+                 .map(l -> l * 100)
+                 .mapToDouble(l -> l * 0.001)
+                 .map(Object::toString)
+                 .consume(System.out::println)
+                 .run();
+    }
+    
+    // A magnitude function
+    private static final double magnitude(double x, double y, double z) {
+        return (long) Math.sqrt((x * x) + (y * y) + (z * z));
     }
     
     /**
