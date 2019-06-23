@@ -79,7 +79,7 @@ public interface Runnable extends java.lang.Runnable {
     }
     
     /**
-     * @param times The number of times to loop.
+     * @param terminationCondition The condition upon which to terminate.
      * @return A version of this Runnable that calls the {@link #run} method
      *         repeatedly until the given BooleanSupplier returns false. If the
      *         BooleanSupplier returns false on its initial test, the {@link #run}
