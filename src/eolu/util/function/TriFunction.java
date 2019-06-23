@@ -25,8 +25,6 @@ package eolu.util.function;
 
 import java.util.Objects;
 
-import eolu.util.wip.TriConsumer;
-
 /**
  * Represents a function that accepts three arguments and produces a result.
  * This is the three-arity specialization of {@link Function}.

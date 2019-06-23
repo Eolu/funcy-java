@@ -19,12 +19,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package eolu.util.wip;
+package eolu.util.function;
 
 import java.util.Objects;
-
-import eolu.util.function.BiConsumer;
-import eolu.util.function.Consumer;
 
 /**
  * This class is a consumer that takes three arugments.
