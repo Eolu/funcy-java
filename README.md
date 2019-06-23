@@ -115,6 +115,4 @@ Runnable msgPrint = random.consume(s -> System.out.println(s));
 -- 8.746834316796035!!!
 ```
 
-There's also a utility class called Functions with function constants for the
-basic operators, casting, and some things from that Math package as functional
-interfaces. I'll add to this as it makes sense.
+There's also a utility class called Functions with various useful functions.

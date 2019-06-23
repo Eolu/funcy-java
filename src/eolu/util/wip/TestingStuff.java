@@ -21,8 +21,6 @@
  */
 package eolu.util.wip;
 
-import static eolu.util.function.Functions.CAST_DOUBLE_TO_INT;
-
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +30,7 @@ import eolu.util.function.BiConsumer;
 import eolu.util.function.DoubleBinaryOperator;
 import eolu.util.function.DoubleFunction;
 import eolu.util.function.DoubleSupplier;
-import eolu.util.function.ToDoubleFunction;
+import eolu.util.function.ToIntFunction;
 
 /**
  * This class contains various tests and showcase code.
@@ -40,36 +38,36 @@ import eolu.util.function.ToDoubleFunction;
 public class TestingStuff {
     
     static final int                             TEST_ITERATIONS = 100000;
-    static final ToDoubleFunction<List<Long>>    AVERAGE_LIST    = c -> c.stream().mapToLong(l -> l).average().orElse(0d);
+    static final ToIntFunction<List<Integer>>    SUM_LIST        = c -> c.stream().mapToInt(i -> i).sum();
     static final DoubleBinaryOperator            MAGNITUDE       = (x, y) -> Math.sqrt((x * x) + (y * y));
     static final DoubleFunction<String>          FORMAT_D2       = d -> String.format("%.2f", d);
     static final BiConsumer<PrintStream, String> PRINTLN         = PrintStream::println;
-    static final DoubleSupplier                  RANDOM          = Math::random;
-    static final DoubleSupplier                  CUSTOM_RANDOM   = RANDOM.map(val -> val * 9)
-                                                                         .map(Math::exp)
-                                                                         .map(val -> val - 457)
-                                                                         .map(Math::round)
-                                                                         .map(val -> val / 2)
-                                                                         .map(val -> val + 10000);
+    static final DoubleSupplier                  CUSTOM_RANDOM   = ((DoubleSupplier) Math::random).map(val -> val * 9)
+                                                                                                  .map(Math::exp)
+                                                                                                  .map(val -> val - 457)
+                                                                                                  .map(Math::round)
+                                                                                                  .map(val -> val / 2)
+                                                                                                  .map(val -> val + 10000);
     
     public static void main(String... args) {
         double seed = CUSTOM_RANDOM.getAsDouble();
         var toStdOut = PRINTLN.applyPartialL(System.out);
-        List<Long> streams = new ArrayList<>(TEST_ITERATIONS);
-        List<Long> funcs = new ArrayList<>(TEST_ITERATIONS);
-        List<Long> iters = new ArrayList<>(TEST_ITERATIONS);
+        List<Integer> streams = new ArrayList<>(TEST_ITERATIONS);
+        List<Integer> funcs = new ArrayList<>(TEST_ITERATIONS);
+        List<Integer> iters = new ArrayList<>(TEST_ITERATIONS);
+        
+        while (Integer.MAX_VALUE - streams.size() > 0) {
+            System.out.println(Math.random() * 10);
+        }
         
         // Run both tests a bunch of times first to give the JIT compiler time to think
-        for (int i = 0; i < 1000; i++) {
-            streams.add(streamTest(seed) / 1000000L);
-            funcs.add(funcTest(seed) / 1000000L);
-            iters.add(iterTest(seed) / 1000000L);
-            
-            toStdOut.accept("\n --- Total Attempts: " + streams.size() + " ---");
-            toStdOut.accept("Streams avg: " + AVERAGE_LIST.mapToInt(CAST_DOUBLE_TO_INT).applyAsInt(streams) + " ms");
-            toStdOut.accept("Functions avg: " + AVERAGE_LIST.mapToInt(CAST_DOUBLE_TO_INT).applyAsInt(funcs) + " ms");
-            toStdOut.accept("Iteration avg: " + AVERAGE_LIST.mapToInt(CAST_DOUBLE_TO_INT).applyAsInt(iters) + " ms");
+        for (int i = 0; i < TEST_ITERATIONS / 1000; i++) {
+            toStdOut.accept("Running test " + i + " of " + (TEST_ITERATIONS / 1000));
+            streams.add(streamTest(seed).size());
+            funcs.add(funcTest(seed).size());
+            iters.add(iterTest(seed).size());
         }
+        toStdOut.accept("\n --- Total Iterations: " + SUM_LIST.applyAsInt(streams) + " --- \n");
         
         // Do one more to show off the result
         CUSTOM_RANDOM.map(MAGNITUDE.applyPartialL(seed))
@@ -88,12 +86,8 @@ public class TestingStuff {
      * 
      * @return The time it took to run, in nanoseconds.
      */
-    private static long streamTest(double seed) {
+    private static List<String> streamTest(double seed) {
         List<String> container = new ArrayList<>(TEST_ITERATIONS);
-        long start;
-        long end;
-        start = System.nanoTime();
-        
         // Perform the actual computation
         DoubleStream.generate(CUSTOM_RANDOM)
                     .map(MAGNITUDE.applyPartialL(seed))
@@ -104,9 +98,7 @@ public class TestingStuff {
                     .map(s -> "Wow, " + s + " is quite a number!")
                     .limit(TEST_ITERATIONS)
                     .forEach(container::add);
-        
-        end = System.nanoTime();
-        return end - start;
+        return container;
     }
     
     /**
@@ -115,12 +107,8 @@ public class TestingStuff {
      * 
      * @return The time it took to run, in nanoseconds.
      */
-    private static long funcTest(double seed) {
+    private static List<String> funcTest(double seed) {
         List<String> container = new ArrayList<>(TEST_ITERATIONS);
-        long start;
-        long end;
-        start = System.nanoTime();
-        
         // Perform the actual computation
         CUSTOM_RANDOM.map(MAGNITUDE.applyPartialL(seed))
                      .map(d -> 7 * d)
@@ -131,9 +119,7 @@ public class TestingStuff {
                      .consume(container::add)
                      .loopFor(TEST_ITERATIONS)
                      .run();
-        
-        end = System.nanoTime();
-        return end - start;
+        return container;
     }
     
     /**
@@ -142,12 +128,8 @@ public class TestingStuff {
      * 
      * @return The time it took to run, in nanoseconds.
      */
-    private static long iterTest(double seed) {
+    private static List<String> iterTest(double seed) {
         List<String> container = new ArrayList<>(TEST_ITERATIONS);
-        long start;
-        long end;
-        start = System.nanoTime();
-        
         // Perform the actual computation
         for (int i = 0; i < TEST_ITERATIONS; i++) {
             double d = MAGNITUDE.applyAsDouble(seed, CUSTOM_RANDOM.get());
@@ -158,8 +140,6 @@ public class TestingStuff {
             s = "Wow, " + s + " is quite a number!";
             container.add(s);
         }
-        
-        end = System.nanoTime();
-        return end - start;
+        return container;
     }
 }

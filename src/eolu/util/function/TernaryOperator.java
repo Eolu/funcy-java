@@ -35,7 +35,6 @@ package eolu.util.function;
  *
  * @param <T> the type of the operands and result of the operator
  *
- * @see TryFunction
  * @see BinaryOperator
  * @since 1.8
  */
