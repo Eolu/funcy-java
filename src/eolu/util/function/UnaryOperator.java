@@ -40,7 +40,7 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface UnaryOperator<T> extends Function<T, T> {
+public interface UnaryOperator<T> extends Function<T, T>, java.util.function.UnaryOperator<T> {
     
     /**
      * Lift a function.

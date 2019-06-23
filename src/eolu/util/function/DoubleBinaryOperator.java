@@ -39,7 +39,7 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface DoubleBinaryOperator extends BinaryOperator<Double> {
+public interface DoubleBinaryOperator extends BinaryOperator<Double>, java.util.function.DoubleBinaryOperator {
     
     /**
      * Applies this operator to the given operands.
@@ -48,6 +48,7 @@ public interface DoubleBinaryOperator extends BinaryOperator<Double> {
      * @param right the second operand
      * @return the operator result
      */
+    @Override
     double applyAsDouble(double left, double right);
     
     /**

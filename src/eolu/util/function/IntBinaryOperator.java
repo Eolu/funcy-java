@@ -39,7 +39,7 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface IntBinaryOperator extends BinaryOperator<Integer> {
+public interface IntBinaryOperator extends BinaryOperator<Integer>, java.util.function.IntBinaryOperator {
     
     /**
      * Applies this operator to the given operands.
@@ -48,6 +48,7 @@ public interface IntBinaryOperator extends BinaryOperator<Integer> {
      * @param right the second operand
      * @return the operator result
      */
+    @Override
     int applyAsInt(int left, int right);
     
     /**

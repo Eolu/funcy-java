@@ -36,7 +36,7 @@ package eolu.util.function;
  * @since 1.8
  */
 @FunctionalInterface
-public interface IntToDoubleFunction extends IntFunction<Double>, ToDoubleFunction<Integer> {
+public interface IntToDoubleFunction extends IntFunction<Double>, ToDoubleFunction<Integer>, java.util.function.IntToDoubleFunction {
     
     /**
      * Applies this function to the given argument.
@@ -44,6 +44,7 @@ public interface IntToDoubleFunction extends IntFunction<Double>, ToDoubleFuncti
      * @param value the function argument
      * @return the function result
      */
+    @Override
     double applyAsDouble(int value);
     
     /**

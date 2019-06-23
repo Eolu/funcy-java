@@ -39,7 +39,7 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface ToIntFunction<T> extends Function<T, Integer> {
+public interface ToIntFunction<T> extends Function<T, Integer>, java.util.function.ToIntFunction<T> {
     
     /**
      * Applies this function to the given argument.
@@ -47,6 +47,7 @@ public interface ToIntFunction<T> extends Function<T, Integer> {
      * @param value the function argument
      * @return the function result
      */
+    @Override
     int applyAsInt(T value);
     
     /**

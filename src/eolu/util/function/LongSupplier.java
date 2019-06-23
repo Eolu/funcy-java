@@ -41,13 +41,14 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface LongSupplier extends Supplier<Long> {
+public interface LongSupplier extends Supplier<Long>, java.util.function.LongSupplier {
     
     /**
      * Gets a result.
      *
      * @return a result
      */
+    @Override
     long getAsLong();
     
     /**

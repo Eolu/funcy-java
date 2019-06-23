@@ -41,7 +41,7 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface BiFunction<T, U, R> {
+public interface BiFunction<T, U, R> extends java.util.function.BiFunction<T, U, R> {
     
     /**
      * Applies this function to the given arguments.
@@ -50,6 +50,7 @@ public interface BiFunction<T, U, R> {
      * @param u the second function argument
      * @return the function result
      */
+    @Override
     R apply(T t, U u);
     
     /**

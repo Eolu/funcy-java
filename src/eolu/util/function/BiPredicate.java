@@ -40,7 +40,7 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface BiPredicate<T, U> extends BiFunction<T, U, Boolean> {
+public interface BiPredicate<T, U> extends BiFunction<T, U, Boolean>, java.util.function.BiPredicate<T, U> {
     
     /**
      * Evaluates this predicate on the given arguments.
@@ -50,6 +50,7 @@ public interface BiPredicate<T, U> extends BiFunction<T, U, Boolean> {
      * @return {@code true} if the input arguments match the predicate, otherwise
      *         {@code false}
      */
+    @Override
     boolean test(T t, U u);
     
     /**
@@ -139,6 +140,7 @@ public interface BiPredicate<T, U> extends BiFunction<T, U, Boolean> {
      *
      * @return a predicate that represents the logical negation of this predicate
      */
+    @Override
     default BiPredicate<T, U> negate() {
         return (T t, U u) -> !test(t, u);
     }

@@ -39,7 +39,7 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface ToDoubleFunction<T> extends Function<T, Double> {
+public interface ToDoubleFunction<T> extends Function<T, Double>, java.util.function.ToDoubleFunction<T> {
     
     /**
      * Applies this function to the given argument.
@@ -47,6 +47,7 @@ public interface ToDoubleFunction<T> extends Function<T, Double> {
      * @param value the function argument
      * @return the function result
      */
+    @Override
     double applyAsDouble(T value);
     
     /**

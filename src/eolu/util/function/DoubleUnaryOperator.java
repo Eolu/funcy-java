@@ -38,7 +38,11 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface DoubleUnaryOperator extends DoubleFunction<Double>, UnaryOperator<Double>, ToDoubleFunction<Double> {
+public interface DoubleUnaryOperator extends
+                                     DoubleFunction<Double>,
+                                     UnaryOperator<Double>,
+                                     ToDoubleFunction<Double>,
+                                     java.util.function.DoubleUnaryOperator {
     
     /**
      * Applies this function to the given argument.
@@ -46,6 +50,7 @@ public interface DoubleUnaryOperator extends DoubleFunction<Double>, UnaryOperat
      * @param value the function argument
      * @return the function result
      */
+    @Override
     double applyAsDouble(double value);
     
     /**
@@ -114,6 +119,7 @@ public interface DoubleUnaryOperator extends DoubleFunction<Double>, UnaryOperat
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
+    @Override
     default <S> DoubleFunction<S> mapToObj(DoubleFunction<? extends S> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.apply(applyAsDouble(t));
@@ -126,6 +132,7 @@ public interface DoubleUnaryOperator extends DoubleFunction<Double>, UnaryOperat
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
+    @Override
     default DoublePredicate mapToPredicate(DoublePredicate functor) {
         Objects.requireNonNull(functor);
         return t -> functor.test(applyAsDouble(t));
@@ -138,6 +145,7 @@ public interface DoubleUnaryOperator extends DoubleFunction<Double>, UnaryOperat
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
+    @Override
     default DoubleToIntFunction mapToInt(DoubleToIntFunction functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsInt(applyAsDouble(t));
@@ -150,6 +158,7 @@ public interface DoubleUnaryOperator extends DoubleFunction<Double>, UnaryOperat
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
+    @Override
     default DoubleToLongFunction mapToLong(DoubleToLongFunction functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsLong(applyAsDouble(t));

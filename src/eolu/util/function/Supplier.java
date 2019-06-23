@@ -41,13 +41,14 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface Supplier<T> {
+public interface Supplier<T> extends java.util.function.Supplier<T> {
     
     /**
      * Gets a result.
      *
      * @return a result
      */
+    @Override
     T get();
     
     /**

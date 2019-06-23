@@ -37,7 +37,7 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface Predicate<T> extends Function<T, Boolean> {
+public interface Predicate<T> extends Function<T, Boolean>, java.util.function.Predicate<T> {
     
     /**
      * Evaluates this predicate on the given argument.
@@ -46,6 +46,7 @@ public interface Predicate<T> extends Function<T, Boolean> {
      * @return {@code true} if the input argument matches the predicate, otherwise
      *         {@code false}
      */
+    @Override
     boolean test(T t);
     
     /**
@@ -97,6 +98,7 @@ public interface Predicate<T> extends Function<T, Boolean> {
      *
      * @return a predicate that represents the logical negation of this predicate
      */
+    @Override
     default Predicate<T> negate() {
         return t -> !test(t);
     }

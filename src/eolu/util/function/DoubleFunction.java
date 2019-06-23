@@ -40,7 +40,7 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface DoubleFunction<R> extends Function<Double, R> {
+public interface DoubleFunction<R> extends Function<Double, R>, java.util.function.DoubleFunction<R> {
     
     /**
      * Applies this function to the given argument.
@@ -48,6 +48,7 @@ public interface DoubleFunction<R> extends Function<Double, R> {
      * @param value the function argument
      * @return the function result
      */
+    @Override
     R apply(double value);
     
     /**

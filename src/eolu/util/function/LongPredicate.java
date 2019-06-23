@@ -38,7 +38,7 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface LongPredicate extends Predicate<Long>, LongFunction<Boolean> {
+public interface LongPredicate extends Predicate<Long>, LongFunction<Boolean>, java.util.function.LongPredicate {
     
     /**
      * Evaluates this predicate on the given argument.
@@ -47,6 +47,7 @@ public interface LongPredicate extends Predicate<Long>, LongFunction<Boolean> {
      * @return {@code true} if the input argument matches the predicate, otherwise
      *         {@code false}
      */
+    @Override
     boolean test(long value);
     
     /**

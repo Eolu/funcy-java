@@ -38,7 +38,7 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface Function<T, R> {
+public interface Function<T, R> extends java.util.function.Function<T, R> {
     
     /**
      * Applies this function to the given argument.
@@ -46,6 +46,7 @@ public interface Function<T, R> {
      * @param t the function argument
      * @return the function result
      */
+    @Override
     R apply(T t);
     
     /**

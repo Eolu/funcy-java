@@ -39,13 +39,14 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface LongConsumer extends Consumer<Long> {
+public interface LongConsumer extends Consumer<Long>, java.util.function.LongConsumer {
     
     /**
      * Performs this operation on the given argument.
      *
      * @param value the input argument
      */
+    @Override
     void accept(long value);
     
     /**

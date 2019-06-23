@@ -41,13 +41,14 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface IntSupplier extends Supplier<Integer> {
+public interface IntSupplier extends Supplier<Integer>, java.util.function.IntSupplier {
     
     /**
      * Gets a result.
      *
      * @return a result
      */
+    @Override
     int getAsInt();
     
     /**

@@ -40,7 +40,7 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface LongFunction<R> extends Function<Long, R> {
+public interface LongFunction<R> extends Function<Long, R>, java.util.function.LongFunction<R> {
     
     /**
      * Applies this function to the given argument.
@@ -48,6 +48,7 @@ public interface LongFunction<R> extends Function<Long, R> {
      * @param value the function argument
      * @return the function result
      */
+    @Override
     R apply(long value);
     
     /**

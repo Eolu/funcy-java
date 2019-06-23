@@ -39,7 +39,7 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface ToLongFunction<T> extends Function<T, Long> {
+public interface ToLongFunction<T> extends Function<T, Long>, java.util.function.ToLongFunction<T> {
     
     /**
      * Applies this function to the given argument.
@@ -47,6 +47,7 @@ public interface ToLongFunction<T> extends Function<T, Long> {
      * @param value the function argument
      * @return the function result
      */
+    @Override
     long applyAsLong(T value);
     
     /**

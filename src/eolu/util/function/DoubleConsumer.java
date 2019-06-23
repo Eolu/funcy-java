@@ -39,13 +39,14 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface DoubleConsumer extends Consumer<Double> {
+public interface DoubleConsumer extends Consumer<Double>, java.util.function.DoubleConsumer {
     
     /**
      * Performs this operation on the given argument.
      *
      * @param value the input argument
      */
+    @Override
     void accept(double value);
     
     /**

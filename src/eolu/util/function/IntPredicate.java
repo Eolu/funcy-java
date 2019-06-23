@@ -38,7 +38,7 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface IntPredicate extends Predicate<Integer>, IntFunction<Boolean> {
+public interface IntPredicate extends Predicate<Integer>, IntFunction<Boolean>, java.util.function.IntPredicate {
     
     /**
      * Evaluates this predicate on the given argument.
@@ -47,6 +47,7 @@ public interface IntPredicate extends Predicate<Integer>, IntFunction<Boolean> {
      * @return {@code true} if the input argument matches the predicate, otherwise
      *         {@code false}
      */
+    @Override
     boolean test(int value);
     
     /**

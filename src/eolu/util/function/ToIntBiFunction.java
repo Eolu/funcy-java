@@ -41,7 +41,7 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface ToIntBiFunction<T, U> extends BiFunction<T, U, Integer> {
+public interface ToIntBiFunction<T, U> extends BiFunction<T, U, Integer>, java.util.function.ToIntBiFunction<T, U> {
     
     /**
      * Applies this function to the given arguments.
@@ -50,6 +50,7 @@ public interface ToIntBiFunction<T, U> extends BiFunction<T, U, Integer> {
      * @param u the second function argument
      * @return the function result
      */
+    @Override
     int applyAsInt(T t, U u);
     
     /**

@@ -41,13 +41,14 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface DoubleSupplier extends Supplier<Double> {
+public interface DoubleSupplier extends Supplier<Double>, java.util.function.DoubleSupplier {
     
     /**
      * Gets a result.
      *
      * @return a result
      */
+    @Override
     double getAsDouble();
     
     /**

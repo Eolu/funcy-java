@@ -42,7 +42,7 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface ObjIntConsumer<T> extends BiConsumer<T, Integer> {
+public interface ObjIntConsumer<T> extends BiConsumer<T, Integer>, java.util.function.ObjIntConsumer<T> {
     
     /**
      * Performs this operation on the given arguments.
@@ -50,6 +50,7 @@ public interface ObjIntConsumer<T> extends BiConsumer<T, Integer> {
      * @param t the first input argument
      * @param value the second input argument
      */
+    @Override
     void accept(T t, int value);
     
     /**

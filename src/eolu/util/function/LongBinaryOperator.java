@@ -39,7 +39,7 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface LongBinaryOperator extends BinaryOperator<Long> {
+public interface LongBinaryOperator extends BinaryOperator<Long>, java.util.function.LongBinaryOperator {
     
     /**
      * Applies this operator to the given operands.
@@ -48,6 +48,7 @@ public interface LongBinaryOperator extends BinaryOperator<Long> {
      * @param right the second operand
      * @return the operator result
      */
+    @Override
     long applyAsLong(long left, long right);
     
     /**

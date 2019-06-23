@@ -36,7 +36,7 @@ package eolu.util.function;
  * @since 1.8
  */
 @FunctionalInterface
-public interface DoubleToLongFunction extends DoubleFunction<Long>, ToLongFunction<Double> {
+public interface DoubleToLongFunction extends DoubleFunction<Long>, ToLongFunction<Double>, java.util.function.DoubleToLongFunction {
     
     /**
      * Applies this function to the given argument.
@@ -44,6 +44,7 @@ public interface DoubleToLongFunction extends DoubleFunction<Long>, ToLongFuncti
      * @param value the function argument
      * @return the function result
      */
+    @Override
     long applyAsLong(double value);
     
     /**

@@ -39,13 +39,14 @@ package eolu.util.function;
  * @since 1.8
  */
 @FunctionalInterface
-public interface BooleanSupplier extends Supplier<Boolean> {
+public interface BooleanSupplier extends Supplier<Boolean>, java.util.function.BooleanSupplier {
     
     /**
      * Gets a result.
      *
      * @return a result
      */
+    @Override
     boolean getAsBoolean();
     
     /**

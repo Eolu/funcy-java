@@ -43,7 +43,7 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface BinaryOperator<T> extends BiFunction<T, T, T> {
+public interface BinaryOperator<T> extends BiFunction<T, T, T>, java.util.function.BinaryOperator<T> {
     
     /**
      * Performs a partial application, resulting in a function that calls this with

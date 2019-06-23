@@ -39,13 +39,14 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface IntConsumer extends Consumer<Integer> {
+public interface IntConsumer extends Consumer<Integer>, java.util.function.IntConsumer {
     
     /**
      * Performs this operation on the given argument.
      *
      * @param value the input argument
      */
+    @Override
     void accept(int value);
     
     /**

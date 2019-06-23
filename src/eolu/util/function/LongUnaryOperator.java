@@ -38,7 +38,11 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface LongUnaryOperator extends LongFunction<Long>, UnaryOperator<Long>, ToLongFunction<Long> {
+public interface LongUnaryOperator extends
+                                   LongFunction<Long>,
+                                   UnaryOperator<Long>,
+                                   ToLongFunction<Long>,
+                                   java.util.function.LongUnaryOperator {
     
     /**
      * Applies this operator to the given operand.
@@ -46,6 +50,7 @@ public interface LongUnaryOperator extends LongFunction<Long>, UnaryOperator<Lon
      * @param operand the operand
      * @return the operator result
      */
+    @Override
     long applyAsLong(long operand);
     
     /**
@@ -114,6 +119,7 @@ public interface LongUnaryOperator extends LongFunction<Long>, UnaryOperator<Lon
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
+    @Override
     default <S> LongFunction<S> mapToObj(LongFunction<? extends S> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.apply(applyAsLong(t));
@@ -126,6 +132,7 @@ public interface LongUnaryOperator extends LongFunction<Long>, UnaryOperator<Lon
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
+    @Override
     default LongPredicate mapToPredicate(LongPredicate functor) {
         Objects.requireNonNull(functor);
         return t -> functor.test(applyAsLong(t));
@@ -138,6 +145,7 @@ public interface LongUnaryOperator extends LongFunction<Long>, UnaryOperator<Lon
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
+    @Override
     default LongToDoubleFunction mapToDouble(LongToDoubleFunction functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsDouble(applyAsLong(t));
@@ -150,6 +158,7 @@ public interface LongUnaryOperator extends LongFunction<Long>, UnaryOperator<Lon
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
+    @Override
     default LongToIntFunction mapToInt(LongToIntFunction functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsInt(applyAsLong(t));

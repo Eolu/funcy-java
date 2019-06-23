@@ -41,7 +41,7 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface ToLongBiFunction<T, U> extends BiFunction<T, U, Long> {
+public interface ToLongBiFunction<T, U> extends BiFunction<T, U, Long>, java.util.function.ToLongBiFunction<T, U> {
     
     /**
      * Applies this function to the given arguments.
@@ -50,6 +50,7 @@ public interface ToLongBiFunction<T, U> extends BiFunction<T, U, Long> {
      * @param u the second function argument
      * @return the function result
      */
+    @Override
     long applyAsLong(T t, U u);
     
     /**

@@ -41,7 +41,7 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface ToDoubleBiFunction<T, U> extends BiFunction<T, U, Double> {
+public interface ToDoubleBiFunction<T, U> extends BiFunction<T, U, Double>, java.util.function.ToDoubleBiFunction<T, U> {
     
     /**
      * Applies this function to the given arguments.
@@ -50,6 +50,7 @@ public interface ToDoubleBiFunction<T, U> extends BiFunction<T, U, Double> {
      * @param u the second function argument
      * @return the function result
      */
+    @Override
     double applyAsDouble(T t, U u);
     
     /**

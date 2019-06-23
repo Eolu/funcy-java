@@ -38,7 +38,7 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface DoublePredicate extends Predicate<Double>, DoubleFunction<Boolean> {
+public interface DoublePredicate extends Predicate<Double>, DoubleFunction<Boolean>, java.util.function.DoublePredicate {
     
     /**
      * Evaluates this predicate on the given argument.
@@ -47,6 +47,7 @@ public interface DoublePredicate extends Predicate<Double>, DoubleFunction<Boole
      * @return {@code true} if the input argument matches the predicate, otherwise
      *         {@code false}
      */
+    @Override
     boolean test(double value);
     
     /**

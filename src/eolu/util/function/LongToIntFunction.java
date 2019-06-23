@@ -36,7 +36,7 @@ package eolu.util.function;
  * @since 1.8
  */
 @FunctionalInterface
-public interface LongToIntFunction extends LongFunction<Integer>, ToIntFunction<Long> {
+public interface LongToIntFunction extends LongFunction<Integer>, ToIntFunction<Long>, java.util.function.LongToIntFunction {
     
     /**
      * Applies this function to the given argument.
@@ -44,6 +44,7 @@ public interface LongToIntFunction extends LongFunction<Integer>, ToIntFunction<
      * @param value the function argument
      * @return the function result
      */
+    @Override
     int applyAsInt(long value);
     
     /**
