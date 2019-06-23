@@ -22,7 +22,8 @@ IntUnaryOperator intMinusTwoAbs = i -> Math.abs(i - 2);
 IntPredicate isZero = intMinusTwo.predicate(i -> i == 0);
 
 // And then turn that into an IntFunction<String>.
-IntFunction<String> tellZero = isZero.map(isZero -> isZero ? "ZERO" : "MORE THAN ZERO")
+IntFunction<String> tellZero = isZero.map(isZero -> isZero ? "ZERO" 
+                                                           : "MORE THAN ZERO")
 
 ```
 
@@ -39,7 +40,8 @@ function with less parameters. Here are a few examples:
 
 ```
 // We have a simple int -> String function.
-IntFunction<String> tellZero = i -> i == 0 ? "ZERO" : "MORE THAN ZERO";
+IntFunction<String> tellZero = i -> i == 0 ? "ZERO" 
+                                           : "MORE THAN ZERO";
 
 // Technically we've given this function everything it needs to complete this
 // computation, but that computation won't occur until we call get()
@@ -75,8 +77,35 @@ thanksALot.run();
 -- Mucho Gracias!
 -- Mucho Gracias!
 -- Mucho Gracias!
+-- Mucho Gracias!
 
-// That did
+// We could have done all of these transformations and more in a block:
+printLine.applyPartialR("Muy Bien!")
+         .map(s -> s + "!!")
+         .applyPartial(System.out)
+         .whileTrue(() -> Math.random() > 0.45)
+         .run()
 
+-- Mucho Gracias!
+-- Mucho Gracias!
+
+```
+
+There's also a `consume` function which is very similar to map except it returns
+a non-value-returning functional interface:
+
+```
+
+// A Function can be turned into a Consumer.
+Function<Object, String> toString = Object::toString;
+Consumer<Object> outPrint = toString.consume(s -> System.out.println(s));
+
+// A Supplier can be turned into a Runnable
+DoubleSupplier random = Math::random;
+random = random.map(d -> d * 10);
+Supplier<String> message = random.mapToObj(d -> d + "!!!");
+Runnable msgPrint = random.consume(s -> System.out.println(s));
+
+-- 8.746834316796035!!!
 ```
 
