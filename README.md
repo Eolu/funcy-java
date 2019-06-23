@@ -29,7 +29,7 @@ IntFunction<String> tellZero = isZero.map(isZero -> isZero ? "ZERO"
 
 ```
 
-# inhertiance heirarchy
+# interface inheritance heirarchy
 
 To make sure you can still use these types in places where you need the more
 generic object-versions, the interfaces now follow an inheritance tree. So
@@ -115,3 +115,6 @@ Runnable msgPrint = random.consume(s -> System.out.println(s));
 -- 8.746834316796035!!!
 ```
 
+There's also a utility class called Functions with function constants for the
+basic operators, casting, and some things from that Math package as functional
+interfaces. I'll add to this as it makes sense.
