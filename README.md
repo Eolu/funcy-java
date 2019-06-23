@@ -5,6 +5,8 @@ tools and features. It extends all of the interfaces in the original package to
 ensure compatibility. Most additions are default method additions. Here are the 
 most significant features:
 
+# mapping functions
+
 Functions, Suppliers, and all the rest of the value-returning functional
 interfaces were given mapping methods in the same vein as those used in java 
 streams. So `map`, `mapToInt`, `mapToDouble`, `mapToLong`, `mapToObj` (each 
@@ -27,12 +29,16 @@ IntFunction<String> tellZero = isZero.map(isZero -> isZero ? "ZERO"
 
 ```
 
+# inhertiance heirarchy
+
 To make sure you can still use these types in places where you need the more
 generic object-versions, the interfaces now follow an inheritance tree. So
 a `LongToIntFunction` is also a `Function<Long, Int>`, a `LongFunction<Integer>`
 and a `ToIntFunction<Long>`. You can access the primtive version applyAsInt,
 and the more generic version apply. Calling the generic version will simply call
 the primitive version and let autoboxing take care of the rest.
+
+# functional partial applications
 
 Another set of default methods added are called applyPartial. These let you pass
 in all or some the of arguments that a function accepts to produce a new
