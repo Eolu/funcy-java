@@ -150,6 +150,7 @@ timesTwo.recursive(4).apply(1);
 ```
 
 Under the hood these recursive functions are actually running in for/while
-loops in order to prevent the generation of many stack frames.
+loops in order to prevent the generation of many stack frames. But the end user
+shouldn't notice a difference.
 
 There's also a utility class called Functions with various useful functions.
