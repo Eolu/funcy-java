@@ -34,7 +34,7 @@ IntFunction<String> tellZero = isZero.map(isZero -> isZero ? "ZERO"
 To make sure you can still use these types in places where you need the more
 generic object-versions, the interfaces now follow an inheritance tree. So
 a `LongToIntFunction` is also a `Function<Long, Int>`, a `LongFunction<Integer>`
-and a `ToIntFunction<Long>`. You can access the primtive version applyAsInt,
+and a `ToIntFunction<Long>`. You can access the primitive version applyAsInt,
 and the more generic version apply. Calling the generic version will simply call
 the primitive version and let autoboxing take care of the rest.
 
