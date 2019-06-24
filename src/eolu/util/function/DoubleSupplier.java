@@ -44,6 +44,11 @@ import java.util.Objects;
 public interface DoubleSupplier extends Supplier<Double>, java.util.function.DoubleSupplier {
     
     /**
+     * @see {@link Math#random()}
+     */
+    public static final DoubleSupplier RANDOM = Math::random;
+    
+    /**
      * Gets a result.
      *
      * @return a result

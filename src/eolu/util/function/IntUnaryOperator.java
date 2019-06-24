@@ -45,6 +45,11 @@ public interface IntUnaryOperator extends
                                   java.util.function.IntUnaryOperator {
     
     /**
+     * @see {@link Math#abs(int)}
+     */
+    public static final IntUnaryOperator ABS = Math::abs;
+    
+    /**
      * Applies this operator to the given operand.
      *
      * @param operand the operand

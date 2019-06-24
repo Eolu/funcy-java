@@ -45,6 +45,11 @@ public interface LongUnaryOperator extends
                                    java.util.function.LongUnaryOperator {
     
     /**
+     * @see {@link Math#abs(long)}
+     */
+    public static final LongUnaryOperator ABS = Math::abs;
+    
+    /**
      * Applies this operator to the given operand.
      *
      * @param operand the operand

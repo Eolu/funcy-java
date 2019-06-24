@@ -39,6 +39,11 @@ package eolu.util.function;
 public interface DoubleToIntFunction extends DoubleFunction<Integer>, ToIntFunction<Double>, java.util.function.DoubleToIntFunction {
     
     /**
+     * Cast a double to an int. Fractional values will be truncated.
+     */
+    public static final DoubleToIntFunction CAST = d -> (int) d;
+    
+    /**
      * Applies this function to the given argument.
      *
      * @param value the function argument

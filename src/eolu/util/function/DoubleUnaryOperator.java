@@ -45,6 +45,11 @@ public interface DoubleUnaryOperator extends
                                      java.util.function.DoubleUnaryOperator {
     
     /**
+     * @see {@link Math#abs(double)}
+     */
+    public static final DoubleUnaryOperator ABS = Math::abs;
+    
+    /**
      * Applies this function to the given argument.
      *
      * @param value the function argument

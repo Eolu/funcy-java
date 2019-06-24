@@ -39,6 +39,11 @@ package eolu.util.function;
 public interface IntToLongFunction extends IntFunction<Long>, ToLongFunction<Integer>, java.util.function.IntToLongFunction {
     
     /**
+     * Cast an int to a long.
+     */
+    public static final IntToLongFunction CAST = i -> (long) i;
+    
+    /**
      * Applies this function to the given argument.
      *
      * @param value the function argument

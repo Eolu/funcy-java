@@ -39,6 +39,11 @@ package eolu.util.function;
 public interface IntToDoubleFunction extends IntFunction<Double>, ToDoubleFunction<Integer>, java.util.function.IntToDoubleFunction {
     
     /**
+     * Cast an int to a double.
+     */
+    public static final IntToDoubleFunction CAST = i -> (double) i;
+    
+    /**
      * Applies this function to the given argument.
      *
      * @param value the function argument

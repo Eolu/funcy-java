@@ -39,6 +39,11 @@ package eolu.util.function;
 public interface LongToDoubleFunction extends LongFunction<Double>, ToDoubleFunction<Long>, java.util.function.LongToDoubleFunction {
     
     /**
+     * Cast a long to a double. (Warning: this is a narrowing conversion).
+     */
+    public static final LongToDoubleFunction CAST = l -> (double) l;
+    
+    /**
      * Applies this function to the given argument.
      *
      * @param value the function argument

@@ -42,6 +42,16 @@ import java.util.Objects;
 public interface LongBinaryOperator extends BinaryOperator<Long>, java.util.function.LongBinaryOperator {
     
     /**
+     * Functional version of a long operator.
+     */
+    public static final LongBinaryOperator 
+    ADD           = (a, b) -> a + b,
+    SUBTRACT      = (a, b) -> a - b,
+    MULTIPLY      = (a, b) -> a * b,
+    DIVIDE        = (a, b) -> a / b,
+    MOD           = (a, b) -> a % b;
+    
+    /**
      * Applies this operator to the given operands.
      *
      * @param left the first operand

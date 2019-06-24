@@ -40,6 +40,21 @@ import java.util.Objects;
  */
 @FunctionalInterface
 public interface DoubleBinaryOperator extends BinaryOperator<Double>, java.util.function.DoubleBinaryOperator {
+
+    /**
+     * Functional version of a double operator.
+     */
+    public static final DoubleBinaryOperator 
+    ADD             = (a, b) -> a + b,
+    SUBTRACT        = (a, b) -> a - b,
+    MULTIPLY        = (a, b) -> a * b,
+    DIVIDE          = (a, b) -> a / b,
+    MOD             = (a, b) -> a % b;
+    
+    /**
+     * @see {@link Math#pow()}
+     */
+    public static final DoubleBinaryOperator POW = Math::pow;
     
     /**
      * Applies this operator to the given operands.

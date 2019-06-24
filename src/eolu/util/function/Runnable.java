@@ -187,8 +187,7 @@ public interface Runnable extends java.lang.Runnable {
      */
     default Runnable forever() {
         return () -> {
-            for (;;)
-                run();
+            for (;;) run();
         };
     }
     
@@ -199,8 +198,7 @@ public interface Runnable extends java.lang.Runnable {
      */
     default Runnable loopFor(int times) {
         return () -> {
-            for (int i = 0; i < times; i++)
-                run();
+            for (int i = 0; i < times; i++) run();
         };
     }
     
@@ -214,8 +212,7 @@ public interface Runnable extends java.lang.Runnable {
     default Runnable whileTrue(BooleanSupplier terminationCondition) {
         Objects.requireNonNull(terminationCondition);
         return () -> {
-            while (terminationCondition.getAsBoolean())
-                run();
+            while (terminationCondition.getAsBoolean()) run();
         };
     }
 }

@@ -42,6 +42,16 @@ import java.util.Objects;
 public interface IntBinaryOperator extends BinaryOperator<Integer>, java.util.function.IntBinaryOperator {
     
     /**
+     * Functional version of an int operator.
+     */
+    public static final IntBinaryOperator 
+    ADD          = (a, b) -> a + b,
+    SUBTRACT     = (a, b) -> a - b,
+    MULTIPLY     = (a, b) -> a * b,
+    DIVIDE       = (a, b) -> a / b,
+    MOD          = (a, b) -> a % b;
+    
+    /**
      * Applies this operator to the given operands.
      *
      * @param left the first operand

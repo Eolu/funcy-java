@@ -39,6 +39,16 @@ package eolu.util.function;
 public interface DoubleToLongFunction extends DoubleFunction<Long>, ToLongFunction<Double>, java.util.function.DoubleToLongFunction {
     
     /**
+     * Cast a double to a long. Fractional values will be truncated.
+     */
+    public static final DoubleToLongFunction CAST = d -> (long) d;
+    
+    /**
+     * @see {@link Math#round(double)}
+     */
+    public static final DoubleToLongFunction ROUND = Math::round;
+    
+    /**
      * Applies this function to the given argument.
      *
      * @param value the function argument
