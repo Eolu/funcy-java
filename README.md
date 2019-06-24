@@ -116,4 +116,35 @@ Runnable msgPrint = random.consume(s -> System.out.println(s));
 -- 8.746834316796035!!!
 ```
 
+The `UnaryOperator` classes were given `recurse` functions which (mimic)
+recursively calling themselves with their own result. They also have `recursive`
+functions which return recursive versions of themselves. Check it out:
+
+```
+
+// A simple times two function
+IntUnaryOperator timesTwo = i -> i * 2;
+
+// Can keep returning times two unti lthe first number > 1000
+IntUnaryOperator embiggen = timesTwo.recursive(i -> i < 1000);
+embiggen.apply(2);
+
+-- 1024
+
+// We can also tell it to call recursively some number of times
+timesTwo.recursive(2).apply(1);
+
+-- 4
+
+timesTwo.recursive(3).apply(1);
+
+-- 8
+
+timesTwo.recursive(4).apply(1);
+
+-- 16
+
+
+```
+
 There's also a utility class called Functions with various useful functions.
