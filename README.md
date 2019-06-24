@@ -116,6 +116,8 @@ Runnable msgPrint = random.consume(s -> System.out.println(s));
 -- 8.746834316796035!!!
 ```
 
+# Pseudo-recursion
+
 The `UnaryOperator` classes were given `recurse` functions which (mimic)
 recursively calling themselves with their own result. They also have `recursive`
 functions which return recursive versions of themselves. Check it out:
@@ -146,5 +148,8 @@ timesTwo.recursive(4).apply(1);
 
 
 ```
+
+Under the hood these recursive functions are actually running in for/while
+loops in order to prevent the generation of many stack frames.
 
 There's also a utility class called Functions with various useful functions.
