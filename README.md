@@ -49,9 +49,10 @@ function with less parameters. Here are a few examples:
 IntFunction<String> tellZero = i -> i == 0 ? "ZERO" 
                                            : "MORE THAN ZERO";
 
-// Technically we've given this function everything it needs to complete this
-// computation, but that computation won't occur until we call get()
+// We then call applyPartial like so:
 Supplier<String> howsAboutSeven = tellZero.applyPartial(7);
+// Now technically, we've given this function everything it needs to complete
+// this computation, but that computation won't occur until we call get()
 
 // So let's do it
 String answer = howsAboutSeven.get();
