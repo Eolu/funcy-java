@@ -34,7 +34,7 @@ IntFunction<String> tellZero = isZero.map(isZero -> isZero ? "ZERO"
 To make sure you can still use these types in places where you need the more
 generic object-versions, the interfaces now follow an inheritance tree. So
 a `LongToIntFunction` is also a `Function<Long, Int>`, a `LongFunction<Integer>`
-and a `ToIntFunction<Long>`. You can access the primtive version applyAsInt,
+and a `ToIntFunction<Long>`. You can access the primitive version applyAsInt,
 and the more generic version apply. Calling the generic version will simply call
 the primitive version and let autoboxing take care of the rest.
 
@@ -49,9 +49,10 @@ function with less parameters. Here are a few examples:
 IntFunction<String> tellZero = i -> i == 0 ? "ZERO" 
                                            : "MORE THAN ZERO";
 
-// Technically we've given this function everything it needs to complete this
-// computation, but that computation won't occur until we call get()
+// We then call applyPartial like so:
 Supplier<String> howsAboutSeven = tellZero.applyPartial(7);
+// Now technically, we've given this function everything it needs to complete
+// this computation, but that computation won't occur until we call get()
 
 // So let's do it
 String answer = howsAboutSeven.get();
@@ -115,4 +116,45 @@ Runnable msgPrint = random.consume(s -> System.out.println(s));
 -- 8.746834316796035!!!
 ```
 
-There's also a utility class called Functions with various useful functions.
+# Pseudo-recursion
+
+The `UnaryOperator` classes were given `recurse` functions which (mimic)
+recursively calling themselves with their own result. They also have `recursive`
+functions which return recursive versions of themselves. Check it out:
+
+```
+
+// A simple times two function
+IntUnaryOperator timesTwo = i -> i * 2;
+
+// Can keep returning times two unti lthe first number > 1000
+IntUnaryOperator embiggen = timesTwo.recursive(i -> i < 1000);
+embiggen.apply(2);
+
+-- 1024
+
+// We can also tell it to call recursively some number of times
+timesTwo.recursive(2).apply(1);
+
+-- 4
+
+timesTwo.recursive(3).apply(1);
+
+-- 8
+
+timesTwo.recursive(4).apply(1);
+
+-- 16
+
+
+```
+
+Under the hood these recursive functions are actually running in for/while
+loops in order to prevent the generation of many stack frames. But the end user
+shouldn't notice a difference.
+
+There are also various useful constants added. Functional interface versions of
+the standard operators (add, subtract, multiply, divide, mod) were add to the
+`IntBinaryOperator`, `DoubleBinaryOperator`, and `LongBinaryOperator` interfaces
+along with a few more useful ones in other classes. Ill put a full list up later
+in development.
