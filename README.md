@@ -127,7 +127,7 @@ functions which return recursive versions of themselves. Check it out:
 // A simple times two function
 IntUnaryOperator timesTwo = i -> i * 2;
 
-// Can keep returning times two unti lthe first number > 1000
+// Can keep returning times two until the first number is > 1000
 IntUnaryOperator embiggen = timesTwo.recursive(i -> i < 1000);
 embiggen.apply(2);
 
