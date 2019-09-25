@@ -112,6 +112,7 @@ DoubleSupplier random = Math::random;
 random = random.map(d -> d * 10);
 Supplier<String> message = random.mapToObj(d -> d + "!!!");
 Runnable msgPrint = random.consume(s -> System.out.println(s));
+msgPrint.run();
 
 -- 8.746834316796035!!!
 ```
