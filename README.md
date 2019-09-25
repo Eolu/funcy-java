@@ -65,26 +65,26 @@ System.out.println(answer);
 // interfaces.
 BiConsumer<PrintStream, String> printLine = PrintStream::println;
 Consumer<String> sysOut = printLine.applyPartialL(System.out);
-sysOut.accept("Mucho Gracias!");
+sysOut.accept("Muchas Gracias!");
 
--- Mucho Gracias!
+-- Muchas Gracias!
 
 // We can take it further too:
-Runnable thanksOut = sysOut.applyPartial("Mucho Gracias!");
+Runnable thanksOut = sysOut.applyPartial("Muchas Gracias!");
 thanksOut.run()
 
--- Mucho Gracias!
+-- Muchas Gracias!
 
 // There are additions to the Runnable class as well
 Runnable thanksALot = thanksOut.whileTrue(() -> Math.random() > 0.10);
 thanksALot.run();
 
--- Mucho Gracias!
--- Mucho Gracias!
--- Mucho Gracias!
--- Mucho Gracias!
--- Mucho Gracias!
--- Mucho Gracias!
+-- Muchas Gracias!
+-- Muchas Gracias!
+-- Muchas Gracias!
+-- Muchas Gracias!
+-- Muchas Gracias!
+-- Muchas Gracias!
 
 // We could have done all of these transformations and more in a block:
 printLine.applyPartialR("Muy Bien!")
