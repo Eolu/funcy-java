@@ -93,8 +93,8 @@ printLine.applyPartialR("Muy Bien!")
          .whileTrue(() -> Math.random() > 0.45)
          .run()
 
--- Muy Bien!
--- Muy Bien!
+-- Muy Bien!!!
+-- Muy Bien!!!
 
 ```
 
