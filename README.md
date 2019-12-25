@@ -5,7 +5,7 @@ tools and features. It extends all of the interfaces in the original package to
 ensure compatibility. Most additions are default method additions. Here are the 
 most significant features:
 
-# mapping functions
+# Mapping functions
 
 Functions, Suppliers, and all the rest of the value-returning functional
 interfaces were given mapping methods in the same vein as those used in java 
@@ -29,7 +29,7 @@ IntFunction<String> tellZero = isZero.map(isZero -> isZero ? "ZERO"
 
 ```
 
-# interface inheritance heirarchy
+# Interface inheritance heirarchy
 
 To make sure you can still use these types in places where you need the more
 generic object-versions, the interfaces now follow an inheritance tree. So
@@ -38,7 +38,7 @@ and a `ToIntFunction<Long>`. You can access the primitive version applyAsInt,
 and the more generic version apply. Calling the generic version will simply call
 the primitive version and let autoboxing take care of the rest.
 
-# functional partial applications
+# Functional partial applications
 
 Another set of default methods added are called applyPartial. These let you pass
 in all or some the of arguments that a function accepts to produce a new
@@ -51,7 +51,7 @@ IntFunction<String> tellZero = i -> i == 0 ? "ZERO"
 
 // We then call applyPartial like so:
 Supplier<String> howsAboutSeven = tellZero.applyPartial(7);
-// Now technically, we've given this function everything it needs to complete
+// Technically we've given this function everything it needs to complete
 // this computation, but that computation won't occur until we call get()
 
 // So let's do it
@@ -65,26 +65,26 @@ System.out.println(answer);
 // interfaces.
 BiConsumer<PrintStream, String> printLine = PrintStream::println;
 Consumer<String> sysOut = printLine.applyPartialL(System.out);
-sysOut.accept("Mucho Gracias!");
+sysOut.accept("Muchas Gracias!");
 
--- Mucho Gracias!
+-- Muchas Gracias!
 
 // We can take it further too:
-Runnable thanksOut = sysOut.applyPartial("Mucho Gracias!");
+Runnable thanksOut = sysOut.applyPartial("Muchas Gracias!");
 thanksOut.run()
 
--- Mucho Gracias!
+-- Muchas Gracias!
 
 // There are additions to the Runnable class as well
 Runnable thanksALot = thanksOut.whileTrue(() -> Math.random() > 0.10);
 thanksALot.run();
 
--- Mucho Gracias!
--- Mucho Gracias!
--- Mucho Gracias!
--- Mucho Gracias!
--- Mucho Gracias!
--- Mucho Gracias!
+-- Muchas Gracias!
+-- Muchas Gracias!
+-- Muchas Gracias!
+-- Muchas Gracias!
+-- Muchas Gracias!
+-- Muchas Gracias!
 
 // We could have done all of these transformations and more in a block:
 printLine.applyPartialR("Muy Bien!")
@@ -93,8 +93,8 @@ printLine.applyPartialR("Muy Bien!")
          .whileTrue(() -> Math.random() > 0.45)
          .run()
 
--- Mucho Gracias!
--- Mucho Gracias!
+-- Muy Bien!!!
+-- Muy Bien!!!
 
 ```
 
@@ -112,6 +112,7 @@ DoubleSupplier random = Math::random;
 random = random.map(d -> d * 10);
 Supplier<String> message = random.mapToObj(d -> d + "!!!");
 Runnable msgPrint = random.consume(s -> System.out.println(s));
+msgPrint.run();
 
 -- 8.746834316796035!!!
 ```
@@ -127,7 +128,7 @@ functions which return recursive versions of themselves. Check it out:
 // A simple times two function
 IntUnaryOperator timesTwo = i -> i * 2;
 
-// Can keep returning times two unti lthe first number > 1000
+// Can keep returning times two until the first number is > 1000
 IntUnaryOperator embiggen = timesTwo.recursive(i -> i < 1000);
 embiggen.apply(2);
 
@@ -150,8 +151,7 @@ timesTwo.recursive(4).apply(1);
 ```
 
 Under the hood these recursive functions are actually running in for/while
-loops in order to prevent the generation of many stack frames. But the end user
-shouldn't notice a difference.
+loops in order to prevent the generation of many stack frames.
 
 There are also various useful constants added. Functional interface versions of
 the standard operators (add, subtract, multiply, divide, mod) were add to the
