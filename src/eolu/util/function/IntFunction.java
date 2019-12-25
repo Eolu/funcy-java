@@ -43,6 +43,11 @@ import java.util.Objects;
 public interface IntFunction<R> extends Function<Integer, R>, java.util.function.IntFunction<R> {
     
     /**
+     * @see {@link java.lang.String#valueOf(int)}
+     */
+    public static IntFunction<String> TO_STRING = String::valueOf;
+    
+    /**
      * Applies this function to the given argument.
      *
      * @param value the function argument

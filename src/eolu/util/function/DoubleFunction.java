@@ -43,6 +43,11 @@ import java.util.Objects;
 public interface DoubleFunction<R> extends Function<Double, R>, java.util.function.DoubleFunction<R> {
     
     /**
+     * @see {@link java.lang.String#valueOf(double)}
+     */
+    public static DoubleFunction<String> TO_STRING = String::valueOf;
+    
+    /**
      * Applies this function to the given argument.
      *
      * @param value the function argument

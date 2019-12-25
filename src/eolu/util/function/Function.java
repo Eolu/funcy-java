@@ -41,6 +41,11 @@ import java.util.Objects;
 public interface Function<T, R> extends java.util.function.Function<T, R> {
     
     /**
+     * @see {@link java.util.Objects#toString}
+     */
+    public static Function<?, String> TO_STRING = Objects::toString;
+    
+    /**
      * Applies this function to the given argument.
      *
      * @param t the function argument

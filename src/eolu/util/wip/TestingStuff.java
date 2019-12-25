@@ -56,10 +56,6 @@ public class TestingStuff {
         List<Integer> funcs = new ArrayList<>(TEST_ITERATIONS);
         List<Integer> iters = new ArrayList<>(TEST_ITERATIONS);
         
-        while (Integer.MAX_VALUE - streams.size() > 0) {
-            System.out.println(Math.random() * 10);
-        }
-        
         // Run both tests a bunch of times first to give the JIT compiler time to think
         for (int i = 0; i < TEST_ITERATIONS / 1000; i++) {
             toStdOut.accept("Running test " + i + " of " + (TEST_ITERATIONS / 1000));

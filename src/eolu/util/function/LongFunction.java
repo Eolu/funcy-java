@@ -43,6 +43,11 @@ import java.util.Objects;
 public interface LongFunction<R> extends Function<Long, R>, java.util.function.LongFunction<R> {
     
     /**
+     * @see {@link java.lang.String#valueOf(long)}
+     */
+    public static LongFunction<String> TO_STRING = String::valueOf;
+    
+    /**
      * Applies this function to the given argument.
      *
      * @param value the function argument

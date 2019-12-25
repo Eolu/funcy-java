@@ -42,6 +42,11 @@ import java.util.Objects;
 public interface ToIntFunction<T> extends Function<T, Integer>, java.util.function.ToIntFunction<T> {
     
     /**
+     * @see {@link java.util.Objects#hashCode}
+     */
+    public static final ToIntFunction<?> HASH_CODE = Objects::hashCode;
+    
+    /**
      * Applies this function to the given argument.
      *
      * @param value the function argument
