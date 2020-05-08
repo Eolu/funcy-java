@@ -1,3 +1,4 @@
-module funcyjava {
-    exports eolu.util.function;
+module funcyjava 
+{
+    exports zone.lamprey.function;
 }
