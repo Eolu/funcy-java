@@ -59,10 +59,10 @@ public interface Runnable extends java.lang.Runnable {
      * Like {@link #andThen(Runnable)}, but creates a Supplier.
      * 
      * @param <T> The type to return.
+     * @param <F> The type of supplier to chain.
      * @param after the operation to perform after this operation
      * @return a composed {@code Runnable} that performs in sequence this operation
      *         followed by the {@code after} operation
-     * @see {@link #andThen(Runnable)}
      */
     @SuppressWarnings("unchecked")
     default <T, F extends Supplier<T>> F andThen(F after) {
@@ -77,10 +77,10 @@ public interface Runnable extends java.lang.Runnable {
      * Like {@link #andThen(Runnable)}, but creates a Consumer.
      * 
      * @param <T> The type to accept.
+     * @param <F> The type of consumer to chain.
      * @param after the operation to perform after this operation
      * @return a composed {@code Runnable} that performs in sequence this operation
      *         followed by the {@code after} operation
-     * @see {@link #andThen(Runnable)}
      */
     @SuppressWarnings("unchecked")
     default <T, F extends Consumer<T>> F andThen(F after) {
@@ -94,11 +94,12 @@ public interface Runnable extends java.lang.Runnable {
     /**
      * Like {@link #andThen(Runnable)}, but creates a BiConsumer.
      * 
-     * @param <T> The type to accept.
+     * @param <T> The first type to accept.
+     * @param <U> The second type to accept.
+     * @param <F> The type of BiConsumer to chain.
      * @param after the operation to perform after this operation
      * @return a composed {@code Runnable} that performs in sequence this operation
      *         followed by the {@code after} operation
-     * @see {@link #andThen(Runnable)}
      */
     @SuppressWarnings("unchecked")
     default <T, U, F extends BiConsumer<T, U>> F andThen(F after) {
@@ -112,11 +113,13 @@ public interface Runnable extends java.lang.Runnable {
     /**
      * Like {@link #andThen(Runnable)}, but creates a TriConsumer.
      * 
-     * @param <T> The type to accept.
+     * @param <T> The first type to accept.
+     * @param <U> The second type to accept.
+     * @param <V> The third type to accept.
+     * @param <F> The type of TriConsumer to chain.
      * @param after the operation to perform after this operation
      * @return a composed {@code Runnable} that performs in sequence this operation
      *         followed by the {@code after} operation
-     * @see {@link #andThen(Runnable)}
      */
     @SuppressWarnings("unchecked")
     default <T, U, V, F extends TriConsumer<T, U, V>> F andThen(F after) {
@@ -131,10 +134,11 @@ public interface Runnable extends java.lang.Runnable {
      * Like {@link #andThen(Runnable)}, but creates a Function.
      * 
      * @param <T> The type to accept.
+     * @param <F> The type of function to chain.
+     * @param <R> The type returned by the after function.
      * @param after the operation to perform after this operation
      * @return a composed {@code Runnable} that performs in sequence this operation
      *         followed by the {@code after} operation
-     * @see {@link #andThen(Runnable)}
      */
     @SuppressWarnings("unchecked")
     default <T, R, F extends Function<T, R>> F andThen(F after) {
@@ -148,11 +152,13 @@ public interface Runnable extends java.lang.Runnable {
     /**
      * Like {@link #andThen(Runnable)}, but creates a BiFunction.
      * 
-     * @param <T> The type to accept.
+     * @param <F> The type of function to chain.
+     * @param <T> The first type to accept.
+     * @param <U> The second type to accept.
+     * @param <R> The return type of the after function.
      * @param after the operation to perform after this operation
      * @return a composed {@code Runnable} that performs in sequence this operation
      *         followed by the {@code after} operation
-     * @see {@link #andThen(Runnable)}
      */
     @SuppressWarnings("unchecked")
     default <T, U, R, F extends BiFunction<T, U, R>> F andThen(F after) {
@@ -166,11 +172,14 @@ public interface Runnable extends java.lang.Runnable {
     /**
      * Like {@link #andThen(Runnable)}, but creates a TriFunction.
      * 
-     * @param <T> The type to accept.
+     * @param <F> The type of TriFunction to chain.
+     * @param <T> The first type to apply.
+     * @param <U> The second type to apply.
+     * @param <V> The third type to apply.
+     * @param <R> The return type of the chained function.
      * @param after the operation to perform after this operation
      * @return a composed {@code Runnable} that performs in sequence this operation
      *         followed by the {@code after} operation
-     * @see {@link #andThen(Runnable)}
      */
     @SuppressWarnings("unchecked")
     default <T, U, V, R, F extends TriFunction<T, U, V, R>> F andThen(F after) {

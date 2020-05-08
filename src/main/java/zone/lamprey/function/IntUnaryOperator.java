@@ -26,28 +26,28 @@ package zone.lamprey.function;
 import java.util.Objects;
 
 /**
- * Represents an operation on a single {@code long}-valued operand that produces
- * a {@code long}-valued result. This is the primitive type specialization of
- * {@link UnaryOperator} for {@code long}.
+ * Represents an operation on a single {@code int}-valued operand that produces
+ * an {@code int}-valued result. This is the primitive type specialization of
+ * {@link UnaryOperator} for {@code int}.
  *
  * <p>
  * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #applyAsLong(long)}.
+ * functional method is {@link #applyAsInt(int)}.
  *
  * @see UnaryOperator
  * @since 1.8
  */
 @FunctionalInterface
-public interface LongUnaryOperator extends
-                                   LongFunction<Long>,
-                                   UnaryOperator<Long>,
-                                   ToLongFunction<Long>,
-                                   java.util.function.LongUnaryOperator {
+public interface IntUnaryOperator extends
+                                  IntFunction<Integer>,
+                                  UnaryOperator<Integer>,
+                                  ToIntFunction<Integer>,
+                                  java.util.function.IntUnaryOperator {
     
     /**
-     * @see {@link Math#abs(long)}
+     * Functional interface to {@link Math#abs(int)}
      */
-    public static final LongUnaryOperator ABS = Math::abs;
+    public static final IntUnaryOperator ABS = Math::abs;
     
     /**
      * Applies this operator to the given operand.
@@ -56,7 +56,7 @@ public interface LongUnaryOperator extends
      * @return the operator result
      */
     @Override
-    long applyAsLong(long operand);
+    int applyAsInt(int operand);
     
     /**
      * Applies this function to the given argument.
@@ -65,8 +65,8 @@ public interface LongUnaryOperator extends
      * @return the function result
      */
     @Override
-    default long applyAsLong(Long value) {
-        return applyAsLong(value.longValue());
+    default int applyAsInt(Integer value) {
+        return applyAsInt(value.intValue());
     }
     
     /**
@@ -76,8 +76,8 @@ public interface LongUnaryOperator extends
      * @return the function result
      */
     @Override
-    default Long apply(long value) {
-        return applyAsLong(value);
+    default Integer apply(int value) {
+        return applyAsInt(value);
     }
     
     /**
@@ -87,8 +87,8 @@ public interface LongUnaryOperator extends
      * @return the function result
      */
     @Override
-    default Long apply(Long value) {
-        return applyAsLong(value.longValue());
+    default Integer apply(Integer value) {
+        return applyAsInt(value.intValue());
     }
     
     /**
@@ -99,8 +99,8 @@ public interface LongUnaryOperator extends
      * @return A partially-applied function.
      */
     @Override
-    default LongSupplier applyPartial(long t) {
-        return () -> applyAsLong(t);
+    default IntSupplier applyPartial(int t) {
+        return () -> applyAsInt(t);
     }
     
     /**
@@ -111,9 +111,9 @@ public interface LongUnaryOperator extends
      *         passes the result into the given consumer.
      */
     @Override
-    default LongConsumer consume(LongConsumer consumer) {
+    default IntConsumer consume(IntConsumer consumer) {
         Objects.requireNonNull(consumer);
-        return t -> consumer.accept(applyAsLong(t));
+        return t -> consumer.accept(applyAsInt(t));
     }
     
     /**
@@ -125,9 +125,9 @@ public interface LongUnaryOperator extends
      *         a lifted function.
      */
     @Override
-    default <S> LongFunction<S> mapToObj(LongFunction<? extends S> functor) {
+    default <S> IntFunction<S> mapToObj(IntFunction<? extends S> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.apply(applyAsLong(t));
+        return t -> functor.apply(applyAsInt(t));
     }
     
     /**
@@ -138,9 +138,9 @@ public interface LongUnaryOperator extends
      *         a lifted function.
      */
     @Override
-    default LongPredicate mapToPredicate(LongPredicate functor) {
+    default IntPredicate mapToPredicate(IntPredicate functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.test(applyAsLong(t));
+        return t -> functor.test(applyAsInt(t));
     }
     
     /**
@@ -151,9 +151,9 @@ public interface LongUnaryOperator extends
      *         a lifted function.
      */
     @Override
-    default LongToDoubleFunction mapToDouble(LongToDoubleFunction functor) {
+    default IntToDoubleFunction mapToDouble(IntToDoubleFunction functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.applyAsDouble(applyAsLong(t));
+        return t -> functor.applyAsDouble(applyAsInt(t));
     }
     
     /**
@@ -164,9 +164,9 @@ public interface LongUnaryOperator extends
      *         a lifted function.
      */
     @Override
-    default LongToIntFunction mapToInt(LongToIntFunction functor) {
+    default IntToLongFunction mapToLong(IntToLongFunction functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.applyAsInt(applyAsLong(t));
+        return t -> functor.applyAsLong(applyAsInt(t));
     }
     
     /**
@@ -177,9 +177,9 @@ public interface LongUnaryOperator extends
      *         a lifted function.
      */
     @Override
-    default LongUnaryOperator map(UnaryOperator<Long> functor) {
+    default IntUnaryOperator map(UnaryOperator<Integer> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.apply(applyAsLong(t));
+        return t -> functor.apply(applyAsInt(t));
     }
     
     /**
@@ -191,9 +191,9 @@ public interface LongUnaryOperator extends
      *            terminate.
      * @return The result of the recursive call.
      */
-    default long recurse(long value, LongPredicate terminalCondition) {
+    default int recurse(int value, IntPredicate terminalCondition) {
         while (terminalCondition.test(value))
-            value = applyAsLong(value);
+            value = applyAsInt(value);
         return value;
     }
     
@@ -209,9 +209,9 @@ public interface LongUnaryOperator extends
      *            never be called).
      * @return The result of the recursive call.
      */
-    default long recurse(long value, LongPredicate terminalCondition, int maxDepth) {
+    default int recurse(int value, IntPredicate terminalCondition, int maxDepth) {
         for (int i = 0; i < maxDepth && terminalCondition.test(value); i++)
-            value = applyAsLong(value);
+            value = applyAsInt(value);
         return value;
     }
     
@@ -225,9 +225,9 @@ public interface LongUnaryOperator extends
      *            called).
      * @return The result of the recursive call.
      */
-    default long recurse(long value, int depth) {
+    default int recurse(int value, int depth) {
         for (int i = 0; i < depth; i++)
-            value = applyAsLong(value);
+            value = applyAsInt(value);
         return value;
     }
     
@@ -240,7 +240,7 @@ public interface LongUnaryOperator extends
      * @return A function that will call the given function on its own result a
      *         number of times as specified by the depth parameter.
      */
-    default LongUnaryOperator recursive(LongPredicate terminalCondition) {
+    default IntUnaryOperator recursive(IntPredicate terminalCondition) {
         Objects.requireNonNull(terminalCondition);
         return t -> recurse(t, terminalCondition);
     }
@@ -257,7 +257,7 @@ public interface LongUnaryOperator extends
      * @return A function that will call the given function on its own result a
      *         number of times as specified by the depth parameter.
      */
-    default LongUnaryOperator recursive(LongPredicate terminalCondition, int maxDepth) {
+    default IntUnaryOperator recursive(IntPredicate terminalCondition, int maxDepth) {
         Objects.requireNonNull(terminalCondition);
         return t -> recurse(t, terminalCondition, maxDepth);
     }
@@ -273,7 +273,7 @@ public interface LongUnaryOperator extends
      *         number of times as specified by the depth parameter.
      */
     @Override
-    default LongUnaryOperator recursive(int depth) {
+    default IntUnaryOperator recursive(int depth) {
         return t -> recurse(t, depth);
     }
     
@@ -282,7 +282,7 @@ public interface LongUnaryOperator extends
      *
      * @return a unary operator that always returns its input argument
      */
-    static LongUnaryOperator identity() {
+    static IntUnaryOperator identity() {
         return t -> t;
     }
 }

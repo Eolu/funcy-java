@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it under
@@ -26,125 +26,116 @@ package zone.lamprey.function;
 import java.util.Objects;
 
 /**
- * Represents a function that accepts one argument and produces a result.
+ * Represents a supplier of {@code double}-valued results. This is the
+ * {@code double}-producing primitive specialization of {@link Supplier}.
+ *
+ * <p>
+ * There is no requirement that a distinct result be returned each time the
+ * supplier is invoked.
  *
  * <p>
  * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #apply(Object)}.
+ * functional method is {@link #getAsDouble()}.
  *
- * @param <T> the type of the input to the function
- * @param <R> the type of the result of the function
- *
+ * @see Supplier
  * @since 1.8
  */
 @FunctionalInterface
-public interface Function<T, R> extends java.util.function.Function<T, R> {
+public interface DoubleSupplier extends Supplier<Double>, java.util.function.DoubleSupplier {
     
     /**
-     * @see {@link java.util.Objects#toString}
+     * Functional interface to {@link Math#random()}
      */
-    public static Function<?, String> TO_STRING = Objects::toString;
+    public static final DoubleSupplier RANDOM = Math::random;
     
     /**
-     * Applies this function to the given argument.
+     * Gets a result.
      *
-     * @param t the function argument
-     * @return the function result
+     * @return a result
      */
     @Override
-    R apply(T t);
+    double getAsDouble();
     
     /**
-     * Partially apply a parameter such that a single param function becomes a
-     * no-param supplier.
-     * 
-     * @param t The parameter to apply.
-     * @return A partially-applied function.
+     * Gets a result.
+     *
+     * @return a result
      */
-    default Supplier<? extends R> applyPartial(T t) {
-        return () -> apply(t);
+    @Override
+    default Double get() {
+        return getAsDouble();
     }
     
     /**
-     * Consume a function.
+     * Consume a supplier.
      * 
      * @param consumer The consumer to use in consuming.
-     * @return A Consumer which passes it's argument to this function and then
-     *         passes the result into the given consumer.
+     * @return A Runnable which passes the result of this supplier into the given
+     *         consumer when run.
      */
-    default Consumer<T> consume(Consumer<R> consumer) {
+    default Runnable consume(DoubleConsumer consumer) {
         Objects.requireNonNull(consumer);
-        return t -> consumer.accept(apply(t));
+        return () -> consumer.accept(getAsDouble());
     }
     
     /**
-     * Lift a function.
-     * 
-     * @param <S> The return type.
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default <S> Function<T, S> map(Function<? super R, ? extends S> functor) {
-        Objects.requireNonNull(functor);
-        return t -> functor.apply(apply(t));
-    }
-    
-    /**
-     * Lift a function.
+     * Lift a supplier.
      *
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default Predicate<T> mapToPredicate(Predicate<? super R> functor) {
+    default DoubleSupplier map(DoubleUnaryOperator functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.test(apply(t));
+        return () -> functor.applyAsDouble(getAsDouble());
     }
     
     /**
-     * Lift a function.
+     * Lift a supplier.
      * 
+     * @param <R> The new return type.
      * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
+     * @return A supplier that passes the result of fn through a functor to produce
+     *         a lifted supplier.
      */
-    default ToDoubleFunction<T> mapToDouble(ToDoubleFunction<? super R> functor) {
+    default <R> Supplier<R> mapToObj(DoubleFunction<R> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.applyAsDouble(apply(t));
+        return () -> functor.apply(getAsDouble());
     }
     
     /**
-     * Lift a function.
-     * 
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default ToIntFunction<T> mapToInt(ToIntFunction<? super R> functor) {
-        Objects.requireNonNull(functor);
-        return t -> functor.applyAsInt(apply(t));
-    }
-    
-    /**
-     * Lift a function.
-     * 
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default ToLongFunction<T> mapToLong(ToLongFunction<? super R> functor) {
-        Objects.requireNonNull(functor);
-        return t -> functor.applyAsLong(apply(t));
-    }
-    
-    /**
-     * Returns a function that always returns its input argument.
+     * Lift a supplier.
      *
-     * @param <T> the type of the input and output objects to the function
-     * @return a function that always returns its input argument
+     * @param functor The function to use in lifting.
+     * @return A function that passes the result of fn through a functor to produce
+     *         a lifted function.
      */
-    static <T> Function<T, T> identity() {
-        return t -> t;
+    default BooleanSupplier mapToBoolean(DoublePredicate functor) {
+        Objects.requireNonNull(functor);
+        return () -> functor.test(getAsDouble());
+    }
+    
+    /**
+     * Lift a supplier.
+     *
+     * @param functor The function to use in lifting.
+     * @return A function that passes the result of fn through a functor to produce
+     *         a lifted function.
+     */
+    default IntSupplier mapToInt(DoubleToIntFunction functor) {
+        Objects.requireNonNull(functor);
+        return () -> functor.applyAsInt(getAsDouble());
+    }
+    
+    /**
+     * Lift a supplier.
+     *
+     * @param functor The function to use in lifting.
+     * @return A function that passes the result of fn through a functor to produce
+     *         a lifted function.
+     */
+    default LongSupplier mapToLong(DoubleToLongFunction functor) {
+        Objects.requireNonNull(functor);
+        return () -> functor.applyAsLong(getAsDouble());
     }
 }

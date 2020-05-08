@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it under
@@ -26,34 +26,24 @@ package zone.lamprey.function;
 import java.util.Objects;
 
 /**
- * Represents a function that produces an int-valued result. This is the
- * {@code int}-producing primitive specialization for {@link Function}.
+ * Represents a function that accepts one argument and produces a result.
  *
  * <p>
  * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #applyAsInt(Object)}.
+ * functional method is {@link #apply(Object)}.
  *
  * @param <T> the type of the input to the function
+ * @param <R> the type of the result of the function
  *
- * @see Function
  * @since 1.8
  */
 @FunctionalInterface
-public interface ToIntFunction<T> extends Function<T, Integer>, java.util.function.ToIntFunction<T> {
+public interface Function<T, R> extends java.util.function.Function<T, R> {
     
     /**
-     * @see {@link java.util.Objects#hashCode}
+     * Functional interface to {@link java.util.Objects#toString}
      */
-    public static final ToIntFunction<?> HASH_CODE = Objects::hashCode;
-    
-    /**
-     * Applies this function to the given argument.
-     *
-     * @param value the function argument
-     * @return the function result
-     */
-    @Override
-    int applyAsInt(T value);
+    public static Function<?, String> TO_STRING = Objects::toString;
     
     /**
      * Applies this function to the given argument.
@@ -62,9 +52,7 @@ public interface ToIntFunction<T> extends Function<T, Integer>, java.util.functi
      * @return the function result
      */
     @Override
-    default Integer apply(T t) {
-        return applyAsInt(t);
-    }
+    R apply(T t);
     
     /**
      * Partially apply a parameter such that a single param function becomes a
@@ -73,8 +61,7 @@ public interface ToIntFunction<T> extends Function<T, Integer>, java.util.functi
      * @param t The parameter to apply.
      * @return A partially-applied function.
      */
-    @Override
-    default IntSupplier applyPartial(T t) {
+    default Supplier<? extends R> applyPartial(T t) {
         return () -> apply(t);
     }
     
@@ -85,21 +72,9 @@ public interface ToIntFunction<T> extends Function<T, Integer>, java.util.functi
      * @return A Consumer which passes it's argument to this function and then
      *         passes the result into the given consumer.
      */
-    default Consumer<T> consume(IntConsumer consumer) {
+    default Consumer<T> consume(Consumer<R> consumer) {
         Objects.requireNonNull(consumer);
-        return t -> consumer.accept(applyAsInt(t));
-    }
-    
-    /**
-     * Lift a function.
-     * 
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default ToIntFunction<T> map(IntUnaryOperator functor) {
-        Objects.requireNonNull(functor);
-        return t -> functor.applyAsInt(applyAsInt(t));
+        return t -> consumer.accept(apply(t));
     }
     
     /**
@@ -110,9 +85,9 @@ public interface ToIntFunction<T> extends Function<T, Integer>, java.util.functi
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default <S> Function<T, S> mapToObj(IntFunction<? extends S> functor) {
+    default <S> Function<T, S> map(Function<? super R, ? extends S> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.apply(applyAsInt(t));
+        return t -> functor.apply(apply(t));
     }
     
     /**
@@ -122,9 +97,9 @@ public interface ToIntFunction<T> extends Function<T, Integer>, java.util.functi
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default Predicate<T> mapToPredicate(IntPredicate functor) {
+    default Predicate<T> mapToPredicate(Predicate<? super R> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.test(applyAsInt(t));
+        return t -> functor.test(apply(t));
     }
     
     /**
@@ -134,9 +109,9 @@ public interface ToIntFunction<T> extends Function<T, Integer>, java.util.functi
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default ToDoubleFunction<T> mapToDouble(IntToDoubleFunction functor) {
+    default ToDoubleFunction<T> mapToDouble(ToDoubleFunction<? super R> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.applyAsDouble(applyAsInt(t));
+        return t -> functor.applyAsDouble(apply(t));
     }
     
     /**
@@ -146,8 +121,30 @@ public interface ToIntFunction<T> extends Function<T, Integer>, java.util.functi
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default ToLongFunction<T> mapToLong(IntToLongFunction functor) {
+    default ToIntFunction<T> mapToInt(ToIntFunction<? super R> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.applyAsLong(applyAsInt(t));
+        return t -> functor.applyAsInt(apply(t));
+    }
+    
+    /**
+     * Lift a function.
+     * 
+     * @param functor The function to use in lifting.
+     * @return A function that passes the result of fn through a functor to produce
+     *         a lifted function.
+     */
+    default ToLongFunction<T> mapToLong(ToLongFunction<? super R> functor) {
+        Objects.requireNonNull(functor);
+        return t -> functor.applyAsLong(apply(t));
+    }
+    
+    /**
+     * Returns a function that always returns its input argument.
+     *
+     * @param <T> the type of the input and output objects to the function
+     * @return a function that always returns its input argument
+     */
+    static <T> Function<T, T> identity() {
+        return t -> t;
     }
 }

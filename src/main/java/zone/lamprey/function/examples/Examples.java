@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.stream.DoubleStream;
 
 import zone.lamprey.function.BiConsumer;
+import zone.lamprey.function.Consumer;
 import zone.lamprey.function.DoubleBinaryOperator;
 import zone.lamprey.function.DoubleFunction;
 import zone.lamprey.function.DoubleSupplier;
@@ -51,7 +52,7 @@ public class Examples {
     
     public static void main(String... args) {
         double seed = CUSTOM_RANDOM.getAsDouble();
-        var toStdOut = PRINTLN.applyPartialL(System.out);
+        Consumer<String> toStdOut = PRINTLN.applyPartialL(System.out);
         List<Integer> streams = new ArrayList<>(TEST_ITERATIONS);
         List<Integer> funcs = new ArrayList<>(TEST_ITERATIONS);
         List<Integer> iters = new ArrayList<>(TEST_ITERATIONS);

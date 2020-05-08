@@ -43,7 +43,7 @@ import java.util.Objects;
 public interface DoubleFunction<R> extends Function<Double, R>, java.util.function.DoubleFunction<R> {
     
     /**
-     * @see {@link java.lang.String#valueOf(double)}
+     * Functional interface to {@link java.lang.String#valueOf(double)}
      */
     public static DoubleFunction<String> TO_STRING = String::valueOf;
     

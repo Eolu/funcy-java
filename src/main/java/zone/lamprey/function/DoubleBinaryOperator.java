@@ -52,7 +52,7 @@ public interface DoubleBinaryOperator extends BinaryOperator<Double>, java.util.
     MOD             = (a, b) -> a % b;
     
     /**
-     * @see {@link Math#pow()}
+     * Functional interface to {@link Math#pow}
      */
     public static final DoubleBinaryOperator POW = Math::pow;
     

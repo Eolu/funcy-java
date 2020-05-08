@@ -26,13 +26,13 @@ package zone.lamprey.function;
 import java.util.Objects;
 
 /**
- * Represents a function that accepts an int-valued argument and produces a
- * result. This is the {@code int}-consuming primitive specialization for
+ * Represents a function that accepts a long-valued argument and produces a
+ * result. This is the {@code long}-consuming primitive specialization for
  * {@link Function}.
  *
  * <p>
  * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #apply(int)}.
+ * functional method is {@link #apply(long)}.
  *
  * @param <R> the type of the result of the function
  *
@@ -40,12 +40,12 @@ import java.util.Objects;
  * @since 1.8
  */
 @FunctionalInterface
-public interface IntFunction<R> extends Function<Integer, R>, java.util.function.IntFunction<R> {
+public interface LongFunction<R> extends Function<Long, R>, java.util.function.LongFunction<R> {
     
     /**
-     * @see {@link java.lang.String#valueOf(int)}
+     * Functional interface to {@link java.lang.String#valueOf(long)}
      */
-    public static IntFunction<String> TO_STRING = String::valueOf;
+    public static LongFunction<String> TO_STRING = String::valueOf;
     
     /**
      * Applies this function to the given argument.
@@ -54,7 +54,7 @@ public interface IntFunction<R> extends Function<Integer, R>, java.util.function
      * @return the function result
      */
     @Override
-    R apply(int value);
+    R apply(long value);
     
     /**
      * Applies this function to the given argument.
@@ -63,8 +63,8 @@ public interface IntFunction<R> extends Function<Integer, R>, java.util.function
      * @return the function result
      */
     @Override
-    default R apply(Integer t) {
-        return apply(t.intValue());
+    default R apply(Long t) {
+        return apply(t.longValue());
     }
     
     /**
@@ -74,7 +74,7 @@ public interface IntFunction<R> extends Function<Integer, R>, java.util.function
      * @param t The parameter to apply.
      * @return A partially-applied function.
      */
-    default Supplier<R> applyPartial(int t) {
+    default Supplier<R> applyPartial(long t) {
         return () -> apply(t);
     }
     
@@ -86,7 +86,7 @@ public interface IntFunction<R> extends Function<Integer, R>, java.util.function
      *         passes the result into the given consumer.
      */
     @Override
-    default IntConsumer consume(Consumer<R> consumer) {
+    default LongConsumer consume(Consumer<R> consumer) {
         Objects.requireNonNull(consumer);
         return t -> consumer.accept(apply(t));
     }
@@ -99,7 +99,7 @@ public interface IntFunction<R> extends Function<Integer, R>, java.util.function
      *         a lifted function.
      */
     @Override
-    default IntPredicate mapToPredicate(Predicate<? super R> functor) {
+    default LongPredicate mapToPredicate(Predicate<? super R> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.test(apply(t));
     }
@@ -113,7 +113,7 @@ public interface IntFunction<R> extends Function<Integer, R>, java.util.function
      *         a lifted function.
      */
     @Override
-    default <S> IntFunction<S> map(Function<? super R, ? extends S> functor) {
+    default <S> LongFunction<S> map(Function<? super R, ? extends S> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.apply(apply(t));
     }
@@ -126,9 +126,9 @@ public interface IntFunction<R> extends Function<Integer, R>, java.util.function
      *         a lifted function.
      */
     @Override
-    default IntToDoubleFunction mapToDouble(ToDoubleFunction<? super R> functor) {
+    default LongUnaryOperator mapToLong(ToLongFunction<? super R> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.applyAsDouble(apply(t));
+        return t -> functor.applyAsLong(apply(t));
     }
     
     /**
@@ -139,7 +139,7 @@ public interface IntFunction<R> extends Function<Integer, R>, java.util.function
      *         a lifted function.
      */
     @Override
-    default IntUnaryOperator mapToInt(ToIntFunction<? super R> functor) {
+    default LongToIntFunction mapToInt(ToIntFunction<? super R> functor) {
         Objects.requireNonNull(functor);
         return t -> functor.applyAsInt(apply(t));
     }
@@ -152,9 +152,9 @@ public interface IntFunction<R> extends Function<Integer, R>, java.util.function
      *         a lifted function.
      */
     @Override
-    default IntToLongFunction mapToLong(ToLongFunction<? super R> functor) {
+    default LongToDoubleFunction mapToDouble(ToDoubleFunction<? super R> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.applyAsLong(apply(t));
+        return t -> functor.applyAsDouble(apply(t));
     }
     
     /**
@@ -162,7 +162,7 @@ public interface IntFunction<R> extends Function<Integer, R>, java.util.function
      *
      * @return a unary operator that always returns its input argument
      */
-    static DoubleUnaryOperator identity() {
+    static LongUnaryOperator identity() {
         return t -> t;
     }
 }

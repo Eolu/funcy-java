@@ -26,37 +26,28 @@ package zone.lamprey.function;
 import java.util.Objects;
 
 /**
- * Represents an operation on a single {@code int}-valued operand that produces
- * an {@code int}-valued result. This is the primitive type specialization of
- * {@link UnaryOperator} for {@code int}.
+ * Represents an operation on a single {@code double}-valued operand that
+ * produces a {@code double}-valued result. This is the primitive type
+ * specialization of {@link UnaryOperator} for {@code double}.
  *
  * <p>
  * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #applyAsInt(int)}.
+ * functional method is {@link #applyAsDouble(double)}.
  *
  * @see UnaryOperator
  * @since 1.8
  */
 @FunctionalInterface
-public interface IntUnaryOperator extends
-                                  IntFunction<Integer>,
-                                  UnaryOperator<Integer>,
-                                  ToIntFunction<Integer>,
-                                  java.util.function.IntUnaryOperator {
+public interface DoubleUnaryOperator extends
+                                     DoubleFunction<Double>,
+                                     UnaryOperator<Double>,
+                                     ToDoubleFunction<Double>,
+                                     java.util.function.DoubleUnaryOperator {
     
     /**
-     * @see {@link Math#abs(int)}
+     * Functional interface to {@link Math#abs(double)}
      */
-    public static final IntUnaryOperator ABS = Math::abs;
-    
-    /**
-     * Applies this operator to the given operand.
-     *
-     * @param operand the operand
-     * @return the operator result
-     */
-    @Override
-    int applyAsInt(int operand);
+    public static final DoubleUnaryOperator ABS = Math::abs;
     
     /**
      * Applies this function to the given argument.
@@ -65,8 +56,17 @@ public interface IntUnaryOperator extends
      * @return the function result
      */
     @Override
-    default int applyAsInt(Integer value) {
-        return applyAsInt(value.intValue());
+    double applyAsDouble(double value);
+    
+    /**
+     * Applies this function to the given argument.
+     *
+     * @param value the function argument
+     * @return the function result
+     */
+    @Override
+    default double applyAsDouble(Double value) {
+        return applyAsDouble(value.doubleValue());
     }
     
     /**
@@ -76,8 +76,8 @@ public interface IntUnaryOperator extends
      * @return the function result
      */
     @Override
-    default Integer apply(int value) {
-        return applyAsInt(value);
+    default Double apply(double value) {
+        return applyAsDouble(value);
     }
     
     /**
@@ -87,8 +87,8 @@ public interface IntUnaryOperator extends
      * @return the function result
      */
     @Override
-    default Integer apply(Integer value) {
-        return applyAsInt(value.intValue());
+    default Double apply(Double value) {
+        return applyAsDouble(value.doubleValue());
     }
     
     /**
@@ -99,8 +99,8 @@ public interface IntUnaryOperator extends
      * @return A partially-applied function.
      */
     @Override
-    default IntSupplier applyPartial(int t) {
-        return () -> applyAsInt(t);
+    default DoubleSupplier applyPartial(double t) {
+        return () -> applyAsDouble(t);
     }
     
     /**
@@ -111,9 +111,9 @@ public interface IntUnaryOperator extends
      *         passes the result into the given consumer.
      */
     @Override
-    default IntConsumer consume(IntConsumer consumer) {
+    default DoubleConsumer consume(DoubleConsumer consumer) {
         Objects.requireNonNull(consumer);
-        return t -> consumer.accept(applyAsInt(t));
+        return t -> consumer.accept(applyAsDouble(t));
     }
     
     /**
@@ -125,9 +125,9 @@ public interface IntUnaryOperator extends
      *         a lifted function.
      */
     @Override
-    default <S> IntFunction<S> mapToObj(IntFunction<? extends S> functor) {
+    default <S> DoubleFunction<S> mapToObj(DoubleFunction<? extends S> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.apply(applyAsInt(t));
+        return t -> functor.apply(applyAsDouble(t));
     }
     
     /**
@@ -138,9 +138,9 @@ public interface IntUnaryOperator extends
      *         a lifted function.
      */
     @Override
-    default IntPredicate mapToPredicate(IntPredicate functor) {
+    default DoublePredicate mapToPredicate(DoublePredicate functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.test(applyAsInt(t));
+        return t -> functor.test(applyAsDouble(t));
     }
     
     /**
@@ -151,9 +151,9 @@ public interface IntUnaryOperator extends
      *         a lifted function.
      */
     @Override
-    default IntToDoubleFunction mapToDouble(IntToDoubleFunction functor) {
+    default DoubleToIntFunction mapToInt(DoubleToIntFunction functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.applyAsDouble(applyAsInt(t));
+        return t -> functor.applyAsInt(applyAsDouble(t));
     }
     
     /**
@@ -164,9 +164,9 @@ public interface IntUnaryOperator extends
      *         a lifted function.
      */
     @Override
-    default IntToLongFunction mapToLong(IntToLongFunction functor) {
+    default DoubleToLongFunction mapToLong(DoubleToLongFunction functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.applyAsLong(applyAsInt(t));
+        return t -> functor.applyAsLong(applyAsDouble(t));
     }
     
     /**
@@ -177,9 +177,9 @@ public interface IntUnaryOperator extends
      *         a lifted function.
      */
     @Override
-    default IntUnaryOperator map(UnaryOperator<Integer> functor) {
+    default DoubleUnaryOperator map(UnaryOperator<Double> functor) {
         Objects.requireNonNull(functor);
-        return t -> functor.apply(applyAsInt(t));
+        return t -> functor.apply(applyAsDouble(t));
     }
     
     /**
@@ -191,9 +191,9 @@ public interface IntUnaryOperator extends
      *            terminate.
      * @return The result of the recursive call.
      */
-    default int recurse(int value, IntPredicate terminalCondition) {
+    default double recurse(double value, DoublePredicate terminalCondition) {
         while (terminalCondition.test(value))
-            value = applyAsInt(value);
+            value = applyAsDouble(value);
         return value;
     }
     
@@ -209,9 +209,9 @@ public interface IntUnaryOperator extends
      *            never be called).
      * @return The result of the recursive call.
      */
-    default int recurse(int value, IntPredicate terminalCondition, int maxDepth) {
+    default double recurse(double value, DoublePredicate terminalCondition, int maxDepth) {
         for (int i = 0; i < maxDepth && terminalCondition.test(value); i++)
-            value = applyAsInt(value);
+            value = applyAsDouble(value);
         return value;
     }
     
@@ -225,9 +225,9 @@ public interface IntUnaryOperator extends
      *            called).
      * @return The result of the recursive call.
      */
-    default int recurse(int value, int depth) {
+    default double recurse(double value, int depth) {
         for (int i = 0; i < depth; i++)
-            value = applyAsInt(value);
+            value = applyAsDouble(value);
         return value;
     }
     
@@ -240,7 +240,7 @@ public interface IntUnaryOperator extends
      * @return A function that will call the given function on its own result a
      *         number of times as specified by the depth parameter.
      */
-    default IntUnaryOperator recursive(IntPredicate terminalCondition) {
+    default DoubleUnaryOperator recursive(DoublePredicate terminalCondition) {
         Objects.requireNonNull(terminalCondition);
         return t -> recurse(t, terminalCondition);
     }
@@ -257,7 +257,7 @@ public interface IntUnaryOperator extends
      * @return A function that will call the given function on its own result a
      *         number of times as specified by the depth parameter.
      */
-    default IntUnaryOperator recursive(IntPredicate terminalCondition, int maxDepth) {
+    default DoubleUnaryOperator recursive(DoublePredicate terminalCondition, int maxDepth) {
         Objects.requireNonNull(terminalCondition);
         return t -> recurse(t, terminalCondition, maxDepth);
     }
@@ -273,7 +273,7 @@ public interface IntUnaryOperator extends
      *         number of times as specified by the depth parameter.
      */
     @Override
-    default IntUnaryOperator recursive(int depth) {
+    default DoubleUnaryOperator recursive(int depth) {
         return t -> recurse(t, depth);
     }
     
@@ -282,7 +282,7 @@ public interface IntUnaryOperator extends
      *
      * @return a unary operator that always returns its input argument
      */
-    static IntUnaryOperator identity() {
+    static DoubleUnaryOperator identity() {
         return t -> t;
     }
 }

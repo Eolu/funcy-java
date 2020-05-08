@@ -44,7 +44,7 @@ public interface DoubleToLongFunction extends DoubleFunction<Long>, ToLongFuncti
     public static final DoubleToLongFunction CAST = d -> (long) d;
     
     /**
-     * @see {@link Math#round(double)}
+     * Functional interface to {@link Math#round(double)}
      */
     public static final DoubleToLongFunction ROUND = Math::round;
     

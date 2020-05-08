@@ -26,116 +26,128 @@ package zone.lamprey.function;
 import java.util.Objects;
 
 /**
- * Represents a supplier of {@code double}-valued results. This is the
- * {@code double}-producing primitive specialization of {@link Supplier}.
- *
- * <p>
- * There is no requirement that a distinct result be returned each time the
- * supplier is invoked.
+ * Represents a function that produces an int-valued result. This is the
+ * {@code int}-producing primitive specialization for {@link Function}.
  *
  * <p>
  * This is a <a href="package-summary.html">functional interface</a> whose
- * functional method is {@link #getAsDouble()}.
+ * functional method is {@link #applyAsInt(Object)}.
  *
- * @see Supplier
+ * @param <T> the type of the input to the function
+ *
+ * @see Function
  * @since 1.8
  */
 @FunctionalInterface
-public interface DoubleSupplier extends Supplier<Double>, java.util.function.DoubleSupplier {
+public interface ToIntFunction<T> extends Function<T, Integer>, java.util.function.ToIntFunction<T> {
     
     /**
-     * @see {@link Math#random()}
+     * Functional interface to {@link java.util.Objects#hashCode}
      */
-    public static final DoubleSupplier RANDOM = Math::random;
+    public static final ToIntFunction<?> HASH_CODE = Objects::hashCode;
     
     /**
-     * Gets a result.
+     * Applies this function to the given argument.
      *
-     * @return a result
+     * @param value the function argument
+     * @return the function result
      */
     @Override
-    double getAsDouble();
+    int applyAsInt(T value);
     
     /**
-     * Gets a result.
+     * Applies this function to the given argument.
      *
-     * @return a result
+     * @param t the function argument
+     * @return the function result
      */
     @Override
-    default Double get() {
-        return getAsDouble();
+    default Integer apply(T t) {
+        return applyAsInt(t);
     }
     
     /**
-     * Consume a supplier.
+     * Partially apply a parameter such that a single param function becomes a
+     * no-param supplier.
+     * 
+     * @param t The parameter to apply.
+     * @return A partially-applied function.
+     */
+    @Override
+    default IntSupplier applyPartial(T t) {
+        return () -> apply(t);
+    }
+    
+    /**
+     * Consume a function.
      * 
      * @param consumer The consumer to use in consuming.
-     * @return A Runnable which passes the result of this supplier into the given
-     *         consumer when run.
+     * @return A Consumer which passes it's argument to this function and then
+     *         passes the result into the given consumer.
      */
-    default Runnable consume(DoubleConsumer consumer) {
+    default Consumer<T> consume(IntConsumer consumer) {
         Objects.requireNonNull(consumer);
-        return () -> consumer.accept(getAsDouble());
+        return t -> consumer.accept(applyAsInt(t));
     }
     
     /**
-     * Lift a supplier.
-     *
-     * @param functor The function to use in lifting.
-     * @return A function that passes the result of fn through a functor to produce
-     *         a lifted function.
-     */
-    default DoubleSupplier map(DoubleUnaryOperator functor) {
-        Objects.requireNonNull(functor);
-        return () -> functor.applyAsDouble(getAsDouble());
-    }
-    
-    /**
-     * Lift a supplier.
+     * Lift a function.
      * 
-     * @param <R> The new return type.
      * @param functor The function to use in lifting.
-     * @return A supplier that passes the result of fn through a functor to produce
-     *         a lifted supplier.
+     * @return A function that passes the result of fn through a functor to produce
+     *         a lifted function.
      */
-    default <R> Supplier<R> mapToObj(DoubleFunction<R> functor) {
+    default ToIntFunction<T> map(IntUnaryOperator functor) {
         Objects.requireNonNull(functor);
-        return () -> functor.apply(getAsDouble());
+        return t -> functor.applyAsInt(applyAsInt(t));
     }
     
     /**
-     * Lift a supplier.
+     * Lift a function.
+     * 
+     * @param <S> The return type.
+     * @param functor The function to use in lifting.
+     * @return A function that passes the result of fn through a functor to produce
+     *         a lifted function.
+     */
+    default <S> Function<T, S> mapToObj(IntFunction<? extends S> functor) {
+        Objects.requireNonNull(functor);
+        return t -> functor.apply(applyAsInt(t));
+    }
+    
+    /**
+     * Lift a function.
      *
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default BooleanSupplier mapToBoolean(DoublePredicate functor) {
+    default Predicate<T> mapToPredicate(IntPredicate functor) {
         Objects.requireNonNull(functor);
-        return () -> functor.test(getAsDouble());
+        return t -> functor.test(applyAsInt(t));
     }
     
     /**
-     * Lift a supplier.
-     *
+     * Lift a function.
+     * 
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default IntSupplier mapToInt(DoubleToIntFunction functor) {
+    default ToDoubleFunction<T> mapToDouble(IntToDoubleFunction functor) {
         Objects.requireNonNull(functor);
-        return () -> functor.applyAsInt(getAsDouble());
+        return t -> functor.applyAsDouble(applyAsInt(t));
     }
     
     /**
-     * Lift a supplier.
-     *
+     * Lift a function.
+     * 
      * @param functor The function to use in lifting.
      * @return A function that passes the result of fn through a functor to produce
      *         a lifted function.
      */
-    default LongSupplier mapToLong(DoubleToLongFunction functor) {
+    default ToLongFunction<T> mapToLong(IntToLongFunction functor) {
         Objects.requireNonNull(functor);
-        return () -> functor.applyAsLong(getAsDouble());
+        return t -> functor.applyAsLong(applyAsInt(t));
     }
 }
