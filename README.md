@@ -159,7 +159,7 @@ the standard operators (add, subtract, multiply, divide, mod) were add to the
 along with a few more useful ones in other classes. Ill put a full list up later
 in development.
 
-# Drop-in compatibility with java.utill.function
+# Drop-in compatibility with java.util.function
 As stated previously, all of the applicable interfaces are children of the 
 interfaces in java.util.function, and can be passed in to any API expecting them. 
 But what if you call into an API that returns an interface from java.util.function? 
