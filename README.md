@@ -2,8 +2,18 @@
 
 This is a minor rewrite of the java.util.function package with a few more useful
 tools and features. It extends all of the interfaces in the original package to 
-ensure compatibility. Most additions are default method additions. Here are the 
-most significant features:
+ensure compatibility. Most additions are default method additions. 
+
+To use with Maven:
+```
+<!-- https://mvnrepository.com/artifact/zone.lamprey/funcy_java -->
+<dependency>
+    <groupId>zone.lamprey</groupId>
+    <artifactId>funcy_java</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+Here are the most significant features:
 
 # Mapping functions
 
