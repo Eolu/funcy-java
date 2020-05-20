@@ -158,3 +158,25 @@ the standard operators (add, subtract, multiply, divide, mod) were add to the
 `IntBinaryOperator`, `DoubleBinaryOperator`, and `LongBinaryOperator` interfaces
 along with a few more useful ones in other classes. Ill put a full list up later
 in development.
+
+# Drop-in compatibility with java.utill.function
+As stated previously, all of the applicable interfaces are children of the 
+interfaces in java.util.function, and can be passed in to any API expecting them. 
+But what if you call into an API that returns an interface from java.util.function? 
+Not to worry, we can easily get them into a zone.lamprey.function interface like so:
+```
+import zone.lamprey.function.Consumer;
+import some.api.Api;
+
+// ...
+
+// By adding the ::accept, we're saying we want this in the form of a new functional interface. 
+// As we imported zone.lamprey.function.Consumer and declared this as a consumer, type inference
+// handles the rest.
+Consumer<Object> funcyConsumer = Api.getOldFashionedConsumer()::accept;
+
+// We could also do this inline with explicit casting
+fooThatTakesAConsumer((Consumer<Object>) Api.getOldFashionedConsumer()::accept);
+
+// Use ::run for Runnables, ::get for Suppliers, or ::apply for Function types.
+```
